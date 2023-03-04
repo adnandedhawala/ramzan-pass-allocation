@@ -6,3 +6,14 @@ export const USER_ROLES = {
   Umoor: "Umoor",
   Admin: "Admin"
 };
+
+export const MEMBER_TYPE = {
+  HOF: "HOF",
+  FM: "FM"
+};
+
+export const SEAT_LOCATIONS = {
+  MASJID: "MASJID",
+  FIRST_FLOOR: "FIRST_FLOOR",
+  SECOND_FLOOR: "SECOND_FLOOR"
+};
