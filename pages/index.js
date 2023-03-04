@@ -1,27 +1,35 @@
-import { Card, Divider } from "antd";
 import { SignInLayout } from "layouts/signIn";
-import { verifyUser } from "fe";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { LoginForm } from "components";
+import { useGlobalContext } from "context/global";
+import { saveAuthToken } from "fe/utlis";
+import { message } from "antd";
+import { login } from "fe";
 
 export default function Home() {
-  const router = useRouter();
+  const { toggleLoader } = useGlobalContext();
 
-  const redirectBasedOnUser = () => {
-    router.push("/task/list");
+  const handleLogin = (values, form) => {
+    toggleLoader(true);
+    login(values)
+      .then(response => {
+        saveAuthToken(response.data);
+        message.success("Logged in successfully!");
+        form.resetFields();
+      })
+      .catch(error => {
+        message.error(error);
+      })
+      .finally(() => {
+        toggleLoader(false);
+      });
   };
-
-  useEffect(() => {
-    verifyUser().then(user => {
-      if (user.user_role) redirectBasedOnUser();
-    });
-  }, []);
-
   return (
-    <Card className="w-full sm:w-10/12 md:w-8/12 lg:w-5/12">
-      <h1 className="text-6xl text-center">LOGO</h1>
-      <Divider className="text-gray-800" />
-    </Card>
+    <>
+      <h2 className="text-3xl font-semibold mb-2">Log In</h2>
+      <div className="w-full">
+        <LoginForm handleSubmit={handleLogin} />
+      </div>
+    </>
   );
 }
 
