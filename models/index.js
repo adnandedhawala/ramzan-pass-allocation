@@ -10,6 +10,6 @@ export const Member =
   mongoose.models.Member || model("Member", memberSchema, "member");
 export const File = mongoose.models.File || model("File", fileSchema, "file");
 export const RamzanMember =
-  mongoose.models.File || model("RamzanMember", ramzanMemberSchema);
+  mongoose.models.RamzanMember || model("RamzanMember", ramzanMemberSchema);
 export const Masallah =
-  mongoose.models.File || model("Masallah", masallahSchema);
+  mongoose.models.Masallah || model("Masallah", masallahSchema);

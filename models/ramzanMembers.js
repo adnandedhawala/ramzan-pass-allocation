@@ -12,29 +12,36 @@ export const ramzanMemberSchema = new Schema(
     },
     registration: {
       d1: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       d2: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       d3: {
-        type: Boolean
+        type: Boolean,
+        default: false
       }
     },
     allocation: {
       d1: {
-        type: String
+        type: String,
+        default: ""
       },
       d2: {
-        type: String
+        type: String,
+        default: ""
       },
       d3: {
-        type: String
+        type: String,
+        default: ""
       }
     },
-    has_selected_pass: { type: Boolean },
-    is_registered: { type: Boolean },
-    show_pass: { type: Boolean }
+    is_rahat: { type: Boolean, default: false },
+    has_selected_pass: { type: Boolean, default: false },
+    is_registered: { type: Boolean, default: false },
+    show_pass: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

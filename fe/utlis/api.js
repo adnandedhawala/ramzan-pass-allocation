@@ -7,6 +7,7 @@ const prefix =
 const API = {
   login: "user/auth/login",
   verify: "user/auth/verify",
+  ramzanMembers: "member/ramzanMembers",
   settings: "settings",
   user: "user"
 };
