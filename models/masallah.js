@@ -11,7 +11,7 @@ export const masallahSchema = new Schema(
       x: { type: Number },
       y: { type: Number }
     },
-    group_number: { type: Number },
+    group: { type: String, ref: "Masallah" },
     location: {
       type: String,
       enum: Object.values(SEAT_LOCATIONS)
