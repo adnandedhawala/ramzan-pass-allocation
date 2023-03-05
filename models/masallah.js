@@ -7,11 +7,15 @@ export const masallahSchema = new Schema(
       type: String,
       required: true
     },
+    position: {
+      x: { type: Number },
+      y: { type: Number }
+    },
+    group_number: { type: Number },
     location: {
       type: String,
       enum: Object.values(SEAT_LOCATIONS)
     },
-    color: { type: String },
     d1: {
       type: String
     },

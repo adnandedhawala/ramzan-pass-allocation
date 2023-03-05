@@ -8,6 +8,7 @@ const API = {
   login: "user/auth/login",
   verify: "user/auth/verify",
   ramzanMembers: "member/ramzanMembers",
+  uploadMasallah: "masallah/uploadGrid",
   settings: "settings",
   user: "user"
 };

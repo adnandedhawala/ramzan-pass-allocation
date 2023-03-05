@@ -1,8 +1,9 @@
-import { Member, RamzanMember } from "models";
+import { Masallah, Member, RamzanMember } from "models";
 
 export const createMembersController = async (_request, response) => {
   try {
     await RamzanMember.deleteMany({});
+    await Masallah.updateMany({}, { d1: "", d2: "", d3: "" });
     let memberData = await Member.find({});
     let ramzanMemberData = memberData.map(({ _id, hof_id }) => ({
       _id,
