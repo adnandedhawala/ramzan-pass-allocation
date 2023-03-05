@@ -3,10 +3,18 @@ import { LoginForm } from "components";
 import { useGlobalContext } from "context/global";
 import { saveAuthToken } from "fe/utlis";
 import { message } from "antd";
-import { login } from "fe";
+import { login, verifyUser } from "fe";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { USER_ROLES } from "appConstants";
 
 export default function Home() {
+  const router = useRouter();
   const { toggleLoader } = useGlobalContext();
+
+  const redirectBasedOnUser = () => {
+    router.push("/settings");
+  };
 
   const handleLogin = (values, form) => {
     toggleLoader(true);
@@ -15,6 +23,7 @@ export default function Home() {
         saveAuthToken(response.data);
         message.success("Logged in successfully!");
         form.resetFields();
+        redirectBasedOnUser();
       })
       .catch(error => {
         message.error(error);
@@ -23,6 +32,13 @@ export default function Home() {
         toggleLoader(false);
       });
   };
+
+  useEffect(() => {
+    verifyUser().then(user => {
+      if (user.userRole.includes(USER_ROLES.Admin)) redirectBasedOnUser();
+    });
+  }, []);
+
   return (
     <>
       <h2 className="text-3xl font-semibold mb-2">Log In</h2>

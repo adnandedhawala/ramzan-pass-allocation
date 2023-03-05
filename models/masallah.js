@@ -1,4 +1,4 @@
-import { SEAT_LOCATIONS } from "node:constants";
+import { SEAT_LOCATIONS } from "appConstants";
 import { Schema } from "mongoose";
 
 export const masallahSchema = new Schema(

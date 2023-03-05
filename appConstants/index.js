@@ -17,3 +17,8 @@ export const SEAT_LOCATIONS = {
   FIRST_FLOOR: "FIRST_FLOOR",
   SECOND_FLOOR: "SECOND_FLOOR"
 };
+
+export const PAGE_LIST = {
+  SETTINGS: "SETTINGS",
+  LOGOUT: "LOGOUT"
+};

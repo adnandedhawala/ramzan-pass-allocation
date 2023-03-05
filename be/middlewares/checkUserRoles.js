@@ -1,4 +1,4 @@
-import { USER_ROLES } from "node:constants";
+import { USER_ROLES } from "appConstants";
 
 export const checkAdmin = (request, response, next) => {
   const { userData } = request;

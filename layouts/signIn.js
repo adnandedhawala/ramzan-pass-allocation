@@ -18,7 +18,7 @@ export function SignInLayout({ children }) {
     <>
       <Head>
         <title>Ramazaan Pass Allocation</title>
-        <meta name="description" content="Task Management Application" />
+        <meta name="description" content="Pass Allocation  Application" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

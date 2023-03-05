@@ -1,4 +1,4 @@
-import { MEMBER_TYPE } from "node:constants";
+import { MEMBER_TYPE } from "appConstants";
 import { Schema } from "mongoose";
 
 export const memberSchema = new Schema(
