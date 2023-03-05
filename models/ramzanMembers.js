@@ -1,3 +1,4 @@
+import { Member } from "models";
 import { Schema } from "mongoose";
 
 export const ramzanMemberSchema = new Schema(
@@ -6,8 +7,13 @@ export const ramzanMemberSchema = new Schema(
       type: String,
       required: true
     },
+    member_details: {
+      type: String,
+      ref: Member
+    },
     hof_id: {
       type: String,
+      ref: File,
       required: true
     },
     registration: {

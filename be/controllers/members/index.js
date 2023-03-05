@@ -7,6 +7,7 @@ export const createMembersController = async (_request, response) => {
     let memberData = await Member.find({});
     let ramzanMemberData = memberData.map(({ _id, hof_id }) => ({
       _id,
+      member_details: _id,
       hof_id: hof_id.toString()
     }));
     let databaseResponse = await RamzanMember.insertMany(ramzanMemberData);
