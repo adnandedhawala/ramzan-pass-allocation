@@ -3,6 +3,7 @@ import { Schema } from "mongoose";
 
 export const masallahGroupSchema = new Schema(
   {
+    name: { type: String },
     group_number: { type: Number },
     location: {
       type: String,
