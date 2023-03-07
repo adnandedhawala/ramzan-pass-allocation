@@ -29,17 +29,36 @@ export const ramzanMemberSchema = new Schema(
         default: false
       }
     },
-    allocation: {
-      d1: {
+    d1: {
+      location: {
         type: String,
         default: ""
       },
-      d2: {
+      masallah: {
+        type: String,
+        ref: "Masallah",
+        default: ""
+      }
+    },
+    d2: {
+      location: {
         type: String,
         default: ""
       },
-      d3: {
+      masallah: {
         type: String,
+        ref: "Masallah",
+        default: ""
+      }
+    },
+    d3: {
+      location: {
+        type: String,
+        default: ""
+      },
+      masallah: {
+        type: String,
+        ref: "Masallah",
         default: ""
       }
     },

@@ -10,8 +10,8 @@ export const User = mongoose.models.User || model("User", userSchema, "user");
 export const Member =
   mongoose.models.Member || model("Member", memberSchema, "member");
 export const File = mongoose.models.File || model("File", fileSchema, "file");
-export const RamzanMember =
-  mongoose.models.RamzanMember || model("RamzanMember", ramzanMemberSchema);
+export const RamzanMemberV3 =
+  mongoose.models.RamzanMemberV3 || model("RamzanMemberV3", ramzanMemberSchema);
 export const Masallah =
   mongoose.models.Masallah || model("Masallah", masallahSchema);
 export const MasallahGroup =

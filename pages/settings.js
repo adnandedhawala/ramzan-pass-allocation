@@ -1,5 +1,5 @@
 import { Button, Card, message, Row, Col } from "antd";
-import { USER_ROLES } from "appConstants";
+import { PAGE_LIST, USER_ROLES } from "appConstants";
 import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
 import {
@@ -14,7 +14,7 @@ import { AddLocationCard, MasallahGroupCard } from "components";
 
 export default function Settings() {
   const { setPageTitle, resetPage } = useMainLayoutContext();
-  const { toggleLoader } = useGlobalContext();
+  const { toggleLoader, changeSelectedSidebarKey } = useGlobalContext();
 
   const [masllahGroupData, setMasllahGroupData] = useState([]);
   const [isTableLoading, setIsTableLoading] = useState(false);
@@ -38,6 +38,7 @@ export default function Settings() {
       formData,
       successFn: () => {
         message.success("Grid Data added Successfully");
+        getMasallahGroupsForTable();
       },
       errorFn: () => {},
       endFn: () => {
@@ -73,6 +74,7 @@ export default function Settings() {
   };
 
   useEffect(() => {
+    changeSelectedSidebarKey(PAGE_LIST.SETTINGS);
     setPageTitle("Settings Page");
     getMasallahGroupsForTable();
     return () => {

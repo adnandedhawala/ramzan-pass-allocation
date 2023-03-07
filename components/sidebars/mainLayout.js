@@ -28,7 +28,14 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
       }
 
       case PAGE_LIST.SETTINGS: {
+        handleClose();
         router.push("/settings");
+        break;
+      }
+
+      case PAGE_LIST.ALLOCATION: {
+        handleClose();
+        router.push("/allocation");
         break;
       }
 
@@ -41,6 +48,7 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
 
   const menuItems = [
     getItem("Settings", PAGE_LIST.SETTINGS),
+    getItem("Allocation", PAGE_LIST.ALLOCATION),
     getItem("Logout", PAGE_LIST.LOGOUT)
   ];
 
@@ -53,10 +61,11 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
       closable={false}
       open={showSidebarMenu}
     >
-      <div className="px-6 pt-6">
-        <Image src="/jamaatLogo.png" alt="logo" width={75} height={75} />
-        <Divider />
+      <div className="mt-6 flex justify-center w-full">
+        <Image src="/jamaatLogo.png" alt="logo" width={90} height={90} />
       </div>
+      <Divider />
+
       <Menu
         onClick={handleMenuClick}
         theme="light"
