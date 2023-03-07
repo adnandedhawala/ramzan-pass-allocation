@@ -17,13 +17,19 @@ export const masallahSchema = new Schema(
       enum: Object.values(SEAT_LOCATIONS)
     },
     d1: {
-      type: String
+      type: String,
+      ref: "RamzanMemberV3",
+      default: ""
     },
     d2: {
-      type: String
+      type: String,
+      ref: "RamzanMemberV3",
+      default: ""
     },
     d3: {
-      type: String
+      type: String,
+      ref: "RamzanMemberV3",
+      default: ""
     },
     view_pass: {
       d1: {

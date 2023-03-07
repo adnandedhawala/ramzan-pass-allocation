@@ -20,5 +20,6 @@ export const SEAT_LOCATIONS = {
 
 export const PAGE_LIST = {
   SETTINGS: "SETTINGS",
+  ALLOCATION: "ALLOCATION",
   LOGOUT: "LOGOUT"
 };

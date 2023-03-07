@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-object-injection */
 import formidable from "formidable";
-import { Masallah, MasallahGroup, RamzanMember } from "models";
+import { Masallah, MasallahGroup, RamzanMemberV3 } from "models";
 import * as XLSX from "xlsx";
 
 export const uploadGridController = async (request, response) => {
@@ -57,15 +57,76 @@ export const uploadGridController = async (request, response) => {
         group: groupIdObject[value.group.toString()]
       }));
       await Masallah.deleteMany({ location: fields.location });
-      await RamzanMember.updateMany(
-        {},
-        { allocation: { d1: "", d2: "", d3: "" } }
+      await RamzanMemberV3.updateMany(
+        { "d1.location": fields.location },
+        {
+          d1: {
+            location: "",
+            masallah: ""
+          }
+        }
+      );
+      await RamzanMemberV3.updateMany(
+        { "d2.location": fields.location },
+        {
+          d2: {
+            location: "",
+            masallah: ""
+          }
+        }
+      );
+      await RamzanMemberV3.updateMany(
+        { "d3.location": fields.location },
+        {
+          d3: {
+            location: "",
+            masallah: ""
+          }
+        }
       );
       await Masallah.insertMany(databaseCells);
       return response.status(200).send("Masallah added successfully");
-      // return response.status(200).send({ groups });
     } catch (databaseError) {
       return response.status(500).send(databaseError.message);
     }
   });
+};
+
+export const getMasallahByLocation = async (request, response) => {
+  const { location } = request.query;
+  if (!location) return response.status(404).send("location missing!");
+
+  try {
+    let seats = await Masallah.find({ location }).populate([
+      {
+        path: "group",
+        model: "MasallahGroup"
+      },
+      {
+        path: "d1",
+        model: "RamzanMemberV3",
+        populate: [
+          {
+            path: "hof_id",
+            model: "File"
+          },
+          {
+            path: "member_details",
+            model: "Member"
+          }
+        ]
+      },
+      {
+        path: "d2",
+        model: "RamzanMemberV3"
+      },
+      {
+        path: "d3",
+        model: "RamzanMemberV3"
+      }
+    ]);
+    return response.status(200).send({ data: seats });
+  } catch (databaseError) {
+    return response.status(500).send(databaseError.message);
+  }
 };

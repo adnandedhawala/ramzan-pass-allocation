@@ -202,7 +202,7 @@ export const MasallahGroupCard = ({ groupData, handleSaveRow, loading }) => {
           pagination={false}
           loading={loading}
           scroll={{
-            y: 300
+            y: 500
           }}
           size="small"
         />

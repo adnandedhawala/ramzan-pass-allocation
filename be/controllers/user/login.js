@@ -26,7 +26,7 @@ export const loginController = async (request, response) => {
           tokenData,
           process.env.NEXT_PUBLIC_ACCESS_TOKEN_SALT,
           {
-            expiresIn: "4h"
+            expiresIn: "8h"
           }
         );
         return response.status(200).send({ data: authToken });
