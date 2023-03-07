@@ -9,6 +9,7 @@ const API = {
   verify: "user/auth/verify",
   ramzanMembers: "member/ramzanMembers",
   uploadMasallah: "masallah/uploadGrid",
+  masallahGroup: "masallah/group",
   settings: "settings",
   user: "user"
 };
