@@ -3,7 +3,7 @@ import { Schema } from "mongoose";
 
 export const masallahGroupSchema = new Schema(
   {
-    name: { type: String },
+    name: { type: String, default: "" },
     group_number: { type: Number },
     location: {
       type: String,
@@ -11,8 +11,8 @@ export const masallahGroupSchema = new Schema(
     },
     color: { type: String, default: "#ffffff" },
     is_blocked: { type: Boolean, default: false },
-    total_count: { type: Number },
-    alloted_count: { type: Number }
+    total_count: { type: Number, default: 0 },
+    alloted_count: { type: Number, default: 0 }
   },
   { timestamps: true }
 );
