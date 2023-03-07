@@ -10,7 +10,9 @@ export const masallahGroupSchema = new Schema(
       enum: Object.values(SEAT_LOCATIONS)
     },
     color: { type: String, default: "#ffffff" },
-    is_blocked: { type: Boolean, default: false }
+    is_blocked: { type: Boolean, default: false },
+    total_count: { type: Number },
+    alloted_count: { type: Number }
   },
   { timestamps: true }
 );
