@@ -1,3 +1,3 @@
-export const allocateRamzanMemberToMasallah = async (request, response) => {
-  return response.status(200).send("hello");
+export const allocateRamzanMemberToMasallah = async (_request, response) => {
+  return response.status(200).json({ data: "data" });
 };
