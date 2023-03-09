@@ -9,3 +9,12 @@ export const createGridDataFromExcel = formData => {
     body: formData
   }).then(handleResponse);
 };
+
+export const getMasallahByLocation = location => {
+  return fetch(getApiUrl("masallah") + "/?location=" + location, {
+    method: "GET",
+    headers: {
+      ...getAuthHeader()
+    }
+  }).then(handleResponse);
+};
