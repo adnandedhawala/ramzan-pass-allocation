@@ -110,7 +110,7 @@ export default function Settings() {
               type="primary"
               onClick={handleSaveChangetoMasallah}
             >
-              Save
+              Save Grid
             </Button>
           )
         }}
@@ -136,7 +136,7 @@ export default function Settings() {
         ]}
       />
     ),
-    [currentLocation, currentDaska, masallahList]
+    [currentLocation, currentDaska, masallahList, tableView]
   );
 
   return (
