@@ -28,12 +28,12 @@ export const SeatNumberTable = () => {
             },
             children: (
               <div
-                className="p-2 text-[10px] flex flex-col items-center"
+                className="p-2 text-[10px] flex items-center"
                 style={{ backgroundColor: value.group.color }}
               >
                 {value.seat_number}
                 {value[currentDaska] ? (
-                  <span className="text-white">*</span>
+                  <span className="bg-lime-600 h-3 w-3 ml-1 rounded-lg border-2 border-solid border-white"></span>
                 ) : null}
               </div>
             )
