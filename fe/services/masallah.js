@@ -1,4 +1,9 @@
-import { getApiUrl, getAuthHeader, handleResponse } from "fe/utlis";
+import {
+  getApiUrl,
+  getApplicationJsonHeader,
+  getAuthHeader,
+  handleResponse
+} from "fe/utlis";
 
 export const createGridDataFromExcel = formData => {
   return fetch(getApiUrl("uploadMasallah"), {
@@ -18,5 +23,16 @@ export const getMasallahByLocation = (location, showUserData) => {
     headers: {
       ...getAuthHeader()
     }
+  }).then(handleResponse);
+};
+
+export const allocateMemberToMasallah = data => {
+  return fetch(getApiUrl("allocate"), {
+    method: "POST",
+    headers: {
+      ...getAuthHeader(),
+      ...getApplicationJsonHeader()
+    },
+    body: JSON.stringify({ data })
   }).then(handleResponse);
 };

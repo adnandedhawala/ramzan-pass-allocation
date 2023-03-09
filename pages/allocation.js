@@ -1,4 +1,4 @@
-import { Button, Tabs } from "antd";
+import { Button, message, Tabs } from "antd";
 import { PAGE_LIST, SEAT_LOCATIONS, USER_ROLES } from "appConstants";
 import {
   AllocationLocationRadioGroup,
@@ -9,6 +9,7 @@ import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
 import { useMasallahContext } from "context/masallah";
 import {
+  allocateMemberToMasallahHelper,
   getMasallahByLocationHelper,
   getMasallahByLocationWithUserDataHelper
 } from "fe";
@@ -18,7 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function Settings() {
   const { setPageTitle, resetPage } = useMainLayoutContext();
-  const { changeSelectedSidebarKey } = useGlobalContext();
+  const { changeSelectedSidebarKey, toggleLoader } = useGlobalContext();
   const {
     setCurrentLocation,
     currentLocation,
@@ -72,6 +73,27 @@ export default function Settings() {
     });
   };
 
+  const handleSaveChangetoMasallah = () => {
+    toggleLoader(true);
+    allocateMemberToMasallahHelper({
+      successFn: () => {
+        message.success("Grid updated successfully");
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      },
+      data: {
+        location: currentLocation,
+        daska: currentDaska,
+        data: masallahList.map(value => ({
+          _id: value._id,
+          [currentDaska]: value[currentDaska]
+        }))
+      }
+    });
+  };
+
   const tabsComponent = useMemo(
     () => (
       <Tabs
@@ -86,8 +108,9 @@ export default function Settings() {
               className="mb-2"
               size="middle"
               type="primary"
+              onClick={handleSaveChangetoMasallah}
             >
-              Save
+              Save Grid
             </Button>
           )
         }}
@@ -113,7 +136,7 @@ export default function Settings() {
         ]}
       />
     ),
-    [currentLocation, currentDaska, masallahList]
+    [currentLocation, currentDaska, masallahList, tableView]
   );
 
   return (

@@ -1,6 +1,7 @@
 const {
   createGridDataFromExcel,
-  getMasallahByLocation
+  getMasallahByLocation,
+  allocateMemberToMasallah
 } = require("fe/services");
 
 export const createGridDataFromExcelHelper = ({
@@ -34,6 +35,18 @@ export const getMasallahByLocationWithUserDataHelper = ({
   location
 }) => {
   getMasallahByLocation(location, true)
+    .then(data => successFn(data))
+    .catch(error => errorFn(error))
+    .finally(() => endFn());
+};
+
+export const allocateMemberToMasallahHelper = ({
+  successFn,
+  errorFn,
+  endFn,
+  data
+}) => {
+  allocateMemberToMasallah(data)
     .then(data => successFn(data))
     .catch(error => errorFn(error))
     .finally(() => endFn());
