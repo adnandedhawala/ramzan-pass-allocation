@@ -5,14 +5,14 @@ export const verifyHofIdAndFileNumber = async (request, response) => {
     const { hofId, fileNumber } = request.body;
     const findHof = await Member.findOne({ _id: hofId, hof_fm_type: "HOF" });
     if (!findHof) {
-      return response.status(204).send("HOF Not Found");
+      return response.status(500).send("HOF Not Found");
     }
     const findFile = await File.findOne({
       _id: hofId,
       tanzeem_file_no: fileNumber
     });
     if (!findFile) {
-      return response.status(200).send("File Not Found");
+      return response.status(500).send("File Not Found");
     }
 
     const findRamzanData = await RamzanMemberV3.find({ hof_id: hofId });
