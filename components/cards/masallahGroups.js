@@ -91,6 +91,7 @@ export const MasallahGroupCard = ({ groupData, handleSaveRow, loading }) => {
       dataIndex: "group_number",
       key: "group_number",
       width: 25,
+      sorter: (a, b) => a.group_number - b.group_number,
       editable: false
     },
     {

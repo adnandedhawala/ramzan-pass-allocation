@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-object-injection */
 import formidable from "formidable";
-import { Masallah, MasallahGroup, RamzanMemberV3 } from "models";
+import { MasallahV2, MasallahGroupV2, RamzanMemberV3 } from "models";
 import * as XLSX from "xlsx";
 
 export const uploadGridController = async (request, response) => {
@@ -27,25 +27,26 @@ export const uploadGridController = async (request, response) => {
           seat_number: cellReference,
           position: { x: col, y: row },
           location: fields.location,
+          is_blocked: false,
           group: groupNumber
         });
       }
     }
 
     try {
-      await MasallahGroup.deleteMany({ location: fields.location });
+      await MasallahGroupV2.deleteMany({ location: fields.location });
       const masallahGroups = Object.keys(groups).map(value => ({
         group_number: Number(value),
         location: fields.location,
         total_count: groups[value]
       }));
-      await MasallahGroup.insertMany(masallahGroups);
+      await MasallahGroupV2.insertMany(masallahGroups);
     } catch (databaseError) {
       return response.status(500).send(databaseError.message);
     }
 
     try {
-      const databaseGroups = await MasallahGroup.find({
+      const databaseGroups = await MasallahGroupV2.find({
         location: fields.location
       });
       let groupIdObject = {};
@@ -56,7 +57,7 @@ export const uploadGridController = async (request, response) => {
         ...value,
         group: groupIdObject[value.group.toString()]
       }));
-      await Masallah.deleteMany({ location: fields.location });
+      await MasallahV2.deleteMany({ location: fields.location });
       await RamzanMemberV3.updateMany(
         { "d1.location": fields.location },
         {
@@ -84,7 +85,7 @@ export const uploadGridController = async (request, response) => {
           }
         }
       );
-      await Masallah.insertMany(databaseCells);
+      await MasallahV2.insertMany(databaseCells);
       return response.status(200).send("Masallah added successfully");
     } catch (databaseError) {
       return response.status(500).send(databaseError.message);
@@ -93,39 +94,68 @@ export const uploadGridController = async (request, response) => {
 };
 
 export const getMasallahByLocation = async (request, response) => {
-  const { location } = request.query;
+  const { location, showMemberData } = request.query;
   if (!location) return response.status(404).send("location missing!");
 
   try {
-    let seats = await Masallah.find({ location }).populate([
+    let populateQuery = [
       {
         path: "group",
-        model: "MasallahGroup"
-      },
-      {
-        path: "d1",
-        model: "RamzanMemberV3",
-        populate: [
-          {
-            path: "hof_id",
-            model: "File"
-          },
-          {
-            path: "member_details",
-            model: "Member"
-          }
-        ]
-      },
-      {
-        path: "d2",
-        model: "RamzanMemberV3"
-      },
-      {
-        path: "d3",
-        model: "RamzanMemberV3"
+        model: "MasallahGroupV2"
       }
-    ]);
-    return response.status(200).send({ data: seats });
+    ];
+    if (showMemberData === "yes") {
+      populateQuery = [
+        ...populateQuery,
+        {
+          path: "d1",
+          model: "RamzanMemberV3",
+          populate: [
+            {
+              path: "hof_id",
+              model: "File"
+            },
+            {
+              path: "member_details",
+              model: "Member"
+            }
+          ]
+        },
+        {
+          path: "d2",
+          model: "RamzanMemberV3",
+          populate: [
+            {
+              path: "hof_id",
+              model: "File"
+            },
+            {
+              path: "member_details",
+              model: "Member"
+            }
+          ]
+        },
+        {
+          path: "d3",
+          model: "RamzanMemberV3",
+          populate: [
+            {
+              path: "hof_id",
+              model: "File"
+            },
+            {
+              path: "member_details",
+              model: "Member"
+            }
+          ]
+        }
+      ];
+    }
+    let seats = await MasallahV2.find({ location }).populate(populateQuery);
+    const availableSeats = seats.sort(
+      (a, b) => a.group.group_number - b.group.group_number
+    );
+    return response.status(200).send({ data: availableSeats });
   } catch (databaseError) {
     return response.status(500).send(databaseError.message);
   }

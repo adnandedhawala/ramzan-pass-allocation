@@ -10,6 +10,7 @@ const API = {
   ramzanMembers: "member/ramzanMembers",
   uploadMasallah: "masallah/uploadGrid",
   masallahGroup: "masallah/group",
+  masallah: "masallah",
   settings: "settings",
   user: "user"
 };
