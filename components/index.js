@@ -5,3 +5,4 @@ export * from "./sidebars";
 export * from "./cards";
 export * from "./inputs";
 export * from "./grids";
+export * from "./tables";

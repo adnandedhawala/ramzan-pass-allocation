@@ -26,3 +26,15 @@ export const getMasallahByLocationHelper = ({
     .catch(error => errorFn(error))
     .finally(() => endFn());
 };
+
+export const getMasallahByLocationWithUserDataHelper = ({
+  successFn,
+  errorFn,
+  endFn,
+  location
+}) => {
+  getMasallahByLocation(location, true)
+    .then(data => successFn(data))
+    .catch(error => errorFn(error))
+    .finally(() => endFn());
+};

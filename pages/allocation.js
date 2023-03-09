@@ -1,13 +1,20 @@
-import { Tabs } from "antd";
+import { Button, Tabs } from "antd";
 import { PAGE_LIST, SEAT_LOCATIONS, USER_ROLES } from "appConstants";
-import { AllocationLocationRadioGroup, SeatNumberGrid } from "components";
+import {
+  AllocationLocationRadioGroup,
+  SeatNumberGrid,
+  SeatNumberTable
+} from "components";
 import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
 import { useMasallahContext } from "context/masallah";
-import { getMasallahByLocationHelper } from "fe";
+import {
+  getMasallahByLocationHelper,
+  getMasallahByLocationWithUserDataHelper
+} from "fe";
 
 import { Mainlayout } from "layouts/main";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Settings() {
   const { setPageTitle, resetPage } = useMainLayoutContext();
@@ -18,8 +25,12 @@ export default function Settings() {
     currentDaska,
     setCurrentDaska,
     setMasallahList,
-    masallahList
+    masallahList,
+    masallahListWithUser,
+    setMasallahListWithUser
   } = useMasallahContext();
+
+  const [tableView, setTableView] = useState("seat_list");
 
   useEffect(() => {
     changeSelectedSidebarKey(PAGE_LIST.ALLOCATION);
@@ -30,6 +41,19 @@ export default function Settings() {
       resetPage();
     };
   }, []);
+
+  useEffect(() => {
+    if (currentDaska !== "" && currentLocation !== "") {
+      getMasallahByLocationWithUserDataHelper({
+        location: currentLocation,
+        successFn: data => {
+          setMasallahListWithUser(data.data);
+        },
+        errorFn: () => {},
+        endFn: () => {}
+      });
+    }
+  }, [currentDaska, currentLocation, tableView]);
 
   const handleLocationChange = event => {
     const newLocation = event.target.value;
@@ -51,9 +75,22 @@ export default function Settings() {
   const tabsComponent = useMemo(
     () => (
       <Tabs
-        defaultActiveKey={"seat_list"}
+        defaultActiveKey={tableView}
+        onChange={key => setTableView(key)}
         size="small"
         type="card"
+        tabBarExtraContent={{
+          right: (
+            <Button
+              disabled={tableView === "seat_grid"}
+              className="mb-2"
+              size="middle"
+              type="primary"
+            >
+              Save
+            </Button>
+          )
+        }}
         items={[
           {
             label: "List",
@@ -71,13 +108,7 @@ export default function Settings() {
           {
             label: "Grid",
             key: "seat_grid",
-            children: (
-              <SeatNumberGrid
-                getData={getMasallahList}
-                location={currentLocation}
-                rowData={masallahList}
-              />
-            )
+            children: <SeatNumberTable rowData={masallahListWithUser} />
           }
         ]}
       />
