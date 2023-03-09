@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Form, Input, Button, Checkbox, Steps } from "antd";
+import { verify } from "fe/services/register";
 
 const { Step } = Steps;
 
 const StepOne = ({ onFinish }) => {
   const [form] = Form.useForm();
 
-  const handleVerify = async () => {
+  const handleVerify = async values => {
+    verify(values);
     onFinish();
   };
 

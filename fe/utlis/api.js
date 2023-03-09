@@ -11,7 +11,8 @@ const API = {
   uploadMasallah: "masallah/uploadGrid",
   masallahGroup: "masallah/group",
   settings: "settings",
-  user: "user"
+  user: "user",
+  verifyRegistration: "register"
 };
 
 export const getApiUrl = urlName => prefix + get(API, urlName);
