@@ -6,7 +6,7 @@ import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useMasallahContext } from "context/masallah";
-import { find } from "lodash";
+import { find, findIndex } from "lodash";
 
 const getRowStyle = params => {
   return { background: params.data.color };
@@ -80,11 +80,11 @@ export const SeatNumberGrid = ({
   };
 
   const handleCellValueChange = event => {
-    const { newValue, rowIndex } = event;
+    const { newValue, data } = event;
     let gridData = [...rowData];
-
+    const index = findIndex(gridData, { _id: data._id });
     // eslint-disable-next-line security/detect-object-injection
-    gridData[rowIndex][daska] = newValue;
+    gridData[index][daska] = newValue;
     setData(gridData);
   };
 
