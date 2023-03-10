@@ -12,7 +12,8 @@ export const Member =
 export const File = mongoose.models.File || model("File", fileSchema, "file");
 export const RamzanMemberV3 =
   mongoose.models.RamzanMemberV3 || model("RamzanMemberV3", ramzanMemberSchema);
-export const Masallah =
-  mongoose.models.Masallah || model("Masallah", masallahSchema);
-export const MasallahGroup =
-  mongoose.models.MasallahGroup || model("MasallahGroup", masallahGroupSchema);
+export const MasallahV2 =
+  mongoose.models.MasallahV2 || model("MasallahV2", masallahSchema);
+export const MasallahGroupV2 =
+  mongoose.models.MasallahGroupV2 ||
+  model("MasallahGroupV2", masallahGroupSchema);

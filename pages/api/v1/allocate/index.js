@@ -7,4 +7,4 @@ export default nc(ncErrorHandlers)
   .use(connectDB)
   .use(checkAuth)
   .use(checkAdmin)
-  .get(allocateRamzanMemberToMasallah);
+  .post(allocateRamzanMemberToMasallah);
