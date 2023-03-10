@@ -33,6 +33,7 @@ export const SeatNumberTable = () => {
                   <Tooltip
                     title={
                       <div className="flex flex-col items-center">
+                        <span className="text-center">{value.seat_number}</span>
                         <span className="text-center">
                           {daskaDetails?.hof_id?.tanzeem_file_no}
                         </span>
@@ -46,19 +47,25 @@ export const SeatNumberTable = () => {
                     }
                   >
                     <div
-                      className="p-2 text-[10px] flex items-center"
-                      style={{ backgroundColor: value.group.color }}
+                      className="p-2 font-bold text-[12px] flex items-center"
+                      style={{
+                        backgroundColor: value.group.color,
+                        border: "1px solid #999999"
+                      }}
                     >
                       {value.seat_number}
                       {daskaDetails ? (
-                        <span className="bg-lime-600 h-3 w-3 ml-1 rounded-lg border-2 border-solid border-white"></span>
+                        <span className="bg-white h-3 w-3 ml-1 rounded-lg border-2"></span>
                       ) : null}
                     </div>
                   </Tooltip>
                 ) : (
                   <div
-                    className="p-2 text-[10px] flex items-center"
-                    style={{ backgroundColor: value.group.color }}
+                    className="p-2 font-bold text-[12px] flex items-center"
+                    style={{
+                      backgroundColor: value.group.color,
+                      border: "1px solid #999999"
+                    }}
                   >
                     {value.seat_number}
                   </div>
