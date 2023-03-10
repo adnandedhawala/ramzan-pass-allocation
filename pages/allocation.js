@@ -62,11 +62,55 @@ export default function Settings() {
     setCurrentLocation(newLocation);
   };
 
+  const getDuplicateEntries = data => {
+    const array = data
+      .map(value => value[currentDaska])
+      .filter(value => value !== "");
+    const uniqueSet = new Set(array);
+    return array.filter(currentValue => {
+      if (uniqueSet.has(currentValue)) {
+        uniqueSet.delete(currentValue);
+      } else {
+        return currentValue;
+      }
+    });
+  };
+
+  const getInvalidEntries = data => {
+    const array = data
+      .map(value => value[currentDaska])
+      .filter(value => value !== "")
+      .filter(value => !/^\d{8}$/.test(value));
+    const uniqueSet = new Set(array);
+    return [...uniqueSet];
+  };
+
   const getMasallahList = location => {
+    toggleLoader(true);
     getMasallahByLocationHelper({
       location,
       successFn: data => {
-        setMasallahList(data.data.map(value => ({ ...value.group, ...value })));
+        const duplicateEntries = getDuplicateEntries(data.data);
+        const invalidEntries = getInvalidEntries(data.data);
+        setMasallahList(
+          data.data.map(value => ({
+            ...value.group,
+            ...value,
+            has_error:
+              duplicateEntries.includes(value[currentDaska]) ||
+              invalidEntries.includes(value[currentDaska])
+          }))
+        );
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      }
+    });
+    getMasallahByLocationWithUserDataHelper({
+      location: currentLocation,
+      successFn: data => {
+        setMasallahListWithUser(data.data);
       },
       errorFn: () => {},
       endFn: () => {}
@@ -78,6 +122,7 @@ export default function Settings() {
     allocateMemberToMasallahHelper({
       successFn: () => {
         message.success("Grid updated successfully");
+        getMasallahList(currentLocation);
       },
       errorFn: () => {},
       endFn: () => {
