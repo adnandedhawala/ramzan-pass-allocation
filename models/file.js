@@ -8,7 +8,8 @@ export const fileSchema = new Schema(
     },
     member_ids: [
       {
-        type: String
+        type: String,
+        ref: "Member"
       }
     ],
     _id: {
