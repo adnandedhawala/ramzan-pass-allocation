@@ -20,7 +20,11 @@ export const uploadGridController = async (request, response) => {
     let groups = {};
     for (let row = range.s.r; row <= range.e.r; row++) {
       for (let col = range.s.c; col <= range.e.c; col++) {
-        const colNumber = col < 10 ? "0" + col.toString() : col.toString();
+        let colDisplayNumber = col + 1;
+        const colNumber =
+          colDisplayNumber < 10
+            ? "0" + colDisplayNumber.toString()
+            : colDisplayNumber.toString();
         const groupNumber = jsonData[row][col];
         groups[groupNumber] = groups[groupNumber] ? groups[groupNumber] + 1 : 1;
         cells.push({
