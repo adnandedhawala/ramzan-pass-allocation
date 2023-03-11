@@ -101,7 +101,18 @@ export const uploadGridController = async (request, response) => {
 export const getMasallahByLocation = async (request, response) => {
   const { location, showMemberData } = request.query;
   if (!location) return response.status(404).send("location missing!");
-
+  const daskaPopulationQuery = [
+    {
+      path: "hof_id",
+      select: "_id tanzeem_file_no",
+      model: "File"
+    },
+    {
+      path: "member_details",
+      select: "_id full_name gender hof_fm_type",
+      model: "Member"
+    }
+  ];
   try {
     let populateQuery = [
       {
@@ -115,44 +126,17 @@ export const getMasallahByLocation = async (request, response) => {
         {
           path: "d1",
           model: "RamzanMemberV3",
-          populate: [
-            {
-              path: "hof_id",
-              model: "File"
-            },
-            {
-              path: "member_details",
-              model: "Member"
-            }
-          ]
+          populate: daskaPopulationQuery
         },
         {
           path: "d2",
           model: "RamzanMemberV3",
-          populate: [
-            {
-              path: "hof_id",
-              model: "File"
-            },
-            {
-              path: "member_details",
-              model: "Member"
-            }
-          ]
+          populate: daskaPopulationQuery
         },
         {
           path: "d3",
           model: "RamzanMemberV3",
-          populate: [
-            {
-              path: "hof_id",
-              model: "File"
-            },
-            {
-              path: "member_details",
-              model: "Member"
-            }
-          ]
+          populate: daskaPopulationQuery
         }
       ];
     }
