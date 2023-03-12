@@ -14,6 +14,7 @@ const API = {
   allocate: "allocate",
   settings: "settings",
   user: "user",
+  register: "register",
   registerVerifyFile: "register/verifyFile"
 };
 

@@ -15,3 +15,14 @@ export const verifyFileData = data => {
     body: JSON.stringify({ data })
   }).then(handleResponse);
 };
+
+export const registerMembers = data => {
+  return fetch(getApiUrl("register"), {
+    method: "PATCH",
+    headers: {
+      ...getApplicationJsonHeader(),
+      ...getAuthHeader()
+    },
+    body: JSON.stringify({ data })
+  }).then(handleResponse);
+};

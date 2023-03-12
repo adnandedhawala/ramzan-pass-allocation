@@ -1,5 +1,6 @@
-import { verifyFileSchema } from "be/validators";
-import { RamzanMemberV3 } from "models";
+import { registerSchema, verifyFileSchema } from "be/validators";
+import { find } from "lodash";
+import { Member, RamzanMemberV3 } from "models";
 
 export const verifyFileController = async (request, response) => {
   const { data } = request.body;
@@ -30,6 +31,65 @@ export const verifyFileController = async (request, response) => {
           : response.status(200).send({ data: member.hof_id.member_ids });
       } else {
         return response.status(400).send("hof not found!");
+      }
+    })
+    .catch(error => {
+      return response.status(400).send(error.message);
+    });
+};
+
+const checkDaskaEntry = (list, values) => {
+  return !list
+    .filter(value => value.gender === "Female")
+    .map(value => {
+      const data = find(values, { _id: value._id });
+      return Object.values(data.registration).every(daska => daska === true);
+    })
+    .includes(true);
+};
+
+export const registerController = async (request, response) => {
+  const { data } = request.body;
+  if (!data) response.status(400).end("data is missing!");
+  registerSchema
+    .validate(data)
+    .then(async registerObject => {
+      const idList = registerObject.map(value => value._id);
+      let memberList = [];
+      try {
+        memberList = await Member.find({
+          _id: {
+            $in: idList
+          }
+        });
+      } catch (error) {
+        return response.status(500).send(error.message);
+      }
+
+      if (checkDaskaEntry(memberList, registerObject)) {
+        const bulkOps = registerObject.map(
+          ({ _id, registration, is_rahat }) => {
+            const setObject = {
+              registration,
+              is_rahat,
+              is_registered: true
+            };
+            return {
+              updateOne: {
+                filter: { _id },
+                update: { $set: setObject }
+              }
+            };
+          }
+        );
+
+        RamzanMemberV3.bulkWrite(bulkOps)
+          .then(result => {
+            response.status(200).send(`Updated ${result.nModified} documents`);
+          })
+          .catch(error => response.status(400).send(error.message));
+      } else {
+        return response.status(400).send("invalid data");
       }
     })
     .catch(error => {

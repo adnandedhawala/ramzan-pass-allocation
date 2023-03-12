@@ -13,3 +13,13 @@
     padding: 0;
   }
 }
+
+
+.register-member-card{
+  .ant-card {
+    &-body{
+      padding: 16px;
+      border-radius: 12px;
+    }
+  }
+}
