@@ -9,6 +9,7 @@ export const verifyFileController = async (request, response) => {
     .validate(data)
     .then(async verifyFileObject => {
       const { hof_id, file_number } = verifyFileObject;
+      let registrationData = [];
       const member = await RamzanMemberV3.findById(hof_id).populate([
         {
           path: "hof_id",
@@ -24,11 +25,26 @@ export const verifyFileController = async (request, response) => {
         }
       ]);
       if (member) {
-        return member.hof_id &&
+        if (
+          member.hof_id &&
           (member.hof_id.tanzeem_file_no !== file_number ||
             member.hof_id._id !== hof_id)
-          ? response.status(400).send("incorrect data!")
-          : response.status(200).send({ data: member.hof_id.member_ids });
+        ) {
+          response.status(400).send("incorrect data!");
+        } else {
+          try {
+            registrationData = await RamzanMemberV3.find({
+              _id: {
+                $in: member.hof_id.member_ids.map(value => value._id)
+              }
+            });
+          } catch (error) {
+            response.status(500).send(error.message);
+          }
+          response
+            .status(200)
+            .send({ data: member.hof_id.member_ids, registrationData });
+        }
       } else {
         return response.status(400).send("hof not found!");
       }

@@ -5,6 +5,7 @@ import { message, Result } from "antd";
 import { useState } from "react";
 import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
+import { find } from "lodash";
 
 export default function Home() {
   const { toggleLoader } = useGlobalContext();
@@ -28,7 +29,19 @@ export default function Home() {
       },
       successFn: responseData => {
         setFileMembers(
-          responseData.data.filter(value => value.misaq === "Done")
+          responseData.data
+            .filter(value => value.misaq === "Done")
+            .map(value => {
+              let registrationInfo = find(responseData.registrationData, {
+                _id: value._id
+              });
+              return {
+                ...value,
+                is_registered: registrationInfo.is_registered,
+                is_rahat: registrationInfo.is_rahat,
+                registration: registrationInfo.registration
+              };
+            })
         );
         form.resetFields();
         setStepStatus({ ...stepStatus, verify: "finish", select: "process" });
