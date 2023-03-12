@@ -13,7 +13,9 @@ const API = {
   masallah: "masallah",
   allocate: "allocate",
   settings: "settings",
-  user: "user"
+  user: "user",
+  register: "register",
+  registerVerifyFile: "register/verifyFile"
 };
 
 export const getApiUrl = urlName => prefix + get(API, urlName);
