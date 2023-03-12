@@ -10,11 +10,11 @@ const getInitValues = memberData => {
   memberData.map(({ is_registered, registration, is_rahat, _id, gender }) => {
     if (is_registered) {
       if (gender === "Male") {
-        initObject[_id + "_allDaska"] = registration.d1;
+        initObject[_id + "_allDaska"] = registration.d1.toString();
       } else {
         initObject[_id + "_d1"] = registration.d1.toString();
         initObject[_id + "_d2"] = registration.d2.toString();
-        initObject[_id + "_d1"] = registration.d3.toString();
+        initObject[_id + "_d3"] = registration.d3.toString();
       }
       initObject[_id + "_isRahat"] = is_rahat.toString();
     }
@@ -55,150 +55,154 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
               </div>
               <Divider className="my-4" />
               {gender === "Male" ? (
-                <Form.Item
-                  rules={[{ required: true, message: selectError }]}
-                  name={_id + "_allDaska"}
-                >
-                  <div>
-                    <p className="mb-2">
-                      Register for Daska 1, Daska 2 and Daska 3
-                    </p>
+                <div className="mb-2">
+                  <p className="mb-2">
+                    Register for Daska 1, Daska 2 and Daska 3
+                  </p>
+                  <Form.Item
+                    noStyle
+                    rules={[{ required: true, message: selectError }]}
+                    name={_id + "_allDaska"}
+                  >
                     <Radio.Group
                       optionType="button"
                       buttonStyle="solid"
                       size="small text-sm"
                     >
-                      <Radio value={true}>Yes</Radio>
-                      <Radio value={false}>No</Radio>
+                      <Radio value="true">Yes</Radio>
+                      <Radio value="false">No</Radio>
                     </Radio.Group>
-                  </div>
-                </Form.Item>
+                  </Form.Item>
+                </div>
               ) : null}
               {gender === "Female" ? (
                 <>
-                  <Form.Item
-                    name={_id + "_d1"}
-                    rules={[
-                      {
-                        required: true,
-                        message: selectError
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const d2 = getFieldValue(_id + "_d2");
-                          const d3 = getFieldValue(_id + "_d3");
-                          if (
-                            value === "true" &&
-                            d2 === "true" &&
-                            d3 === "true"
-                          ) {
-                            return Promise.reject(selectDaskaError);
+                  <div className="mb-2">
+                    <p className="mb-2">Register for Daska 1</p>
+                    <Form.Item
+                      noStyle
+                      name={_id + "_d1"}
+                      rules={[
+                        {
+                          required: true,
+                          message: selectError
+                        },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            const d2 = getFieldValue(_id + "_d2");
+                            const d3 = getFieldValue(_id + "_d3");
+                            if (
+                              value === "true" &&
+                              d2 === "true" &&
+                              d3 === "true"
+                            ) {
+                              return Promise.reject(selectDaskaError);
+                            }
+                            return Promise.resolve();
                           }
-                          return Promise.resolve();
-                        }
-                      })
-                    ]}
-                  >
-                    <div>
-                      <p className="mb-2">Register for Daska 1</p>
+                        })
+                      ]}
+                    >
                       <Radio.Group
                         optionType="button"
                         buttonStyle="solid"
                         size="small text-sm"
                         onChange={() => handleRadioChange(_id)}
                       >
-                        <Radio value={true}>Yes</Radio>
-                        <Radio value={false}>No</Radio>
+                        <Radio value="true">Yes</Radio>
+                        <Radio value="false">No</Radio>
                       </Radio.Group>
-                    </div>
-                  </Form.Item>
-                  <Form.Item
-                    name={_id + "_d2"}
-                    rules={[
-                      {
-                        required: true,
-                        message: selectError
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const d1 = getFieldValue(_id + "_d1");
-                          const d3 = getFieldValue(_id + "_d3");
-                          if (
-                            value === "true" &&
-                            d1 === "true" &&
-                            d3 === "true"
-                          ) {
-                            return Promise.reject(selectDaskaError);
+                    </Form.Item>
+                  </div>
+                  <div className="mb-2">
+                    <p className="mb-2">Register for Daska 2</p>
+                    <Form.Item
+                      name={_id + "_d2"}
+                      noStyle
+                      rules={[
+                        {
+                          required: true,
+                          message: selectError
+                        },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            const d1 = getFieldValue(_id + "_d1");
+                            const d3 = getFieldValue(_id + "_d3");
+                            if (
+                              value === "true" &&
+                              d1 === "true" &&
+                              d3 === "true"
+                            ) {
+                              return Promise.reject(selectDaskaError);
+                            }
+                            return Promise.resolve();
                           }
-                          return Promise.resolve();
-                        }
-                      })
-                    ]}
-                  >
-                    <div>
-                      <p className="mb-2">Register for Daska 2</p>
+                        })
+                      ]}
+                    >
                       <Radio.Group
                         optionType="button"
                         buttonStyle="solid"
                         size="small text-sm"
                         onChange={() => handleRadioChange(_id)}
                       >
-                        <Radio value={true}>Yes</Radio>
-                        <Radio value={false}>No</Radio>
+                        <Radio value="true">Yes</Radio>
+                        <Radio value="false">No</Radio>
                       </Radio.Group>
-                    </div>
-                  </Form.Item>
-                  <Form.Item
-                    rules={[
-                      {
-                        required: true,
-                        message: selectError
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const d1 = getFieldValue(_id + "_d1");
-                          const d2 = getFieldValue(_id + "_d2");
-                          if (
-                            value === "true" &&
-                            d1 === "true" &&
-                            d2 === "true"
-                          ) {
-                            return Promise.reject(selectDaskaError);
+                    </Form.Item>
+                  </div>
+                  <div className="mb-2">
+                    <p className="mb-2">Register for Daska 3</p>
+                    <Form.Item
+                      noStyle
+                      rules={[
+                        {
+                          required: true,
+                          message: selectError
+                        },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            const d1 = getFieldValue(_id + "_d1");
+                            const d2 = getFieldValue(_id + "_d2");
+                            if (
+                              value === "true" &&
+                              d1 === "true" &&
+                              d2 === "true"
+                            ) {
+                              return Promise.reject(selectDaskaError);
+                            }
+                            return Promise.resolve();
                           }
-                          return Promise.resolve();
-                        }
-                      })
-                    ]}
-                    name={_id + "_d3"}
-                  >
-                    <div>
-                      <p className="mb-2">Register for Daska 3</p>
+                        })
+                      ]}
+                      name={_id + "_d3"}
+                    >
                       <Radio.Group
                         optionType="button"
                         buttonStyle="solid"
                         size="small text-sm"
                         onChange={() => handleRadioChange(_id)}
                       >
-                        <Radio value={true}>Yes</Radio>
-                        <Radio value={false}>No</Radio>
+                        <Radio value="true">Yes</Radio>
+                        <Radio value="false">No</Radio>
                       </Radio.Group>
-                    </div>
-                  </Form.Item>
+                    </Form.Item>
+                  </div>
                 </>
               ) : null}
-              <Form.Item name={_id + "_isRahat"}>
-                <div>
-                  <p className="mb-2 text-gray-700">Request Rahat Block</p>
+              <div className="mb-2 mt-4">
+                <p className="mb-2 text-gray-700">Request Rahat Block</p>
+                <Form.Item noStyle name={_id + "_isRahat"}>
                   <Radio.Group
                     optionType="button"
                     buttonStyle="solid"
                     size="small text-sm"
                   >
-                    <Radio value={true}>Yes</Radio>
-                    <Radio value={false}>No</Radio>
+                    <Radio value="true">Yes</Radio>
+                    <Radio value="false">No</Radio>
                   </Radio.Group>
-                </div>
-              </Form.Item>
+                </Form.Item>
+              </div>
             </div>
           </Card>
         );
