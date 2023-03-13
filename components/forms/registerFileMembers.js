@@ -47,22 +47,20 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
         return (
           <Card className="mb-4 register-member-card" key={_id}>
             <div className="flex flex-col items-start">
-              <div className="flex flex-col items-center w-full">
-                <p className="mb-1 text-lg text-center">{full_name}</p>
-                <div className="flex justify-between font-light">
+              <div className="flex items-center w-full">
+                <div className="flex justify-between font-light mr-4">
                   <span>{_id}</span>
                 </div>
+                <p className="mb-1 text-lg font-light flex-1">{full_name}</p>
               </div>
               <Divider className="my-4" />
               {gender === "Male" ? (
-                <div className="mb-2">
-                  <p className="mb-2">
-                    Register for Daska 1, Daska 2 and Daska 3
-                  </p>
+                <div className="mb-2 flex items-center w-full">
+                  <p className="mr-2 flex-1 ">Register for Pass</p>
                   <Form.Item
                     rules={[{ required: true, message: selectError }]}
                     name={_id + "_allDaska"}
-                    className="mb-0"
+                    className="mb-0 ml-auto"
                   >
                     <Radio.Group
                       optionType="button"
@@ -77,8 +75,10 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
               ) : null}
               {gender === "Female" ? (
                 <>
-                  <div className="mb-2">
-                    <p className="mb-2">Register for Daska 1</p>
+                  <p className="mb-2 font-lg">Select Daska :</p>
+
+                  <div className="mb-1 flex items-center w-full">
+                    <p className="flex-1">Daska 1</p>
                     <Form.Item
                       name={_id + "_d1"}
                       rules={[
@@ -114,8 +114,8 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                       </Radio.Group>
                     </Form.Item>
                   </div>
-                  <div className="mb-2">
-                    <p className="mb-2">Register for Daska 2</p>
+                  <div className="mb-1 flex items-center w-full">
+                    <p className="flex-1">Daska 2</p>
                     <Form.Item
                       name={_id + "_d2"}
                       rules={[
@@ -151,8 +151,8 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                       </Radio.Group>
                     </Form.Item>
                   </div>
-                  <div className="mb-2">
-                    <p className="mb-2">Register for Daska 3</p>
+                  <div className="mb-1 flex items-center w-full">
+                    <p className="flex-1">Daska 3</p>
                     <Form.Item
                       rules={[
                         {
@@ -190,8 +190,8 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                   </div>
                 </>
               ) : null}
-              <div className="mb-2 mt-4">
-                <p className="mb-2 text-gray-700">Request Rahat Block</p>
+              <div className="mb-2 mt-4 flex items-center w-full">
+                <p className=" text-gray-700 flex-1">Rahat Block</p>
                 <Form.Item className="mb-0" name={_id + "_isRahat"}>
                   <Radio.Group
                     optionType="button"

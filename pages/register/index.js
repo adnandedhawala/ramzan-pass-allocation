@@ -86,8 +86,8 @@ export default function Register() {
 
   return (
     <>
-      <h2 className="text-3xl font-semibold mb-2">
-        Registration Form for Ramzaan
+      <h2 className="text-3xl text-center font-semibold mb-2">
+        Registration Form : Sherullah 1444
       </h2>
       {stepStatus.verify === "process" ? (
         <div className="w-full mt-4">
@@ -97,7 +97,7 @@ export default function Register() {
       ) : null}
       {stepStatus.select === "process" ? (
         <div className="w-full mt-4">
-          <h2 className="text-medium text-center mb-4">Select Daska</h2>
+          {/* <h2 className="text-medium text-center mb-4">Select Daska</h2> */}
           <RegisterFileMemberForm
             memberData={fileMembers}
             handleSubmit={handleMemberRegistration}
