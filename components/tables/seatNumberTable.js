@@ -47,7 +47,7 @@ export const SeatNumberTable = () => {
                     }
                   >
                     <div
-                      className="p-2 font-bold text-[12px] flex items-center"
+                      className="p-1 font-bold text-[12px] flex items-center"
                       style={{
                         backgroundColor: value.group.color,
                         border: "1px solid #999999"
@@ -61,7 +61,7 @@ export const SeatNumberTable = () => {
                   </Tooltip>
                 ) : (
                   <div
-                    className="p-2 font-bold text-[12px] flex items-center"
+                    className="p-1 font-bold text-[12px] flex items-center"
                     style={{
                       backgroundColor: value.group.color,
                       border: "1px solid #999999"
