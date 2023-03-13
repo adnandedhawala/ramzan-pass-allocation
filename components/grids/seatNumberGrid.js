@@ -63,7 +63,8 @@ export const SeatNumberGrid = ({
       editable: true,
       minWidth: 100,
       flex: 1,
-      resizable: false
+      resizable: false,
+      filter: "agTextColumnFilter"
     };
   }, []);
 
