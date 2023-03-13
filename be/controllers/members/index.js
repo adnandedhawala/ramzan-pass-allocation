@@ -16,3 +16,28 @@ export const createMembersController = async (_request, response) => {
     return response.status(500).send(error.message);
   }
 };
+
+export const getMembersController = async (request, response) => {
+  const { showRegistered } = request.query;
+  const findQuery = showRegistered === "true" ? { is_registered: true } : {};
+  try {
+    const populationQuery = [
+      {
+        path: "hof_id",
+        select: "_id tanzeem_file_no",
+        model: "File"
+      },
+      {
+        path: "member_details",
+        select: "_id full_name gender hof_fm_type age first_prefix idara",
+        model: "Member"
+      }
+    ];
+    const data = await RamzanMemberV3.find({ ...findQuery }).populate(
+      populationQuery
+    );
+    return response.status(200).send({ data });
+  } catch (error) {
+    return response.status(500).send(error.message);
+  }
+};

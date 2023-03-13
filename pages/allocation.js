@@ -17,7 +17,7 @@ import {
 import { Mainlayout } from "layouts/main";
 import { useEffect, useMemo, useState } from "react";
 
-export default function Settings() {
+export default function Allocation() {
   const { setPageTitle, resetPage } = useMainLayoutContext();
   const { changeSelectedSidebarKey, toggleLoader } = useGlobalContext();
   const {
@@ -247,7 +247,7 @@ export default function Settings() {
   );
 }
 
-Settings.PageLayout = Mainlayout;
+Allocation.PageLayout = Mainlayout;
 
 export async function getServerSideProps() {
   return {

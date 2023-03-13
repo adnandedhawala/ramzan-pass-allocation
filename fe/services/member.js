@@ -14,3 +14,15 @@ export const createRamzanMembers = () => {
     }
   }).then(handleResponse);
 };
+
+export const getRamzanMembers = showRegistered => {
+  let url = getApiUrl("ramzanMembers");
+  let finalUrl = showRegistered ? url + "?showRegistered=true" : url;
+  return fetch(finalUrl, {
+    method: "GET",
+    headers: {
+      ...getApplicationJsonHeader(),
+      ...getAuthHeader()
+    }
+  }).then(handleResponse);
+};
