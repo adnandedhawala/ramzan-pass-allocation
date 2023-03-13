@@ -3,6 +3,28 @@ import { Divider, Table } from "antd";
 import { groupBy, isNull } from "lodash";
 import { useState } from "react";
 
+const getData = (data, daska) => {
+  const groupedData = groupBy(
+    data
+      .map(value => ({ ...value.group, ...value }))
+      .filter(value => value.is_blocked === false),
+    "group_number"
+  );
+
+  return Object.keys(groupedData).map(value => {
+    let groupData = groupedData[value];
+    let groupDetails = groupData[0];
+    return {
+      group_number: groupDetails.group_number,
+      color: groupDetails.color,
+      name: groupDetails.name,
+      location: groupDetails.location,
+      total_count: groupDetails.total_count,
+      pending_count: groupData.filter(value => isNull(value[daska])).length
+    };
+  });
+};
+
 export const SeatSummaryCard = ({ rowData, daska }) => {
   const [pendingCount, setPendingCount] = useState(0);
 
@@ -89,34 +111,12 @@ export const SeatSummaryCard = ({ rowData, daska }) => {
     }
   ];
 
-  const getData = () => {
-    const groupedData = groupBy(
-      rowData
-        .map(value => ({ ...value.group, ...value }))
-        .filter(value => value.is_blocked === false),
-      "group_number"
-    );
-
-    return Object.keys(groupedData).map(value => {
-      let groupData = groupedData[value];
-      let groupDetails = groupData[0];
-      return {
-        group_number: groupDetails.group_number,
-        color: groupDetails.color,
-        name: groupDetails.name,
-        location: groupDetails.location,
-        total_count: groupDetails.total_count,
-        pending_count: groupData.filter(value => isNull(value[daska])).length
-      };
-    });
-  };
-
   useState(() => {
-    const count = getData()
+    const count = getData(rowData, daska)
       .map(value => value.pending_count)
       .reduce((sum, value) => sum + value, 0);
     setPendingCount(count);
-  }, []);
+  }, [rowData]);
 
   return (
     <>
@@ -126,7 +126,7 @@ export const SeatSummaryCard = ({ rowData, daska }) => {
       <Table
         size="small"
         pagination={false}
-        dataSource={getData()}
+        dataSource={getData(rowData, daska)}
         columns={groupColumns}
       />
       <Divider />
