@@ -60,9 +60,9 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                     Register for Daska 1, Daska 2 and Daska 3
                   </p>
                   <Form.Item
-                    noStyle
                     rules={[{ required: true, message: selectError }]}
                     name={_id + "_allDaska"}
+                    className="mb-0"
                   >
                     <Radio.Group
                       optionType="button"
@@ -80,7 +80,6 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                   <div className="mb-2">
                     <p className="mb-2">Register for Daska 1</p>
                     <Form.Item
-                      noStyle
                       name={_id + "_d1"}
                       rules={[
                         {
@@ -102,6 +101,7 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                           }
                         })
                       ]}
+                      className="mb-0"
                     >
                       <Radio.Group
                         optionType="button"
@@ -118,7 +118,6 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                     <p className="mb-2">Register for Daska 2</p>
                     <Form.Item
                       name={_id + "_d2"}
-                      noStyle
                       rules={[
                         {
                           required: true,
@@ -139,6 +138,7 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                           }
                         })
                       ]}
+                      className="mb-0"
                     >
                       <Radio.Group
                         optionType="button"
@@ -154,7 +154,6 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                   <div className="mb-2">
                     <p className="mb-2">Register for Daska 3</p>
                     <Form.Item
-                      noStyle
                       rules={[
                         {
                           required: true,
@@ -176,6 +175,7 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                         })
                       ]}
                       name={_id + "_d3"}
+                      className="mb-0"
                     >
                       <Radio.Group
                         optionType="button"
@@ -192,7 +192,7 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
               ) : null}
               <div className="mb-2 mt-4">
                 <p className="mb-2 text-gray-700">Request Rahat Block</p>
-                <Form.Item noStyle name={_id + "_isRahat"}>
+                <Form.Item className="mb-0" name={_id + "_isRahat"}>
                   <Radio.Group
                     optionType="button"
                     buttonStyle="solid"
