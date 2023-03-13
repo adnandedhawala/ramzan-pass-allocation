@@ -1,9 +1,11 @@
+/* eslint-disable security/detect-object-injection */
 import { Button, message, Tabs } from "antd";
 import { PAGE_LIST, SEAT_LOCATIONS, USER_ROLES } from "appConstants";
 import {
   AllocationLocationRadioGroup,
   SeatNumberGrid,
-  SeatNumberTable
+  SeatNumberTable,
+  SeatSummaryCard
 } from "components";
 import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
@@ -60,6 +62,7 @@ export default function Allocation() {
     const newLocation = event.target.value;
     if (newLocation === SEAT_LOCATIONS.MASJID) setCurrentDaska("d1");
     setCurrentLocation(newLocation);
+    setTableView("seat_list");
   };
 
   const getDuplicateEntries = data => {
@@ -149,7 +152,7 @@ export default function Allocation() {
         tabBarExtraContent={{
           right: (
             <Button
-              disabled={tableView === "seat_grid"}
+              disabled={tableView !== "seat_list"}
               className="mb-2"
               size="middle"
               type="primary"
@@ -177,6 +180,16 @@ export default function Allocation() {
             label: "Grid",
             key: "seat_grid",
             children: <SeatNumberTable rowData={masallahListWithUser} />
+          },
+          {
+            label: "Summary",
+            key: "seat_summary",
+            children: (
+              <SeatSummaryCard
+                daska={currentDaska}
+                rowData={masallahListWithUser}
+              />
+            )
           }
         ]}
       />
