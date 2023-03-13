@@ -30,7 +30,7 @@ export const verifyFileController = async (request, response) => {
           (member.hof_id.tanzeem_file_no !== file_number ||
             member.hof_id._id !== hof_id)
         ) {
-          response.status(400).send("incorrect HOF ITS or File Number!");
+          response.status(400).send("Incorrect HOF ITS or File Number!");
         } else {
           try {
             registrationData = await RamzanMemberV3.find({
