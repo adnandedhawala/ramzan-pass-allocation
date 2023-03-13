@@ -24,9 +24,11 @@ export default function RegistrationList() {
           data.data
             .map(value => ({
               ...value.hof_id,
-              ...value.registration,
               ...value.member_details,
-              is_rahat: value.is_rahat,
+              is_rahat: value.is_rahat ? "yes" : "no",
+              d1: value.registration.d1 ? "yes" : "no",
+              d2: value.registration.d2 ? "yes" : "no",
+              d3: value.registration.d3 ? "yes" : "no",
               hof_id: value.hof_id._id
             }))
             .sort(

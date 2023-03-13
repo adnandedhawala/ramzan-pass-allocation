@@ -29,26 +29,22 @@ export const RegisteredGrid = ({ data }) => {
     {
       field: "d1",
       headerName: "Daska 1",
-      minWidth: 125,
-      valueFormatter: params => (params.value ? "yes" : "no")
+      minWidth: 125
     },
     {
       field: "d2",
       headerName: "Daska 2",
-      minWidth: 125,
-      valueFormatter: params => (params.value ? "yes" : "no")
+      minWidth: 125
     },
     {
       field: "d3",
       headerName: "Daska 3",
-      minWidth: 125,
-      valueFormatter: params => (params.value ? "yes" : "no")
+      minWidth: 125
     },
     {
       field: "is_rahat",
       headerName: "Rahat",
-      minWidth: 125,
-      valueFormatter: params => (params.value ? "yes" : "no")
+      minWidth: 125
     }
   ];
   const defaultColDef = useMemo(() => {
