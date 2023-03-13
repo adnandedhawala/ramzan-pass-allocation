@@ -13,7 +13,7 @@ export default function Home() {
   const { toggleLoader } = useGlobalContext();
 
   const redirectBasedOnUser = () => {
-    router.push("/settings");
+    router.push("/allocation");
   };
 
   const handleLogin = (values, form) => {

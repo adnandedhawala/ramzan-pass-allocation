@@ -27,12 +27,6 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
         break;
       }
 
-      case PAGE_LIST.SETTINGS: {
-        handleClose();
-        router.push("/settings");
-        break;
-      }
-
       case PAGE_LIST.ALLOCATION: {
         handleClose();
         router.push("/allocation");
@@ -53,7 +47,6 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
   };
 
   const menuItems = [
-    getItem("Settings", PAGE_LIST.SETTINGS),
     getItem("Allocation", PAGE_LIST.ALLOCATION),
     getItem("Registration List", PAGE_LIST.REGISTRATION_LIST),
     getItem("Logout", PAGE_LIST.LOGOUT)
