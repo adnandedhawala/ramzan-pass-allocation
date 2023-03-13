@@ -7,7 +7,7 @@ import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
 import { find } from "lodash";
 
-export default function Home() {
+export default function Register() {
   const { toggleLoader } = useGlobalContext();
 
   const [stepStatus, setStepStatus] = useState({
@@ -117,4 +117,4 @@ export default function Home() {
   );
 }
 
-Home.PageLayout = SignInLayout;
+Register.PageLayout = SignInLayout;
