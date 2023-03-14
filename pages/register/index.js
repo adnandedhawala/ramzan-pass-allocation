@@ -31,6 +31,7 @@ export default function Register() {
         setFileMembers(
           responseData.data
             .filter(value => value.misaq === "Done")
+            .filter(value => value.gender === "Male")
             .map(value => {
               let registrationInfo = find(responseData.registrationData, {
                 _id: value._id
