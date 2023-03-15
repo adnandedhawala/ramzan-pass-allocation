@@ -1,4 +1,8 @@
-import { createRamzanMembers, getRamzanMembers } from "fe/services";
+import {
+  createRamzanMembers,
+  getRamzanMembers,
+  resetRamzanRegistration
+} from "fe/services";
 
 export const createRamzanMembersHelper = ({ successFn, errorFn, endFn }) => {
   createRamzanMembers()
@@ -14,6 +18,17 @@ export const getRamzanMembersHelper = ({
   showRegistered = false
 }) => {
   getRamzanMembers(showRegistered)
+    .then(data => successFn(data))
+    .catch(error => errorFn(error))
+    .finally(() => endFn());
+};
+
+export const resetRamzanRegistrationHelper = ({
+  successFn,
+  errorFn,
+  endFn
+}) => {
+  resetRamzanRegistration()
     .then(data => successFn(data))
     .catch(error => errorFn(error))
     .finally(() => endFn());

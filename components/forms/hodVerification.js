@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 
-export const HodVerificationForm = ({ handleSubmit }) => {
+export const HodVerificationForm = ({ handleSubmit, disabled }) => {
   const [form] = Form.useForm();
   const onFinish = values => {
     handleSubmit(values, form);
@@ -12,6 +12,7 @@ export const HodVerificationForm = ({ handleSubmit }) => {
       onFinish={onFinish}
       autoComplete="off"
       form={form}
+      disabled={disabled}
     >
       <Form.Item
         className="mb-2"

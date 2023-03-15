@@ -36,3 +36,13 @@ export const allocateMemberToMasallah = data => {
     body: JSON.stringify({ data })
   }).then(handleResponse);
 };
+
+export const resetMasallahAllocations = () => {
+  return fetch(getApiUrl("allocate"), {
+    method: "PUT",
+    headers: {
+      ...getAuthHeader(),
+      ...getApplicationJsonHeader()
+    }
+  }).then(handleResponse);
+};

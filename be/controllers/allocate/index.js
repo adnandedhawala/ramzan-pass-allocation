@@ -39,3 +39,12 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
       response.status(400).send(error.message);
     });
 };
+
+export const resetAllocations = async (_request, response) => {
+  try {
+    await MasallahV2.updateMany({}, { d1: "", d2: "", d3: "" });
+    return response.status(200).send("Data reset successfull");
+  } catch (error) {
+    return response.status(500).send(error.message);
+  }
+};

@@ -95,7 +95,7 @@ export const SeatNumberGrid = ({
         const masallahData = find(masallahListWithUser, { _id: value._id });
         const allocated_name =
           masallahData && masallahData[currentDaska]
-            ? masallahData[currentDaska].member_details.full_name
+            ? masallahData[currentDaska].member_details?.full_name
             : "";
         return {
           ...value,

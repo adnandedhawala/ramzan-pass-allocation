@@ -26,3 +26,13 @@ export const getRamzanMembers = showRegistered => {
     }
   }).then(handleResponse);
 };
+
+export const resetRamzanRegistration = () => {
+  return fetch(getApiUrl("ramzanMembers"), {
+    method: "PUT",
+    headers: {
+      ...getApplicationJsonHeader(),
+      ...getAuthHeader()
+    }
+  }).then(handleResponse);
+};

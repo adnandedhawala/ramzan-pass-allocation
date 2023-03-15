@@ -2,10 +2,11 @@ import { SignInLayout } from "layouts/signIn";
 import { useGlobalContext } from "context/global";
 import { HodVerificationForm, RegisterFileMemberForm } from "components";
 import { message, Result } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
 import { find } from "lodash";
+import { getSettingsHelper } from "fe/helpers/settings";
 
 export default function Register() {
   const { toggleLoader } = useGlobalContext();
@@ -15,7 +16,7 @@ export default function Register() {
     select: "wait",
     done: "wait"
   });
-
+  const [isRegistrationOn, setIsRegistrationOn] = useState(false);
   const [fileMembers, setFileMembers] = useState([]);
 
   const handleVerify = (values, form) => {
@@ -85,6 +86,20 @@ export default function Register() {
     });
   };
 
+  const getSettingsForPage = () => {
+    getSettingsHelper({
+      successFn: data => {
+        setIsRegistrationOn(data.data[0].is_registration_on);
+      },
+      errorFn: () => {},
+      endFn: () => {}
+    });
+  };
+
+  useEffect(() => {
+    getSettingsForPage();
+  }, []);
+
   return (
     <>
       <h2 className="text-3xl text-center font-semibold mb-2">
@@ -92,8 +107,19 @@ export default function Register() {
       </h2>
       {stepStatus.verify === "process" ? (
         <div className="w-full mt-4">
-          <h2 className="text-medium text-center">Verification</h2>
-          <HodVerificationForm handleSubmit={handleVerify} />
+          <h2
+            className={
+              isRegistrationOn
+                ? "text-medium text-center"
+                : "text-center text-red-500"
+            }
+          >
+            {isRegistrationOn ? "Verification" : "Registration is closed"}
+          </h2>
+          <HodVerificationForm
+            disabled={!isRegistrationOn}
+            handleSubmit={handleVerify}
+          />
         </div>
       ) : null}
       {stepStatus.select === "process" ? (
@@ -102,6 +128,7 @@ export default function Register() {
           <RegisterFileMemberForm
             memberData={fileMembers}
             handleSubmit={handleMemberRegistration}
+            disabled={!isRegistrationOn}
           />
         </div>
       ) : null}

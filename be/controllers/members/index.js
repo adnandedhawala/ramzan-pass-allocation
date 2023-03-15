@@ -41,3 +41,23 @@ export const getMembersController = async (request, response) => {
     return response.status(500).send(error.message);
   }
 };
+
+export const resetRegistrationController = async (_request, response) => {
+  try {
+    await RamzanMemberV3.updateMany(
+      { is_registered: true },
+      {
+        is_registered: false,
+        registration: {
+          d1: false,
+          d2: false,
+          d3: false
+        },
+        is_rahat: false
+      }
+    );
+    return response.status(200).send("data reset successfull");
+  } catch (error) {
+    return response.status(500).send(error.message);
+  }
+};
