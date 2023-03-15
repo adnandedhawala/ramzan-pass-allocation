@@ -96,7 +96,7 @@ export default function Register() {
       },
       errorFn: () => {},
       endFn: () => {
-        setShowPage(false);
+        setShowPage(true);
       }
     });
   };
