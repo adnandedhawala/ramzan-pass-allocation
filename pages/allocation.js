@@ -12,6 +12,7 @@ import { useMainLayoutContext } from "context/mainLayout";
 import { useMasallahContext } from "context/masallah";
 import {
   allocateMemberToMasallahHelper,
+  allocatePassesHelper,
   getMasallahByLocationHelper,
   getMasallahByLocationWithUserDataHelper
 } from "fe";
@@ -142,6 +143,21 @@ export default function Allocation() {
     });
   };
 
+  const handleAllocatePasses = () => {
+    toggleLoader(true);
+    allocatePassesHelper({
+      successFn: () => {
+        message.success("Passes are allocated successfully");
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      },
+      location: currentLocation,
+      daska: currentDaska
+    });
+  };
+
   const tabsComponent = useMemo(
     () => (
       <Tabs
@@ -151,15 +167,24 @@ export default function Allocation() {
         type="card"
         tabBarExtraContent={{
           right: (
-            <Button
-              disabled={tableView !== "seat_list"}
-              className="mb-2"
-              size="middle"
-              type="primary"
-              onClick={handleSaveChangetoMasallah}
-            >
-              Save Grid
-            </Button>
+            <div className="flex mb-2 items-center">
+              <Button
+                disabled={tableView !== "seat_list"}
+                size="middle"
+                type="primary"
+                onClick={handleSaveChangetoMasallah}
+              >
+                Save Grid
+              </Button>
+              <Button
+                disabled={tableView !== "seat_list"}
+                size="middle"
+                onClick={handleAllocatePasses}
+                className="ml-4"
+              >
+                Allocate Passes
+              </Button>
+            </div>
           )
         }}
         items={[

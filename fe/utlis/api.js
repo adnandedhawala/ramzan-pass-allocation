@@ -12,6 +12,7 @@ const API = {
   masallahGroup: "masallah/group",
   masallah: "masallah",
   allocate: "allocate",
+  allocateMasallah: "allocate/masallah",
   settings: "settings",
   user: "user",
   register: "register",

@@ -46,3 +46,15 @@ export const resetMasallahAllocations = () => {
     }
   }).then(handleResponse);
 };
+
+export const allocatePasses = (location, daska) => {
+  let url = getApiUrl("allocateMasallah") + "?location=" + location;
+  const finalUrl = daska ? url + "&daska=" + daska : url;
+  return fetch(finalUrl, {
+    method: "POST",
+    headers: {
+      ...getAuthHeader(),
+      ...getApplicationJsonHeader()
+    }
+  }).then(handleResponse);
+};
