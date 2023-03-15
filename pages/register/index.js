@@ -2,7 +2,7 @@
 import { SignInLayout } from "layouts/signIn";
 import { useGlobalContext } from "context/global";
 import { HodVerificationForm, RegisterFileMemberForm } from "components";
-import { message, Result, Skeleton } from "antd";
+import { message, Result } from "antd";
 import { useEffect, useState } from "react";
 import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
@@ -96,7 +96,7 @@ export default function Register() {
       },
       errorFn: () => {},
       endFn: () => {
-        setShowPage(true);
+        setShowPage(false);
       }
     });
   };
@@ -157,7 +157,7 @@ export default function Register() {
     );
   }
 
-  return <Skeleton />;
+  return <Result icon={null} title="Initializing Registration ..." />;
 }
 
 Register.PageLayout = SignInLayout;
