@@ -1,7 +1,8 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { SignInLayout } from "layouts/signIn";
 import { useGlobalContext } from "context/global";
 import { HodVerificationForm, RegisterFileMemberForm } from "components";
-import { message, Result } from "antd";
+import { message, Result, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
@@ -18,6 +19,7 @@ export default function Register() {
   });
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
   const [fileMembers, setFileMembers] = useState([]);
+  const [showPage, setShowPage] = useState(false);
 
   const handleVerify = (values, form) => {
     toggleLoader(true);
@@ -87,12 +89,15 @@ export default function Register() {
   };
 
   const getSettingsForPage = () => {
+    setShowPage(false);
     getSettingsHelper({
       successFn: data => {
         setIsRegistrationOn(data.data[0].is_registration_on);
       },
       errorFn: () => {},
-      endFn: () => {}
+      endFn: () => {
+        setShowPage(true);
+      }
     });
   };
 
@@ -100,49 +105,61 @@ export default function Register() {
     getSettingsForPage();
   }, []);
 
-  return (
-    <>
-      <h2 className="text-3xl text-center font-semibold mb-2">
-        Registration Form : Sherullah 1444
-      </h2>
-      {stepStatus.verify === "process" ? (
-        <div className="w-full mt-4">
-          <h2
-            className={
-              isRegistrationOn
-                ? "text-medium text-center"
-                : "text-center text-red-500"
-            }
-          >
-            {isRegistrationOn ? "Verification" : "Registration is closed"}
-          </h2>
-          <HodVerificationForm
-            disabled={!isRegistrationOn}
-            handleSubmit={handleVerify}
-          />
-        </div>
-      ) : null}
-      {stepStatus.select === "process" ? (
-        <div className="w-full mt-4">
-          {/* <h2 className="text-medium text-center mb-4">Select Daska</h2> */}
-          <RegisterFileMemberForm
-            memberData={fileMembers}
-            handleSubmit={handleMemberRegistration}
-            disabled={!isRegistrationOn}
-          />
-        </div>
-      ) : null}
+  if (showPage) {
+    return (
+      <>
+        <h2 className="text-3xl text-center font-semibold mb-2">
+          Registration Form : Sherullah 1444
+        </h2>
+        {stepStatus.verify === "process" ? (
+          <div className="w-full mt-4">
+            <h2
+              className={
+                isRegistrationOn
+                  ? "text-medium text-center"
+                  : "text-center text-red-500"
+              }
+            >
+              {isRegistrationOn ? "" : "Registration is closed"}
+            </h2>
+            {isRegistrationOn ? (
+              <>
+                <p className="text-red-500 text-center text-sm">
+                  Registration will close on Saturday, 26th Shaban-ul-Karim
+                  1444H (18th March 2023) 9pm.
+                </p>
+              </>
+            ) : null}
+            <HodVerificationForm
+              disabled={!isRegistrationOn}
+              handleSubmit={handleVerify}
+            />
+          </div>
+        ) : null}
+        {stepStatus.select === "process" ? (
+          <div className="w-full mt-4">
+            {/* <h2 className="text-medium text-center mb-4">Select Daska</h2> */}
+            <RegisterFileMemberForm
+              memberData={fileMembers}
+              handleSubmit={handleMemberRegistration}
+              disabled={!isRegistrationOn}
+            />
+          </div>
+        ) : null}
 
-      {stepStatus.done === "finish" ? (
-        <Result
-          icon={<SmileOutlined />}
-          title="Members are successfully registered!"
-          status="success"
-          // extra={<Button type="primary">Next</Button>}
-        />
-      ) : null}
-    </>
-  );
+        {stepStatus.done === "finish" ? (
+          <Result
+            icon={<SmileOutlined />}
+            title="Members are successfully registered!"
+            status="success"
+            // extra={<Button type="primary">Next</Button>}
+          />
+        ) : null}
+      </>
+    );
+  }
+
+  return <Skeleton />;
 }
 
 Register.PageLayout = SignInLayout;
