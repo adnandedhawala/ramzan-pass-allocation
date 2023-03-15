@@ -59,6 +59,35 @@ export const HodVerificationForm = ({ handleSubmit, disabled }) => {
           Verify
         </Button>
       </Form.Item>
+      {disabled ? null : (
+        <div>
+          <p className="text-lg mb-2">Please note that :</p>
+          <ul className="list-disc">
+            <li className="mb-2">
+              Registration is compulsary for All Gents who wish to attend
+              Maghrib Namaaz in Saifee Masjid-Marol
+            </li>
+            <li className="mb-2">
+              Gents should select Rahat Block to obtain masalla in Rahat block.
+            </li>
+            <li className="mb-2">
+              Rahat Block will be located at left side wall (Ghurfat side)
+              inside Masjid.
+            </li>
+            <li className="mb-2">
+              Those who require chair are strictly required to register for
+              Rahat block.
+            </li>
+            <li className="mb-2">
+              Registration will close on Saturday, 26th Shaban-ul-Karim 1444H
+              (18th March 2023) 9pm.
+            </li>
+            <li className="mb-2">
+              Registration not required for Mumenaat Behno.
+            </li>
+          </ul>
+        </div>
+      )}
     </Form>
   );
 };

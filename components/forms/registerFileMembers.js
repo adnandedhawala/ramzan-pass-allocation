@@ -213,6 +213,31 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
           Submit
         </Button>
       </Form.Item>
+      <div>
+        <p className="text-lg mb-2">Please note that :</p>
+        <ul className="list-disc">
+          <li className="mb-2">
+            The name of each Male family member will be displayed under which
+            you can Register for Pass by selecting Yes
+          </li>
+          <li className="mb-2">
+            If you wish to get allocation in Rahat block, select Yes for Rahat
+            block for that member only.
+          </li>
+          <li className="mb-2">
+            Once all the Gents members selection is done, you click the Submit
+            button.
+          </li>
+          <li className="mb-2">
+            If after you have registered, you wish to change any of your
+            choices, you can do so by following the same steps as above.
+          </li>
+          <li className="mb-2">
+            In case of any difficulty please contact us at
+            aemsherullah@gmail.com
+          </li>
+        </ul>
+      </div>
     </Form>
   );
 };
