@@ -79,11 +79,12 @@ export const HodVerificationForm = ({ handleSubmit, disabled }) => {
               Rahat block.
             </li>
             <li className="mb-2">
-              Registration will close on Saturday, 26th Shaban-ul-Karim 1444H
-              (18th March 2023) 9pm.
+              Registration not required for Mumenaat Behno.
             </li>
             <li className="mb-2">
-              Registration not required for Mumenaat Behno.
+              In case of any difficulty please contact us at
+              <a href="mailto:aemsherullah@gmail.com">aemsherullah@gmail.com</a>
+              aemsherullah@gmail.com
             </li>
           </ul>
         </div>

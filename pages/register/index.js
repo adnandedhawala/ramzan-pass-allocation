@@ -138,7 +138,6 @@ export default function Register() {
         ) : null}
         {stepStatus.select === "process" ? (
           <div className="w-full mt-4">
-            {/* <h2 className="text-medium text-center mb-4">Select Daska</h2> */}
             <RegisterFileMemberForm
               memberData={fileMembers}
               handleSubmit={handleMemberRegistration}
@@ -152,7 +151,6 @@ export default function Register() {
             icon={<SmileOutlined />}
             title="Members are successfully registered!"
             status="success"
-            // extra={<Button type="primary">Next</Button>}
           />
         ) : null}
       </>
