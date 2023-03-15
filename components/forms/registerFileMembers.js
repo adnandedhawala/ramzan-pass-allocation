@@ -234,8 +234,7 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
           </li>
           <li className="mb-2">
             In case of any difficulty please contact us at
-            <a href="mailto:aemsherullah@gmail.com">aemsherullah@gmail.com</a>
-            aemsherullah@gmail.com
+            <a href="mailto:aemsherullah@gmail.com"> aemsherullah@gmail.com</a>
           </li>
         </ul>
       </div>
