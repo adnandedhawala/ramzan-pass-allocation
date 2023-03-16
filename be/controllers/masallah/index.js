@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable security/detect-object-injection */
 import formidable from "formidable";
 import { MasallahV2, MasallahGroupV2, RamzanMemberV3 } from "models";
@@ -145,6 +146,55 @@ export const getMasallahByLocation = async (request, response) => {
       (a, b) => a.group.group_number - b.group.group_number
     );
     return response.status(200).send({ data: availableSeats });
+  } catch (databaseError) {
+    return response.status(500).send(databaseError.message);
+  }
+};
+
+export const getMasallahById = async (request, response) => {
+  const { masallahId } = request.query;
+  if (!masallahId) return response.status(404).send("masallahId missing!");
+  try {
+    let seat = await MasallahV2.findById(masallahId).populate([
+      {
+        path: "d1",
+        model: "RamzanMemberV3",
+        select: "member_details",
+        populate: [
+          {
+            path: "member_details",
+            select: "_id full_name gender hof_fm_type",
+            model: "Member"
+          }
+        ]
+      },
+      {
+        path: "d2",
+        model: "RamzanMemberV3",
+        select: "member_details",
+        populate: [
+          {
+            path: "member_details",
+            select: "_id full_name gender hof_fm_type",
+            model: "Member"
+          }
+        ]
+      },
+      {
+        path: "d3",
+        model: "RamzanMemberV3",
+        select: "member_details",
+        populate: [
+          {
+            path: "member_details",
+            select: "_id full_name gender hof_fm_type",
+            model: "Member"
+          }
+        ]
+      }
+    ]);
+
+    return response.status(200).send({ data: seat });
   } catch (databaseError) {
     return response.status(500).send(databaseError.message);
   }

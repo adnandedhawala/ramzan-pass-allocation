@@ -26,6 +26,16 @@ export const getMasallahByLocation = (location, showUserData) => {
   }).then(handleResponse);
 };
 
+export const getMasallahByIdService = id => {
+  const baseUrl = getApiUrl("masallah") + "/" + id;
+  return fetch(baseUrl, {
+    method: "GET",
+    headers: {
+      ...getAuthHeader()
+    }
+  }).then(handleResponse);
+};
+
 export const allocateMemberToMasallah = data => {
   return fetch(getApiUrl("allocate"), {
     method: "POST",

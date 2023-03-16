@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 
-export const HodVerificationForm = ({ handleSubmit, disabled }) => {
+export const HodVerificationForm = ({ handleSubmit, disabled, showText }) => {
   const [form] = Form.useForm();
   const onFinish = values => {
     handleSubmit(values, form);
@@ -59,7 +59,7 @@ export const HodVerificationForm = ({ handleSubmit, disabled }) => {
           Verify
         </Button>
       </Form.Item>
-      {disabled ? null : (
+      {disabled || !showText ? null : (
         <div>
           <p className="text-lg mb-2">Please note that :</p>
           <ul className="list-disc">

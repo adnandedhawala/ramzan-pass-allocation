@@ -1,3 +1,4 @@
+import { verifyFileSchema } from "be/validators";
 import { MasallahV2, Member, RamzanMemberV3 } from "models";
 
 export const createMembersController = async (_request, response) => {
@@ -60,4 +61,59 @@ export const resetRegistrationController = async (_request, response) => {
   } catch (error) {
     return response.status(500).send(error.message);
   }
+};
+
+export const verifyFileandGetMembersController = async (request, response) => {
+  const { data } = request.body;
+  if (!data) response.status(400).end("data is missing!");
+  verifyFileSchema
+    .validate(data)
+    .then(async verifyFileObject => {
+      const { hof_id, file_number } = verifyFileObject;
+      let registrationData = [];
+      const member = await RamzanMemberV3.findById(hof_id).populate([
+        {
+          path: "hof_id",
+          model: "File",
+          populate: {
+            path: "member_ids",
+            model: "Member"
+          }
+        },
+        {
+          path: "member_details",
+          model: "Member"
+        }
+      ]);
+      if (member) {
+        if (
+          member.hof_id &&
+          (member.hof_id.tanzeem_file_no !== file_number ||
+            member.hof_id._id !== hof_id)
+        ) {
+          response.status(400).send("Incorrect HOF ITS or File Number!");
+        } else {
+          try {
+            registrationData = await RamzanMemberV3.find({
+              _id: {
+                $in: member.hof_id.member_ids.map(value => value._id)
+              }
+            }).populate([
+              {
+                path: "member_details",
+                model: "Member"
+              }
+            ]);
+          } catch (error) {
+            response.status(500).send(error.message);
+          }
+          response.status(200).send({ data: registrationData });
+        }
+      } else {
+        return response.status(400).send("hof not found!");
+      }
+    })
+    .catch(error => {
+      return response.status(400).send(error.message);
+    });
 };

@@ -137,6 +137,7 @@ export default function Register() {
             <HodVerificationForm
               disabled={!isRegistrationOn}
               handleSubmit={handleVerify}
+              showText={true}
             />
           </div>
         ) : null}
