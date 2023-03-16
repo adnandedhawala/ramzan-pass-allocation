@@ -35,6 +35,12 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
     form.validateFields([its + "_d1", its + "_d2", its + "_d3"]);
   };
 
+  const handleAllDaskaRadioChange = (value, its) => {
+    if (value === "false") {
+      form.setFieldValue(its + "_isRahat", "false");
+    }
+  };
+
   return (
     <Form
       form={form}
@@ -66,6 +72,9 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                       optionType="button"
                       buttonStyle="solid"
                       size="small text-sm"
+                      onChange={event =>
+                        handleAllDaskaRadioChange(event.target.value, _id)
+                      }
                     >
                       <Radio value="true">Yes</Radio>
                       <Radio value="false">No</Radio>
