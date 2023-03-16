@@ -29,7 +29,7 @@ export function SignInLayout({ children }) {
       >
         <Layout className="min-h-screen bg-[#1E293B]">
           {showLoader ? <FullPageLoader /> : null}
-          <Content className="flex items-center justify-center p-8">
+          <Content className="flex items-center justify-center p-0">
             <Card className="w-full sm:w-10/12 md:w-8/12 lg:w-5/12">
               <div className="flex flex-col items-center">
                 <Image

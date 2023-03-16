@@ -108,7 +108,7 @@ export default function Register() {
   if (showPage) {
     return (
       <>
-        <h2 className="text-3xl text-center font-semibold mb-2">
+        <h2 className="text-xl text-center font-semibold mb-2">
           Registration Form : Sherullah 1444
         </h2>
         {stepStatus.verify === "process" ? (
@@ -124,6 +124,10 @@ export default function Register() {
             </h2>
             {isRegistrationOn ? (
               <>
+                <p className="mb-2 font-semibold text-center">
+                  Kindly read the below given instructions carefully before
+                  proceeding.
+                </p>
                 <p className="text-red-500 text-center text-sm">
                   Registration will close on Saturday, 26th Shaban-ul-Karim
                   1444H (18th March 2023) 9pm.
