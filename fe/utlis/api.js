@@ -16,6 +16,7 @@ const API = {
   settings: "settings",
   user: "user",
   register: "register",
+  passes: "passes",
   registerVerifyFile: "register/verifyFile"
 };
 

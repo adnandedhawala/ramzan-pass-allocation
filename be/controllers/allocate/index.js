@@ -77,7 +77,8 @@ export const allocateMasallahToMembers = async (request, response) => {
       ? {
           d1: { location: "", masallah: "" },
           d2: { location: "", masallah: "" },
-          d3: { location: "", masallah: "" }
+          d3: { location: "", masallah: "" },
+          show_pass: false
         }
       : { [daska]: { location: "", masallah: "" } };
     let initFindObject = isLocationMasjid
@@ -101,7 +102,8 @@ export const allocateMasallahToMembers = async (request, response) => {
           ? {
               d1: { location, masallah: groupedData[key][0]._id },
               d2: { location, masallah: groupedData[key][0]._id },
-              d3: { location, masallah: groupedData[key][0]._id }
+              d3: { location, masallah: groupedData[key][0]._id },
+              show_pass: true
             }
           : { [daska]: { location, masallah: groupedData[key][0]._id } };
       return {

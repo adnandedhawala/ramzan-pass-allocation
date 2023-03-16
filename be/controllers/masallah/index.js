@@ -149,3 +149,15 @@ export const getMasallahByLocation = async (request, response) => {
     return response.status(500).send(databaseError.message);
   }
 };
+
+export const getMasallahById = async (request, response) => {
+  const { masallahId } = request.query;
+  if (!masallahId) return response.status(404).send("masallahId missing!");
+  try {
+    let seat = await MasallahV2.findById(masallahId);
+
+    return response.status(200).send({ data: seat });
+  } catch (databaseError) {
+    return response.status(500).send(databaseError.message);
+  }
+};
