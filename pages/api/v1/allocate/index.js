@@ -3,7 +3,9 @@ import { ncErrorHandlers } from "be/utils";
 import { checkAdmin, checkAuth, connectDB } from "be/middlewares";
 import {
   allocateRamzanMemberToMasallah,
-  resetAllocations
+  getAllocatedmembersController,
+  resetAllocations,
+  updateAllocatedmembersController
 } from "be/controllers";
 
 export default nc(ncErrorHandlers)
@@ -11,4 +13,6 @@ export default nc(ncErrorHandlers)
   .use(checkAuth)
   .use(checkAdmin)
   .post(allocateRamzanMemberToMasallah)
-  .put(resetAllocations);
+  .put(resetAllocations)
+  .get(getAllocatedmembersController)
+  .patch(updateAllocatedmembersController);

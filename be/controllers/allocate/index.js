@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-array-method-this-argument */
 /* eslint-disable security/detect-object-injection */
 import { SEAT_LOCATIONS } from "appConstants";
-import { addAllocationSchema } from "be/validators";
+import { addAllocationSchema, updateAllocationSchema } from "be/validators";
 import { groupBy } from "lodash";
 import { MasallahV2, RamzanMemberV3 } from "models";
 
@@ -122,4 +122,53 @@ export const allocateMasallahToMembers = async (request, response) => {
   } catch (error) {
     return response.status(500).send(error.message);
   }
+};
+
+export const getAllocatedmembersController = async (_request, response) => {
+  try {
+    let data = await RamzanMemberV3.find({
+      "d1.location": SEAT_LOCATIONS.MASJID
+    }).populate([
+      {
+        path: "hof_id",
+        select: "_id tanzeem_file_no",
+        model: "File"
+      },
+      {
+        path: "member_details",
+        select: "_id full_name gender hof_fm_type age first_prefix idara",
+        model: "Member"
+      }
+    ]);
+    return response.status(200).send({ data });
+  } catch (error) {
+    return response.status(500).send(error.message);
+  }
+};
+
+export const updateAllocatedmembersController = async (request, response) => {
+  const { data } = request.body;
+  if (!data) return response.status(400).end("data is missing!");
+  updateAllocationSchema
+    .validate(data)
+    .then(async editObject => {
+      const bulkOps = editObject.map(update => {
+        const setObject = { show_pass: update.show_pass };
+        return {
+          updateOne: {
+            filter: { _id: update._id },
+            update: { $set: setObject }
+          }
+        };
+      });
+
+      RamzanMemberV3.bulkWrite(bulkOps)
+        .then(result => {
+          response.status(200).send(`Updated ${result.nModified} documents`);
+        })
+        .catch(error => response.status(400).send(error.message));
+    })
+    .catch(error => {
+      response.status(400).send(error.message);
+    });
 };

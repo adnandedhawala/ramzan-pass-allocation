@@ -1,23 +1,44 @@
+import { Button, message } from "antd";
 import { PAGE_LIST, USER_ROLES } from "appConstants";
-import { RegisteredGrid } from "components";
+import { AllocatedGrid } from "components";
 
 import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
-import { getRamzanMembersHelper } from "fe";
+import {
+  editAllocatedRamzanMembersHelper,
+  getAllocatedRamzanMembersHelper
+} from "fe";
 
 import { Mainlayout } from "layouts/main";
 import { useEffect, useState } from "react";
 
 export default function RegistrationList() {
   const { setPageTitle, resetPage } = useMainLayoutContext();
-  const { changeSelectedSidebarKey } = useGlobalContext();
+  const { changeSelectedSidebarKey, toggleLoader } = useGlobalContext();
 
   const [registeredList, setRegisteredList] = useState([]);
 
+  const handleAllocatedDataUpdate = () => {
+    toggleLoader(true);
+    editAllocatedRamzanMembersHelper({
+      data: registeredList.map(value => ({
+        _id: value._id,
+        show_pass: value.show_pass === "yes"
+      })),
+      successFn: () => {
+        message.success("Member Data updated successfully!");
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      }
+    });
+  };
+
   useEffect(() => {
-    changeSelectedSidebarKey(PAGE_LIST.REGISTRATION_LIST);
-    setPageTitle("Registration List Page");
-    getRamzanMembersHelper({
+    changeSelectedSidebarKey(PAGE_LIST.ALLOCATION_LIST);
+    setPageTitle("Allocation List Page");
+    getAllocatedRamzanMembersHelper({
       showRegistered: true,
       successFn: data => {
         setRegisteredList(
@@ -26,9 +47,7 @@ export default function RegistrationList() {
               ...value.hof_id,
               ...value.member_details,
               is_rahat: value.is_rahat ? "yes" : "no",
-              d1: value.registration.d1 ? "yes" : "no",
-              d2: value.registration.d2 ? "yes" : "no",
-              d3: value.registration.d3 ? "yes" : "no",
+              show_pass: value.show_pass ? "yes" : "no",
               hof_id: value.hof_id._id
             }))
             .sort(
@@ -46,7 +65,12 @@ export default function RegistrationList() {
 
   return (
     <>
-      <RegisteredGrid data={registeredList} />
+      <div className="flex justify-end mb-4">
+        <Button onClick={handleAllocatedDataUpdate} type="primary">
+          Update Show Pass Status
+        </Button>
+      </div>
+      <AllocatedGrid data={registeredList} setData={setRegisteredList} />
     </>
   );
 }

@@ -1,5 +1,7 @@
 import {
   createRamzanMembers,
+  editAllocatedRamzanMembers,
+  getAllocatedRamzanMembers,
   getRamzanMembers,
   resetRamzanRegistration
 } from "fe/services";
@@ -18,6 +20,29 @@ export const getRamzanMembersHelper = ({
   showRegistered = false
 }) => {
   getRamzanMembers(showRegistered)
+    .then(data => successFn(data))
+    .catch(error => errorFn(error))
+    .finally(() => endFn());
+};
+
+export const getAllocatedRamzanMembersHelper = ({
+  successFn,
+  errorFn,
+  endFn
+}) => {
+  getAllocatedRamzanMembers()
+    .then(data => successFn(data))
+    .catch(error => errorFn(error))
+    .finally(() => endFn());
+};
+
+export const editAllocatedRamzanMembersHelper = ({
+  successFn,
+  errorFn,
+  endFn,
+  data
+}) => {
+  editAllocatedRamzanMembers(data)
     .then(data => successFn(data))
     .catch(error => errorFn(error))
     .finally(() => endFn());

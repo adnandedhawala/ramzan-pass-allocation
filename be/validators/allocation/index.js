@@ -5,3 +5,10 @@ export const addAllocationSchema = yup.object().shape({
   daska: yup.string(),
   data: yup.array()
 });
+
+export const updateAllocationSchema = yup.array().of(
+  yup.object().shape({
+    _id: yup.string().required(),
+    show_pass: yup.bool().required()
+  })
+);
