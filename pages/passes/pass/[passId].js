@@ -133,16 +133,37 @@ export default function ViewPassPage() {
                 </div>
               </Col>
             </Row>
-            <div className="mt-6 text-xs px-4">
+            <div className="mt-5 text-[10px] px-4">
               <p>Instructions:</p>
-              <p>This pass is valid 10 minutes before Magrib Namaaz.</p>
-              <p>
-                This pass is valid for Magrib Namaaz only and kindly bring it
-                daily.
-              </p>
+              <li>Masalla allocation is not transferable.</li>
+              <li>
+                During namaaz time children are not allowed inside the masjid.
+              </li>
+              <li>
+                Rahat masallas are allocated adjacent to the walls on Left side
+                of qibla and entrance wall. Using a chair or stool is strictly
+                prohibited anywhere else inside the masjid.
+              </li>
             </div>
           </div>
         </div>
+
+        <p className="mt-6">Kindly Note:</p>
+        <ol className="mt-2 px-2">
+          <li>
+            Kindly remove your shoes, put them in carry bag and give at the shoe
+            counter.
+          </li>
+          <li>You have to bring your own carry bags for your shoes.</li>
+          <li>
+            Chakhris should remain in the washroom area only - Do not wear
+            chakhris on wooden planks.
+          </li>
+          <li>
+            After washing your feet, walk on the wooden planks (without chakris)
+            and then dry your feet on pagdandis.
+          </li>
+        </ol>
       </div>
     </>
   );
