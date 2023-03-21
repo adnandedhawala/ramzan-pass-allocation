@@ -27,11 +27,7 @@ export default function PassPage() {
         message.error(error);
       },
       successFn: responseData => {
-        setFileMembers(
-          responseData.data
-            .filter(value => value.member_details.misaq === "Done")
-            .filter(value => value.member_details.gender === "Male")
-        );
+        setFileMembers(responseData.data);
         form.resetFields();
         setStepStatus({ ...stepStatus, verify: "finish", view: "process" });
       },
@@ -49,9 +45,12 @@ export default function PassPage() {
         <>
           <div className="w-full mt-4">
             <p className="text-red-500 text-center text-sm">
-              Enter HOF ITS and File Number to view Pass
+              Enter ITS and File Number to view Pass
             </p>
-            <HodVerificationForm handleSubmit={handleVerify} />
+            <HodVerificationForm
+              hof_label="ITS Number"
+              handleSubmit={handleVerify}
+            />
           </div>
         </>
       ) : null}
@@ -69,9 +68,26 @@ export default function PassPage() {
                     <span>{member_details._id}</span>
                   </div>
                 </div>
+
                 {show_pass ? null : <Divider />}
 
-                {show_pass ? (
+                {member_details.gender === "Female" ? (
+                  <p>
+                    This form is only for Gents Registration for Saifee Masjid
+                    Marol.
+                  </p>
+                ) : null}
+
+                {member_details.misaq === "Done" ? null : (
+                  <p>
+                    You are not in the eligibe list or registered list of marol
+                    mumineen.
+                  </p>
+                )}
+
+                {member_details.gender === "Male" &&
+                member_details.misaq === "Done" &&
+                show_pass ? (
                   <div className="text-center mt-2">
                     <Button
                       onClick={() =>
@@ -83,12 +99,28 @@ export default function PassPage() {
                       View Pass
                     </Button>
                   </div>
-                ) : (
+                ) : null}
+                {member_details.gender === "Male" &&
+                member_details.misaq === "Done" &&
+                !show_pass ? (
                   <p>Pass Allocation is in progress.</p>
-                )}
+                ) : null}
               </Card>
             );
           })}
+          <div>
+            <Button
+              onClick={() =>
+                setStepStatus({
+                  ...stepStatus,
+                  verify: "process",
+                  view: "wait"
+                })
+              }
+            >
+              Go Back
+            </Button>
+          </div>
         </div>
       ) : null}
     </>

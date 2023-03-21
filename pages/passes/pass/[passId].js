@@ -74,6 +74,9 @@ export default function ViewPassPage() {
           >
             Download Pass
           </Button>
+          <Button size="large" onClick={() => router.back()} className="ml-4">
+            Go Back
+          </Button>
         </div>
         <div ref={reference} className="relative w-[700px]">
           <Image

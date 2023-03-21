@@ -1,6 +1,11 @@
 import { Button, Form, Input } from "antd";
 
-export const HodVerificationForm = ({ handleSubmit, disabled, showText }) => {
+export const HodVerificationForm = ({
+  handleSubmit,
+  disabled,
+  showText,
+  hof_label = "HOF ITS"
+}) => {
   const [form] = Form.useForm();
   const onFinish = values => {
     handleSubmit(values, form);
@@ -16,7 +21,7 @@ export const HodVerificationForm = ({ handleSubmit, disabled, showText }) => {
     >
       <Form.Item
         className="mb-2"
-        label={<span>HOF ITS</span>}
+        label={<span>{hof_label}</span>}
         name="hof_id"
         rules={[
           {
