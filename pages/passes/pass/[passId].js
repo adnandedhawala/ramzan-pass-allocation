@@ -90,11 +90,11 @@ export default function ViewPassPage() {
                 <Image preview={false} src="/jamaatLogo.png" />
               </div>
               <div className="mx-auto flex flex-col items-center">
-                <h1 className="mb-1 mt-1 tracking-wide">Anjuman – E – Ezzi</h1>
-                <p className="tracking-wide">
-                  Saifee Masjid, Saifee Park, Marol
-                </p>
-                <h2 className="mb-1 mt-4 text-red-500">
+                <h1 className="mb-1 mt-1 tracking-wide text-2xl">
+                  Anjuman – E – Ezzi
+                </h1>
+                <p className="text-md">Saifee Masjid, Saifee Park, Marol</p>
+                <h2 className="mb-1 mt-4 text-xl text-red-500">
                   Sherullah-il-Moazzam – 1444 H
                 </h2>
                 <h2 className="mb-1 text-orange-500">Ground Floor Masjid</h2>
