@@ -73,8 +73,8 @@ export default function PassPage() {
 
                 {member_details.gender === "Female" ? (
                   <p>
-                    This form is only for Gents Registration for Saifee Masjid
-                    Marol.
+                    This Pass allocation page is for Mumineen Mardo Only. Kindly
+                    Login with individual Gents ITS & File Number.
                   </p>
                 ) : null}
 
