@@ -26,11 +26,11 @@ export const HodVerificationForm = ({
         rules={[
           {
             required: true,
-            message: "Please enter hof id!"
+            message: "Please enter its!"
           },
           {
             pattern: /^\d{8}$/,
-            message: "invalid hof ITS!"
+            message: "invalid ITS!"
           }
         ]}
       >
