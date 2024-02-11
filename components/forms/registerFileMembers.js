@@ -88,6 +88,12 @@ export const RegisterFileMemberForm = ({
           [value]: initialValues[value]
         }));
       }
+      if (value.includes("_register")) {
+        setShowRegistrationForm(previous => ({
+          ...previous,
+          [value]: initialValues[value] === "true"
+        }));
+      }
     });
   }, [initialValues]);
 

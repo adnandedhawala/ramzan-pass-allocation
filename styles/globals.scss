@@ -25,9 +25,18 @@
 }
 
 .section {
-	&--border {
-		padding: 2rem 1rem;
-		border: 1rem solid "#aaaaff";
-		border-image: repeating-linear-gradient(45deg, transparent, transparent 10px, "#aaaaff" 12px, "#aaaaff" 30px, transparent 32px, transparent 40px) 40/2rem;
-	}
+  &--border {
+    padding: 2rem 1rem;
+    border: 1rem solid "#aaaaff";
+    border-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        "#aaaaff" 12px,
+        "#aaaaff" 30px,
+        transparent 32px,
+        transparent 40px
+      )
+      40/2rem;
+  }
 }

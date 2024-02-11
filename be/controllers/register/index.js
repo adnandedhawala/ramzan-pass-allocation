@@ -100,11 +100,14 @@ export const registerController = async (request, response) => {
           }
         );
 
-        RamzanMember.bulkWrite(bulkOps)
-          .then(result => {
-            response.status(200).send(`Updated ${result.nModified} documents`);
-          })
-          .catch(error => response.status(400).send(error.message));
+        try {
+          const result = await RamzanMember.bulkWrite(bulkOps);
+          return response
+            .status(200)
+            .send(`Updated ${result.nModified} documents`);
+        } catch (error) {
+          return response.status(400).send(error.message);
+        }
       } else {
         return response.status(400).send("invalid data");
       }

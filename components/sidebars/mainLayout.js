@@ -45,6 +45,12 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
         break;
       }
 
+      case PAGE_LIST.SETTINGS: {
+        handleClose();
+        router.push("/settings");
+        break;
+      }
+
       default: {
         changeSelectedSidebarKey(key.toString());
         break;
@@ -56,6 +62,7 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
     getItem("Allocation", PAGE_LIST.ALLOCATION),
     getItem("Registration List", PAGE_LIST.REGISTRATION_LIST),
     getItem("Allocation List", PAGE_LIST.ALLOCATION_LIST),
+    getItem("Settings", PAGE_LIST.SETTINGS),
     getItem("Logout", PAGE_LIST.LOGOUT)
   ];
 
