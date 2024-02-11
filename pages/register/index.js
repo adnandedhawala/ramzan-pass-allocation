@@ -18,6 +18,7 @@ export default function Register() {
     done: "wait"
   });
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
+  const [isZahraRegistrationOn, setIsZahraRegistrationOn] = useState(false);
   const [fileMembers, setFileMembers] = useState([]);
   const [showPage, setShowPage] = useState(false);
 
@@ -34,7 +35,6 @@ export default function Register() {
         setFileMembers(
           responseData.data
             .filter(value => value.misaq === "Done")
-            .filter(value => value.gender === "Male")
             .map(value => {
               let registrationInfo = find(responseData.registrationData, {
                 _id: value._id
@@ -43,7 +43,8 @@ export default function Register() {
                 ...value,
                 is_registered: registrationInfo.is_registered,
                 is_rahat: registrationInfo.is_rahat,
-                registration: registrationInfo.registration
+                registration: registrationInfo.registration,
+                masjid: registrationInfo.masjid
               };
             })
         );
@@ -55,15 +56,16 @@ export default function Register() {
   };
 
   const handleMemberRegistration = (values, form) => {
-    toggleLoader(true);
+    // toggleLoader(true);
     const apiData = fileMembers.map(({ _id, gender }) => {
       const memberDetails = {
         _id,
         registration: {},
-        is_rahat: values[_id + "_isRahat"] === "true"
+        is_rahat: values[_id + "_isRahat"] === "true",
+        masjid: values[_id + "_masjid"] || ""
       };
       if (gender === "Male") {
-        const registrationValue = values[_id + "_allDaska"] === "true";
+        const registrationValue = values[_id + "_register"] === "true";
         memberDetails.registration.d1 = registrationValue;
         memberDetails.registration.d2 = registrationValue;
         memberDetails.registration.d3 = registrationValue;
@@ -93,6 +95,7 @@ export default function Register() {
     getSettingsHelper({
       successFn: data => {
         setIsRegistrationOn(data.data[0].is_registration_on);
+        setIsZahraRegistrationOn(data.data[0].is_zahra_registration_on);
       },
       errorFn: () => {},
       endFn: () => {
@@ -147,6 +150,7 @@ export default function Register() {
               memberData={fileMembers}
               handleSubmit={handleMemberRegistration}
               disabled={!isRegistrationOn}
+              isZahraRegistrationOn={isZahraRegistrationOn}
             />
           </div>
         ) : null}

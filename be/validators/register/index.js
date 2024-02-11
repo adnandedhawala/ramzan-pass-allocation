@@ -8,6 +8,7 @@ export const verifyFileSchema = yup.object().shape({
 export const registerSchema = yup.array().of(
   yup.object().shape({
     _id: yup.string().required(),
+    masjid: yup.string(),
     registration: yup
       .object()
       .shape({

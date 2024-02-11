@@ -26,6 +26,7 @@ export const RegisteredGrid = ({ data }) => {
     { field: "gender", headerName: "Gender", minWidth: 100 },
     { field: "idara", headerName: "Idara", flex: 2, minWidth: 100 },
     { field: "age", headerName: "Age", minWidth: 100 },
+    { field: "masjid", headerName: "Masjid", minWidth: 150 },
     {
       field: "d1",
       headerName: "Daska 1",

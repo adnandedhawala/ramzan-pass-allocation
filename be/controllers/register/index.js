@@ -56,7 +56,7 @@ export const verifyFileController = async (request, response) => {
 
 const checkDaskaEntry = (list, values) => {
   return !list
-    .filter(value => value.gender === "Female")
+    .filter(value => value.gender === "Female" && value.age < 60)
     .map(value => {
       const data = find(values, { _id: value._id });
       return Object.values(data.registration).every(daska => daska === true);
@@ -84,10 +84,11 @@ export const registerController = async (request, response) => {
 
       if (checkDaskaEntry(memberList, registerObject)) {
         const bulkOps = registerObject.map(
-          ({ _id, registration, is_rahat }) => {
+          ({ _id, registration, is_rahat, masjid }) => {
             const setObject = {
               registration,
               is_rahat,
+              masjid,
               is_registered: true
             };
             return {

@@ -10,6 +10,10 @@ export const ramzanMemberSchema = new Schema(
       type: String,
       ref: "Member"
     },
+    masjid: {
+      type: String,
+      default: ""
+    },
     hof_id: {
       type: String,
       ref: "File",

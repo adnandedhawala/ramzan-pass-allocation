@@ -22,6 +22,7 @@ export default function Settings() {
   const [masllahGroupData, setMasllahGroupData] = useState([]);
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
+  const [isZahraRegistrationOn, setIsZahraRegistrationOn] = useState(false);
 
   const handleSetRamzanMembers = () => {
     toggleLoader(true);
@@ -94,6 +95,7 @@ export default function Settings() {
     getSettingsHelper({
       successFn: data => {
         setIsRegistrationOn(data.data[0].is_registration_on);
+        setIsZahraRegistrationOn(data.data[0].is_zahra_registration_on);
       },
       errorFn: () => {},
       endFn: () => {}
@@ -113,6 +115,23 @@ export default function Settings() {
       settingsData: {
         _id: process.env.NEXT_PUBLIC_SETTINGS_KEY,
         is_registration_on: flag
+      }
+    });
+  };
+
+  const editZahraRegistration = flag => {
+    toggleLoader(true);
+    editSettingsHelper({
+      successFn: () => {
+        getSettingsForPage();
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      },
+      settingsData: {
+        _id: process.env.NEXT_PUBLIC_SETTINGS_KEY,
+        is_zahra_registration_on: flag
       }
     });
   };
@@ -194,6 +213,21 @@ export default function Settings() {
                   editRegistration(event.target.value === "yes")
                 }
                 value={isRegistrationOn ? "yes" : "no"}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </div>
+            <div className="mt-2">
+              <p>Is Zahra Registration Open: </p>
+              <Radio.Group
+                options={[
+                  { label: "Yes", value: "yes" },
+                  { label: "No", value: "no" }
+                ]}
+                onChange={event =>
+                  editZahraRegistration(event.target.value === "yes")
+                }
+                value={isZahraRegistrationOn ? "yes" : "no"}
                 optionType="button"
                 buttonStyle="solid"
               />

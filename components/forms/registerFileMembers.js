@@ -1,29 +1,55 @@
+/* eslint-disable unicorn/no-array-reduce */
 /* eslint-disable sonarjs/cognitive-complexity */
 import { Button, Card, Divider, Form, message, Radio } from "antd";
+import { useEffect, useMemo, useState } from "react";
 
 const handleFormFail = () => {
   message.error("Please check the form for errors");
 };
 
-const getInitValues = memberData => {
+const getInitValues = (memberData, isZahraRegistrationOn) => {
   let initObject = {};
-  memberData.map(({ is_registered, registration, is_rahat, _id, gender }) => {
-    if (is_registered) {
-      if (gender === "Male") {
-        initObject[_id + "_allDaska"] = registration.d1.toString();
+  memberData.map(
+    ({ is_registered, registration, is_rahat, _id, gender, masjid }) => {
+      let currentMasjid = "";
+      if (isZahraRegistrationOn) {
+        currentMasjid = masjid || "";
       } else {
-        initObject[_id + "_d1"] = registration.d1.toString();
-        initObject[_id + "_d2"] = registration.d2.toString();
-        initObject[_id + "_d3"] = registration.d3.toString();
+        currentMasjid = !masjid || masjid === "" ? "SAIFEE" : "masjid";
       }
-      initObject[_id + "_isRahat"] = is_rahat.toString();
+      if (is_registered) {
+        if (gender === "Male") {
+          initObject[_id + "_register"] = registration.d1.toString();
+        } else {
+          initObject[_id + "_register"] =
+            registration.d1 || registration.d2 || registration.d3
+              ? "true"
+              : "false";
+          initObject[_id + "_d1"] = registration.d1.toString();
+          initObject[_id + "_d2"] = registration.d2.toString();
+          initObject[_id + "_d3"] = registration.d3.toString();
+        }
+        initObject[_id + "_isRahat"] = is_rahat.toString();
+      }
+      initObject[_id + "_masjid"] = currentMasjid;
     }
-  });
+  );
   return initObject;
 };
 
-export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
+export const RegisterFileMemberForm = ({
+  handleSubmit,
+  memberData,
+  isZahraRegistrationOn
+}) => {
   const [form] = Form.useForm();
+  const [showRegistrationForm, setShowRegistrationForm] = useState(
+    memberData.reduce((object, item) => {
+      object[item._id + "_register"] = false;
+      object[item._id + "_masjid"] = "";
+      return object;
+    }, {})
+  );
   const onFinish = values => {
     handleSubmit(values, form);
   };
@@ -31,15 +57,39 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
   const selectError = "Select yes or no!";
   const selectDaskaError = "Please select yes for only 2 daska!";
 
+  const initialValues = useMemo(
+    () => getInitValues(memberData, isZahraRegistrationOn),
+    [isZahraRegistrationOn, memberData]
+  );
+
   const handleRadioChange = its => {
     form.validateFields([its + "_d1", its + "_d2", its + "_d3"]);
   };
 
   const handleAllDaskaRadioChange = (value, its) => {
-    if (value === "false") {
-      form.setFieldValue(its + "_isRahat", "false");
-    }
+    setShowRegistrationForm(previous => ({
+      ...previous,
+      [its + "_register"]: value === "true"
+    }));
   };
+
+  const handleSelectMasjid = (value, its) => {
+    setShowRegistrationForm(previous => ({
+      ...previous,
+      [its + "_masjid"]: value
+    }));
+  };
+
+  useEffect(() => {
+    Object.keys(showRegistrationForm).forEach(value => {
+      if (value.includes("_masjid")) {
+        setShowRegistrationForm(previous => ({
+          ...previous,
+          [value]: initialValues[value]
+        }));
+      }
+    });
+  }, [initialValues]);
 
   return (
     <Form
@@ -47,150 +97,179 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
       name="registerFileMemebers"
       onFinish={onFinish}
       onFinishFailed={handleFormFail}
-      initialValues={getInitValues(memberData)}
+      initialValues={initialValues}
+      requiredMark={false}
     >
-      {memberData.map(({ _id, full_name, gender }) => {
+      {memberData.map(({ _id, full_name, gender, age }) => {
         return (
           <Card className="mb-4 register-member-card" key={_id}>
             <div className="flex flex-col items-start">
-              <div className="flex items-center w-full">
-                <div className="flex justify-between font-light mr-4">
-                  <span>{_id}</span>
-                </div>
-                <p className="mb-1 text-lg font-light flex-1">{full_name}</p>
-              </div>
-              <Divider className="my-4" />
-              {gender === "Male" ? (
-                <div className="mb-2 flex items-center w-full">
-                  <p className="mr-2 flex-1 ">Register for Pass</p>
-                  <Form.Item
-                    rules={[{ required: true, message: selectError }]}
-                    name={_id + "_allDaska"}
-                    className="mb-0 ml-auto"
+              <p className="mb-1 text-lg flex-1">{full_name}</p>
+              <p className="flex justify-between text-sm mr-4">{_id}</p>
+              <Divider className="mt-4 mb-4" />
+              <Form.Item
+                rules={[{ required: true, message: selectError }]}
+                name={_id + "_register"}
+                className="mb-0"
+                label="Register for Pass"
+              >
+                <Radio.Group
+                  optionType="button"
+                  buttonStyle="solid"
+                  size="small"
+                  onChange={event =>
+                    handleAllDaskaRadioChange(event.target.value, _id)
+                  }
+                >
+                  <Radio value="true">Yes</Radio>
+                  <Radio value="false">No</Radio>
+                </Radio.Group>
+              </Form.Item>
+              {showRegistrationForm[_id + "_register"] ? (
+                <Form.Item
+                  rules={[{ required: true, message: "Please select masjid!" }]}
+                  name={_id + "_masjid"}
+                  className="mb-0"
+                  label="Select Masjid"
+                >
+                  <Radio.Group
+                    size="small"
+                    onChange={event =>
+                      handleSelectMasjid(event.target.value, _id)
+                    }
+                    disabled={!isZahraRegistrationOn}
                   >
-                    <Radio.Group
-                      optionType="button"
-                      buttonStyle="solid"
-                      size="small text-sm"
-                      onChange={event =>
-                        handleAllDaskaRadioChange(event.target.value, _id)
-                      }
-                    >
-                      <Radio value="true">Yes</Radio>
-                      <Radio value="false">No</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </div>
+                    <Radio value="SAIFEE">Saifee Masjid</Radio>
+                    <Radio value="ZAHRA">Masjid ul Zahra</Radio>
+                  </Radio.Group>
+                </Form.Item>
               ) : null}
-              {gender === "Female" ? (
+              {showRegistrationForm[_id + "_register"] &&
+              showRegistrationForm[_id + "_masjid"] === "SAIFEE" ? (
                 <>
-                  <p className="mb-2 font-lg">Select Daska :</p>
+                  {gender === "Female" ? (
+                    <>
+                      <Form.Item
+                        name={_id + "_d1"}
+                        label="Select Daska 1"
+                        rules={[
+                          {
+                            required: true,
+                            message: selectError
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              const d2 = getFieldValue(_id + "_d2");
+                              const d3 = getFieldValue(_id + "_d3");
+                              if (
+                                value === "true" &&
+                                d2 === "true" &&
+                                d3 === "true" &&
+                                age < 60
+                              ) {
+                                return Promise.reject(selectDaskaError);
+                              }
+                              return Promise.resolve();
+                            }
+                          })
+                        ]}
+                        className="mb-0"
+                      >
+                        <Radio.Group
+                          optionType="button"
+                          buttonStyle="solid"
+                          size="small text-sm"
+                          onChange={() => handleRadioChange(_id)}
+                        >
+                          <Radio value="true">Yes</Radio>
+                          <Radio value="false">No</Radio>
+                        </Radio.Group>
+                      </Form.Item>
+                      <Form.Item
+                        name={_id + "_d2"}
+                        label="Select Daska 2"
+                        rules={[
+                          {
+                            required: true,
+                            message: selectError
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              const d1 = getFieldValue(_id + "_d1");
+                              const d3 = getFieldValue(_id + "_d3");
+                              if (
+                                value === "true" &&
+                                d1 === "true" &&
+                                d3 === "true" &&
+                                age < 60
+                              ) {
+                                return Promise.reject(selectDaskaError);
+                              }
+                              return Promise.resolve();
+                            }
+                          })
+                        ]}
+                        className="mb-0"
+                      >
+                        <Radio.Group
+                          optionType="button"
+                          buttonStyle="solid"
+                          size="small text-sm"
+                          onChange={() => handleRadioChange(_id)}
+                        >
+                          <Radio value="true">Yes</Radio>
+                          <Radio value="false">No</Radio>
+                        </Radio.Group>
+                      </Form.Item>
 
-                  <div className="mb-1 flex items-center w-full">
-                    <p className="flex-1">Daska 1</p>
-                    <Form.Item
-                      name={_id + "_d1"}
-                      rules={[
-                        {
-                          required: true,
-                          message: selectError
-                        },
-                        ({ getFieldValue }) => ({
-                          validator(_, value) {
-                            const d2 = getFieldValue(_id + "_d2");
-                            const d3 = getFieldValue(_id + "_d3");
-                            if (
-                              value === "true" &&
-                              d2 === "true" &&
-                              d3 === "true"
-                            ) {
-                              return Promise.reject(selectDaskaError);
+                      <Form.Item
+                        name={_id + "_d3"}
+                        label="Select Daska 3"
+                        rules={[
+                          {
+                            required: true,
+                            message: selectError
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              const d1 = getFieldValue(_id + "_d1");
+                              const d2 = getFieldValue(_id + "_d2");
+                              if (
+                                value === "true" &&
+                                d1 === "true" &&
+                                d2 === "true" &&
+                                age < 60
+                              ) {
+                                return Promise.reject(selectDaskaError);
+                              }
+                              return Promise.resolve();
                             }
-                            return Promise.resolve();
-                          }
-                        })
-                      ]}
-                      className="mb-0"
-                    >
-                      <Radio.Group
-                        optionType="button"
-                        buttonStyle="solid"
-                        size="small text-sm"
-                        onChange={() => handleRadioChange(_id)}
+                          })
+                        ]}
+                        className="mb-0"
                       >
-                        <Radio value="true">Yes</Radio>
-                        <Radio value="false">No</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-                  </div>
-                  <div className="mb-1 flex items-center w-full">
-                    <p className="flex-1">Daska 2</p>
+                        <Radio.Group
+                          optionType="button"
+                          buttonStyle="solid"
+                          size="small text-sm"
+                          onChange={() => handleRadioChange(_id)}
+                        >
+                          <Radio value="true">Yes</Radio>
+                          <Radio value="false">No</Radio>
+                        </Radio.Group>
+                      </Form.Item>
+                    </>
+                  ) : null}
+                  <div className="mb-2 flex-col w-full">
                     <Form.Item
-                      name={_id + "_d2"}
-                      rules={[
-                        {
-                          required: true,
-                          message: selectError
-                        },
-                        ({ getFieldValue }) => ({
-                          validator(_, value) {
-                            const d1 = getFieldValue(_id + "_d1");
-                            const d3 = getFieldValue(_id + "_d3");
-                            if (
-                              value === "true" &&
-                              d1 === "true" &&
-                              d3 === "true"
-                            ) {
-                              return Promise.reject(selectDaskaError);
-                            }
-                            return Promise.resolve();
-                          }
-                        })
-                      ]}
                       className="mb-0"
+                      name={_id + "_isRahat"}
+                      label="Rahat Block"
                     >
                       <Radio.Group
                         optionType="button"
                         buttonStyle="solid"
-                        size="small text-sm"
-                        onChange={() => handleRadioChange(_id)}
-                      >
-                        <Radio value="true">Yes</Radio>
-                        <Radio value="false">No</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-                  </div>
-                  <div className="mb-1 flex items-center w-full">
-                    <p className="flex-1">Daska 3</p>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: selectError
-                        },
-                        ({ getFieldValue }) => ({
-                          validator(_, value) {
-                            const d1 = getFieldValue(_id + "_d1");
-                            const d2 = getFieldValue(_id + "_d2");
-                            if (
-                              value === "true" &&
-                              d1 === "true" &&
-                              d2 === "true"
-                            ) {
-                              return Promise.reject(selectDaskaError);
-                            }
-                            return Promise.resolve();
-                          }
-                        })
-                      ]}
-                      name={_id + "_d3"}
-                      className="mb-0"
-                    >
-                      <Radio.Group
-                        optionType="button"
-                        buttonStyle="solid"
-                        size="small text-sm"
-                        onChange={() => handleRadioChange(_id)}
+                        size="small"
                       >
                         <Radio value="true">Yes</Radio>
                         <Radio value="false">No</Radio>
@@ -199,19 +278,6 @@ export const RegisterFileMemberForm = ({ handleSubmit, memberData }) => {
                   </div>
                 </>
               ) : null}
-              <div className="mb-2 mt-4 flex items-center w-full">
-                <p className=" text-gray-700 flex-1">Rahat Block</p>
-                <Form.Item className="mb-0" name={_id + "_isRahat"}>
-                  <Radio.Group
-                    optionType="button"
-                    buttonStyle="solid"
-                    size="small text-sm"
-                  >
-                    <Radio value="true">Yes</Radio>
-                    <Radio value="false">No</Radio>
-                  </Radio.Group>
-                </Form.Item>
-              </div>
             </div>
           </Card>
         );
