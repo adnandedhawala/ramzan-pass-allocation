@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020,

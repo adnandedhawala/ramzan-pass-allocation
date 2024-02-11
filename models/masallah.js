@@ -11,24 +11,24 @@ export const masallahSchema = new Schema(
       x: { type: Number },
       y: { type: Number }
     },
-    group: { type: String, ref: "MasallahGroupV2" },
+    group: { type: String, ref: "MasallahGroup" },
     location: {
       type: String,
       enum: Object.values(SEAT_LOCATIONS)
     },
     d1: {
       type: String,
-      ref: "RamzanMemberV3",
+      ref: "RamzanMember",
       default: ""
     },
     d2: {
       type: String,
-      ref: "RamzanMemberV3",
+      ref: "RamzanMember",
       default: ""
     },
     d3: {
       type: String,
-      ref: "RamzanMemberV3",
+      ref: "RamzanMember",
       default: ""
     },
     view_pass: {

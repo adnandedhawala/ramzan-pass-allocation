@@ -3,7 +3,7 @@
 import { SEAT_LOCATIONS } from "appConstants";
 import { addAllocationSchema, updateAllocationSchema } from "be/validators";
 import { groupBy } from "lodash";
-import { MasallahV2, RamzanMemberV3 } from "models";
+import { Masallah, RamzanMember } from "models";
 
 export const allocateRamzanMemberToMasallah = async (request, response) => {
   const { data } = request.body;
@@ -14,8 +14,8 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
       const { location, daska, data: newData } = editObject;
       try {
         await (location === SEAT_LOCATIONS.MASJID
-          ? MasallahV2.updateMany({ location }, { d1: "", d2: "", d3: "" })
-          : MasallahV2.updateMany({ location }, { [daska]: "" }));
+          ? Masallah.updateMany({ location }, { d1: "", d2: "", d3: "" })
+          : Masallah.updateMany({ location }, { [daska]: "" }));
       } catch (error) {
         return response.status(500).send(error.message);
       }
@@ -31,7 +31,7 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
           }
         };
       });
-      MasallahV2.bulkWrite(bulkOps)
+      Masallah.bulkWrite(bulkOps)
         .then(result => {
           response.status(200).send(`Updated ${result.nModified} documents`);
         })
@@ -44,8 +44,8 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
 
 export const resetAllocations = async (_request, response) => {
   try {
-    await MasallahV2.updateMany({}, { d1: "", d2: "", d3: "" });
-    await RamzanMemberV3.updateMany(
+    await Masallah.updateMany({}, { d1: "", d2: "", d3: "" });
+    await RamzanMember.updateMany(
       {},
       {
         d1: { location: "", masallah: "" },
@@ -89,9 +89,9 @@ export const allocateMasallahToMembers = async (request, response) => {
 
     let currentDaska = isLocationMasjid ? "d1" : daska;
 
-    await RamzanMemberV3.updateMany(initFindObject, initUpdateObject);
+    await RamzanMember.updateMany(initFindObject, initUpdateObject);
 
-    let data = await MasallahV2.find(
+    let data = await Masallah.find(
       findQueryObject,
       "d1 d2 d3 location seat_number"
     );
@@ -114,7 +114,7 @@ export const allocateMasallahToMembers = async (request, response) => {
       };
     });
 
-    RamzanMemberV3.bulkWrite(bulkOps)
+    RamzanMember.bulkWrite(bulkOps)
       .then(result => {
         response.status(200).send(`Updated ${result.nModified} documents`);
       })
@@ -126,7 +126,7 @@ export const allocateMasallahToMembers = async (request, response) => {
 
 export const getAllocatedmembersController = async (_request, response) => {
   try {
-    let data = await RamzanMemberV3.find({
+    let data = await RamzanMember.find({
       "d1.location": SEAT_LOCATIONS.MASJID
     }).populate([
       {
@@ -162,7 +162,7 @@ export const updateAllocatedmembersController = async (request, response) => {
         };
       });
 
-      RamzanMemberV3.bulkWrite(bulkOps)
+      RamzanMember.bulkWrite(bulkOps)
         .then(result => {
           response.status(200).send(`Updated ${result.nModified} documents`);
         })

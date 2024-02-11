@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable security/detect-object-injection */
 import formidable from "formidable";
-import { MasallahV2, MasallahGroupV2, RamzanMemberV3 } from "models";
+import { Masallah, MasallahGroup, RamzanMember } from "models";
 import * as XLSX from "xlsx";
 
 export const uploadGridController = async (request, response) => {
@@ -40,19 +40,19 @@ export const uploadGridController = async (request, response) => {
     }
 
     try {
-      await MasallahGroupV2.deleteMany({ location: fields.location });
+      await MasallahGroup.deleteMany({ location: fields.location });
       const masallahGroups = Object.keys(groups).map(value => ({
         group_number: Number(value),
         location: fields.location,
         total_count: groups[value]
       }));
-      await MasallahGroupV2.insertMany(masallahGroups);
+      await MasallahGroup.insertMany(masallahGroups);
     } catch (databaseError) {
       return response.status(500).send(databaseError.message);
     }
 
     try {
-      const databaseGroups = await MasallahGroupV2.find({
+      const databaseGroups = await MasallahGroup.find({
         location: fields.location
       });
       let groupIdObject = {};
@@ -63,8 +63,8 @@ export const uploadGridController = async (request, response) => {
         ...value,
         group: groupIdObject[value.group.toString()]
       }));
-      await MasallahV2.deleteMany({ location: fields.location });
-      await RamzanMemberV3.updateMany(
+      await Masallah.deleteMany({ location: fields.location });
+      await RamzanMember.updateMany(
         { "d1.location": fields.location },
         {
           d1: {
@@ -73,7 +73,7 @@ export const uploadGridController = async (request, response) => {
           }
         }
       );
-      await RamzanMemberV3.updateMany(
+      await RamzanMember.updateMany(
         { "d2.location": fields.location },
         {
           d2: {
@@ -82,7 +82,7 @@ export const uploadGridController = async (request, response) => {
           }
         }
       );
-      await RamzanMemberV3.updateMany(
+      await RamzanMember.updateMany(
         { "d3.location": fields.location },
         {
           d3: {
@@ -91,7 +91,7 @@ export const uploadGridController = async (request, response) => {
           }
         }
       );
-      await MasallahV2.insertMany(databaseCells);
+      await Masallah.insertMany(databaseCells);
       return response.status(200).send("Masallah added successfully");
     } catch (databaseError) {
       return response.status(500).send(databaseError.message);
@@ -118,7 +118,7 @@ export const getMasallahByLocation = async (request, response) => {
     let populateQuery = [
       {
         path: "group",
-        model: "MasallahGroupV2"
+        model: "MasallahGroup"
       }
     ];
     if (showMemberData === "yes") {
@@ -126,22 +126,22 @@ export const getMasallahByLocation = async (request, response) => {
         ...populateQuery,
         {
           path: "d1",
-          model: "RamzanMemberV3",
+          model: "RamzanMember",
           populate: daskaPopulationQuery
         },
         {
           path: "d2",
-          model: "RamzanMemberV3",
+          model: "RamzanMember",
           populate: daskaPopulationQuery
         },
         {
           path: "d3",
-          model: "RamzanMemberV3",
+          model: "RamzanMember",
           populate: daskaPopulationQuery
         }
       ];
     }
-    let seats = await MasallahV2.find({ location }).populate(populateQuery);
+    let seats = await Masallah.find({ location }).populate(populateQuery);
     const availableSeats = seats.sort(
       (a, b) => a.group.group_number - b.group.group_number
     );
@@ -155,10 +155,10 @@ export const getMasallahById = async (request, response) => {
   const { masallahId } = request.query;
   if (!masallahId) return response.status(404).send("masallahId missing!");
   try {
-    let seat = await MasallahV2.findById(masallahId).populate([
+    let seat = await Masallah.findById(masallahId).populate([
       {
         path: "d1",
-        model: "RamzanMemberV3",
+        model: "RamzanMember",
         select: "member_details",
         populate: [
           {
@@ -170,7 +170,7 @@ export const getMasallahById = async (request, response) => {
       },
       {
         path: "d2",
-        model: "RamzanMemberV3",
+        model: "RamzanMember",
         select: "member_details",
         populate: [
           {
@@ -182,7 +182,7 @@ export const getMasallahById = async (request, response) => {
       },
       {
         path: "d3",
-        model: "RamzanMemberV3",
+        model: "RamzanMember",
         select: "member_details",
         populate: [
           {

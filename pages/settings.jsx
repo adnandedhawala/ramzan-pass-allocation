@@ -145,42 +145,44 @@ export default function Settings() {
       <Row gutter={[24, 24]}>
         <Col xs={8}>
           <Card title="Settings Buttons">
-            <Popconfirm
-              title="Reset Data"
-              description="Are you sure you want to reset data?"
-              onConfirm={handleSetRamzanMembers}
-              okText="Yes"
-              cancelText="No"
-              okButtonProps={{ type: "primary", danger: true }}
-            >
-              <Button className="mb-3" danger>
-                Hard Reset Member Data
-              </Button>
-            </Popconfirm>
-            <Popconfirm
-              title="Reset Registrations"
-              description="Are you sure you want to reset registrations?"
-              onConfirm={handleResetRegistration}
-              okText="Yes"
-              cancelText="No"
-              okButtonProps={{ type: "primary", danger: true }}
-            >
-              <Button className="mb-3" danger>
-                Reset Registrations
-              </Button>
-            </Popconfirm>
-            <Popconfirm
-              title="Reset Allocations"
-              description="Are you sure you want to Allocations?"
-              onConfirm={handleResetAllocation}
-              okText="Yes"
-              cancelText="No"
-              okButtonProps={{ type: "primary", danger: true }}
-            >
-              <Button className="mb-3" danger>
-                Reset Allocations
-              </Button>
-            </Popconfirm>
+            <div className="flex flex-col">
+              <Popconfirm
+                title="Reset Data"
+                description="Are you sure you want to reset data?"
+                onConfirm={handleSetRamzanMembers}
+                okText="Yes"
+                cancelText="No"
+                okButtonProps={{ type: "primary", danger: true }}
+              >
+                <Button className="mb-3" danger>
+                  Hard Reset Member Data
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title="Reset Registrations"
+                description="Are you sure you want to reset registrations?"
+                onConfirm={handleResetRegistration}
+                okText="Yes"
+                cancelText="No"
+                okButtonProps={{ type: "primary", danger: true }}
+              >
+                <Button className="mb-3" danger>
+                  Reset Registrations
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title="Reset Allocations"
+                description="Are you sure you want to Allocations?"
+                onConfirm={handleResetAllocation}
+                okText="Yes"
+                cancelText="No"
+                okButtonProps={{ type: "primary", danger: true }}
+              >
+                <Button className="mb-3" danger>
+                  Reset Allocations
+                </Button>
+              </Popconfirm>
+            </div>
             <div className="mt-2">
               <p>Is Registration Open: </p>
               <Radio.Group

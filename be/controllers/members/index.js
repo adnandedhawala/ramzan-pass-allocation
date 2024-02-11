@@ -1,17 +1,17 @@
 import { verifyFileSchema } from "be/validators";
-import { MasallahV2, Member, RamzanMemberV3 } from "models";
+import { Masallah, Member, RamzanMember } from "models";
 
 export const createMembersController = async (_request, response) => {
   try {
-    await RamzanMemberV3.deleteMany({});
-    await MasallahV2.updateMany({}, { d1: "", d2: "", d3: "" });
+    await RamzanMember.deleteMany({});
+    await Masallah.updateMany({}, { d1: "", d2: "", d3: "" });
     let memberData = await Member.find({});
     let ramzanMemberData = memberData.map(({ _id, hof_id }) => ({
       _id,
       member_details: _id,
       hof_id: hof_id.toString()
     }));
-    let databaseResponse = await RamzanMemberV3.insertMany(ramzanMemberData);
+    let databaseResponse = await RamzanMember.insertMany(ramzanMemberData);
     return response.status(200).send(databaseResponse);
   } catch (error) {
     return response.status(500).send(error.message);
@@ -34,7 +34,7 @@ export const getMembersController = async (request, response) => {
         model: "Member"
       }
     ];
-    const data = await RamzanMemberV3.find({ ...findQuery }).populate(
+    const data = await RamzanMember.find({ ...findQuery }).populate(
       populationQuery
     );
     return response.status(200).send({ data });
@@ -45,7 +45,7 @@ export const getMembersController = async (request, response) => {
 
 export const resetRegistrationController = async (_request, response) => {
   try {
-    await RamzanMemberV3.updateMany(
+    await RamzanMember.updateMany(
       { is_registered: true },
       {
         is_registered: false,
@@ -71,7 +71,7 @@ export const verifyFileandGetMembersController = async (request, response) => {
     .then(async verifyFileObject => {
       const { hof_id, file_number } = verifyFileObject;
       let registrationData = [];
-      const member = await RamzanMemberV3.findById(hof_id).populate([
+      const member = await RamzanMember.findById(hof_id).populate([
         {
           path: "hof_id",
           model: "File",
@@ -94,7 +94,7 @@ export const verifyFileandGetMembersController = async (request, response) => {
           response.status(400).send("Incorrect HOF ITS or File Number!");
         } else {
           try {
-            registrationData = await RamzanMemberV3.find({
+            registrationData = await RamzanMember.find({
               _id: {
                 $in: member.hof_id.member_ids.map(value => value._id)
               }
@@ -128,7 +128,7 @@ export const verifyFileandGetMemberByIdController = async (
     .validate(data)
     .then(async verifyFileObject => {
       const { hof_id, file_number } = verifyFileObject;
-      const member = await RamzanMemberV3.findById(hof_id).populate([
+      const member = await RamzanMember.findById(hof_id).populate([
         {
           path: "hof_id",
           model: "File",

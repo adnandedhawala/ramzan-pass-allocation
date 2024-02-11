@@ -36,7 +36,7 @@ export const ramzanMemberSchema = new Schema(
       },
       masallah: {
         type: String,
-        ref: "MasallahV2",
+        ref: "Masallah",
         default: ""
       }
     },
@@ -47,7 +47,7 @@ export const ramzanMemberSchema = new Schema(
       },
       masallah: {
         type: String,
-        ref: "MasallahV2",
+        ref: "Masallah",
         default: ""
       }
     },
@@ -58,7 +58,7 @@ export const ramzanMemberSchema = new Schema(
       },
       masallah: {
         type: String,
-        ref: "MasallahV2",
+        ref: "Masallah",
         default: ""
       }
     },

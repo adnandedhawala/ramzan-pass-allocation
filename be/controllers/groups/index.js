@@ -1,9 +1,9 @@
 import { editGroupSchema } from "be/validators";
-import { MasallahGroupV2 } from "models";
+import { MasallahGroup } from "models";
 
 export const getGroupsController = async (_request, response) => {
   try {
-    const groupList = await MasallahGroupV2.find({});
+    const groupList = await MasallahGroup.find({});
     const sortedGroupList = groupList.sort((a, b) => a.location - b.location);
     response.status(200).json({ data: sortedGroupList });
   } catch (error) {
@@ -19,10 +19,7 @@ export const editGroupController = async (request, response) => {
   editGroupSchema
     .validate(data)
     .then(async editObject => {
-      const result = await MasallahGroupV2.findByIdAndUpdate(
-        groupId,
-        editObject
-      );
+      const result = await MasallahGroup.findByIdAndUpdate(groupId, editObject);
       if (result) {
         response.status(200).send("Group Edited Successfully!");
       } else {

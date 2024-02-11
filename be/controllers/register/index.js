@@ -1,6 +1,6 @@
 import { registerSchema, verifyFileSchema } from "be/validators";
 import { find } from "lodash";
-import { Member, RamzanMemberV3 } from "models";
+import { Member, RamzanMember } from "models";
 
 export const verifyFileController = async (request, response) => {
   const { data } = request.body;
@@ -10,7 +10,7 @@ export const verifyFileController = async (request, response) => {
     .then(async verifyFileObject => {
       const { hof_id, file_number } = verifyFileObject;
       let registrationData = [];
-      const member = await RamzanMemberV3.findById(hof_id).populate([
+      const member = await RamzanMember.findById(hof_id).populate([
         {
           path: "hof_id",
           model: "File",
@@ -33,7 +33,7 @@ export const verifyFileController = async (request, response) => {
           response.status(400).send("Incorrect HOF ITS or File Number!");
         } else {
           try {
-            registrationData = await RamzanMemberV3.find({
+            registrationData = await RamzanMember.find({
               _id: {
                 $in: member.hof_id.member_ids.map(value => value._id)
               }
@@ -99,7 +99,7 @@ export const registerController = async (request, response) => {
           }
         );
 
-        RamzanMemberV3.bulkWrite(bulkOps)
+        RamzanMember.bulkWrite(bulkOps)
           .then(result => {
             response.status(200).send(`Updated ${result.nModified} documents`);
           })

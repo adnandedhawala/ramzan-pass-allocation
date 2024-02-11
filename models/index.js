@@ -13,10 +13,11 @@ export const Member =
 export const File = mongoose.models.File || model("File", fileSchema, "file");
 export const Settings =
   mongoose.models.Settings || model("Settings", settingsSchema, "settings");
-export const RamzanMemberV3 =
-  mongoose.models.RamzanMemberV3 || model("RamzanMemberV3", ramzanMemberSchema);
-export const MasallahV2 =
-  mongoose.models.MasallahV2 || model("MasallahV2", masallahSchema);
-export const MasallahGroupV2 =
-  mongoose.models.MasallahGroupV2 ||
-  model("MasallahGroupV2", masallahGroupSchema);
+export const RamzanMember =
+  mongoose.models.RamzanMember ||
+  model("RamzanMember", ramzanMemberSchema, "ramzanMember");
+export const Masallah =
+  mongoose.models.Masallah || model("Masallah", masallahSchema, "masallah");
+export const MasallahGroup =
+  mongoose.models.MasallahGroup ||
+  model("MasallahGroup", masallahGroupSchema, "masallahGroup");
