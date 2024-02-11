@@ -15,7 +15,7 @@ const getInitValues = (memberData, isZahraRegistrationOn) => {
       if (isZahraRegistrationOn) {
         currentMasjid = masjid || "";
       } else {
-        currentMasjid = !masjid || masjid === "" ? "SAIFEE" : "masjid";
+        currentMasjid = !masjid || masjid === "" ? "SAIFEE" : masjid;
       }
       if (is_registered) {
         if (gender === "Male") {
@@ -82,18 +82,17 @@ export const RegisterFileMemberForm = ({
 
   useEffect(() => {
     Object.keys(showRegistrationForm).forEach(value => {
+      let temporaryObject = {};
       if (value.includes("_masjid")) {
-        setShowRegistrationForm(previous => ({
-          ...previous,
-          [value]: initialValues[value]
-        }));
+        temporaryObject[value] = initialValues[value];
       }
       if (value.includes("_register")) {
-        setShowRegistrationForm(previous => ({
-          ...previous,
-          [value]: initialValues[value] === "true"
-        }));
+        temporaryObject[value] = initialValues[value] === "true";
       }
+      setShowRegistrationForm(previous => ({
+        ...previous,
+        ...temporaryObject
+      }));
     });
   }, [initialValues]);
 
