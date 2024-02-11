@@ -136,6 +136,11 @@ export const RegisterFileMemberForm = ({
                   name={_id + "_masjid"}
                   className="mb-0"
                   label="Select Masjid"
+                  extra={
+                    isZahraRegistrationOn
+                      ? ""
+                      : "Registration for Masjid ul Zahra is closed."
+                  }
                 >
                   <Radio.Group
                     size="small"
