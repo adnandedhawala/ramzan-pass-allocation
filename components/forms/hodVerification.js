@@ -69,37 +69,39 @@ export const HodVerificationForm = ({
           <p className="text-lg mb-2">Please note that :</p>
           <ul className="list-disc">
             <li className="mb-2">
-              Sagla Mumeneen / Mumenaat ne Magrib Namaaz waste register karvu
+              Sagla Mumeneen / Mumenaat ne Magrib Namaaz waaste register karvu
               zaroori che.
             </li>
             <li className="mb-2">
-              Saifee Masjid-Marol ane Masjid Al Zahra-Jamea ma register thanar
-              mumineen nej pass allot thase.
+              ⁠Saifee Masjid (Marol) ane Masjid Al Zahra (Jamea) banne Masjid ni
+              Passes waaste Register karwu zaroori che, Registered Mumeen nej
+              Pass allot thaase.
             </li>
             <li className="mb-2">
-              Je sagla chair par namaaz padhta hoi yeh, Rahat Block ma register
-              thai.
+              ⁠Mumeneen / Mumenaat jehne Masjid Al Zahra ni pass allocate thaase
+              ehne Saifee Masjid Marol ni pass allocate nahi thai.
             </li>
             <li className="mb-2">
-              ⁠Mumeneen / Mumenaat jehne Masjid Al Zahra ni pass allocate
-              thaase, ehne Saifee Masjid Marol ni pass allocate nahi thai.
+              ⁠Kam allocation hova na sabab agar Masjid Al Zahra-Jamea nu
+              allotment full thai jaase toh aapne Saifee Masjid ni pass allot
+              thaase.
             </li>
             <li className="mb-2">
-              Kam allocation hova na sabab agar Masjid Al Zahra-Jamea nu
-              allotment full thai jaase toh aapne Saifee Masjid ma pass allot
-              thase.
+              Je sagla Mumeneen / Mumenaat chair par Namaaz padhta hoi, yeh
+              sagla Registration ma Rahat Block Select kare. Masjid Al
+              Zahra-Jamea ma Rahat Block nathi.
             </li>
             <li className="mb-2">
-              ⁠Sagla Mumineen Mardo, Bairo, Mehmaan ane Bacchao ne Saifee Masjid
-              Marol ma AQA MOULA taraf si niyaaz nu izaan che (je ne Masjid Al
-              Zahra-Jamea pass allot thai che ehne bhi)
+              ⁠Sagla Mumineen / Mumenaat / Farzando / Mehmaano ne Aqa Maula TUS
+              taraf si Saifee Masjid Marol ma niyaaz nu izaan che (Jene Masjid
+              Al Zahra (Jamea) ni Namaaz pass allot thai che ehne bhi)
             </li>
             <li className="mb-2">
               <span className="mr-1">
-                In case of any difficulty please contact us at
+                Agar Registration ma koi takleef hoi toh
               </span>
               <a href="mailto:aemsherullah@gmail.com">aemsherullah@gmail.com</a>
-              <span className="ml-1">or Jamaat Office.</span>
+              <span className="ml-1">ya Jamaat Office ma Contact kare.</span>
             </li>
           </ul>
         </div>
