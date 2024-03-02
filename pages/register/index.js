@@ -157,7 +157,7 @@ export default function Register() {
               has registered for
               <span className="ml-1">{masjidName}</span>
               {is_rahat ? (
-                <span className="ml-1">and has opted for rahat block</span>
+                <span className="ml-1">and has opted for RAHAT BLOCK</span>
               ) : null}
             </p>
           ) : null}
