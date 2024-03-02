@@ -69,24 +69,37 @@ export const HodVerificationForm = ({
           <p className="text-lg mb-2">Please note that :</p>
           <ul className="list-disc">
             <li className="mb-2">
-              Registration is compulsory for All Gents and Ladies who wish to
-              attend Maghrib Namaaz in either Saifee Masjid-Marol or Masjid Al
-              Zahra (Al-Jamea TUS Saifiyah).
+              Sagla Mumeneen / Mumenaat ne Magrib Namaaz waste register karvu
+              zaroori che.
             </li>
             <li className="mb-2">
-              Mumineen should select Rahat Block to obtain masalla in the Rahat
-              block.
+              Saifee Masjid-Marol ane Masjid Al Zahra-Jamea ma register thanar
+              mumineen nej pass allot thase.
             </li>
             <li className="mb-2">
-              Those who require chair are strictly required to register for the
-              Rahat block.
+              Je sagla chair par namaaz padhta hoi yeh, Rahat Block ma register
+              thai.
             </li>
             <li className="mb-2">
-              In case of any difficulty please contact us at
-              <a href="mailto:aemsherullah@gmail.com">
-                {" "}
-                aemsherullah@gmail.com
-              </a>
+              ⁠Mumeneen / Mumenaat jehne Masjid Al Zahra ni pass allocate
+              thaase, ehne Saifee Masjid Marol ni pass allocate nahi thai.
+            </li>
+            <li className="mb-2">
+              Kam allocation hova na sabab agar Masjid Al Zahra-Jamea nu
+              allotment full thai jaase toh aapne Saifee Masjid ma pass allot
+              thase.
+            </li>
+            <li className="mb-2">
+              ⁠Sagla Mumineen Mardo, Bairo, Mehmaan ane Bacchao ne Saifee Masjid
+              Marol ma AQA MOULA taraf si niyaaz nu izaan che (je ne Masjid Al
+              Zahra-Jamea pass allot thai che ehne bhi)
+            </li>
+            <li className="mb-2">
+              <span className="mr-1">
+                In case of any difficulty please contact us at
+              </span>
+              <a href="mailto:aemsherullah@gmail.com">aemsherullah@gmail.com</a>
+              <span className="ml-1">or Jamaat Office.</span>
             </li>
           </ul>
         </div>
