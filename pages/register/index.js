@@ -166,7 +166,7 @@ export default function Register() {
               <span className="mr-1">{memberData?.full_name}</span>
               <span className="mr-1">({memberData?._id})</span>
               has registered for
-              <span className="ml-1">{registrationString}</span>
+              <span className="ml-1 mr-1">{registrationString}</span>
               at
               <span className="ml-1">{masjidName}</span>
               {is_rahat ? (

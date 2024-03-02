@@ -172,8 +172,8 @@ export const RegisterFileMemberForm = ({
                 <Form.Item
                   rules={[{ required: true, message: "Please select masjid!" }]}
                   name={_id + "_masjid"}
-                  className="mb-4"
-                  label="Select Masjid"
+                  className="mb-6 mt-4"
+                  label={<span className="font-bold">Select Masjid</span>}
                   extra={getZahraExtraText(gender)}
                 >
                   <Radio.Group
