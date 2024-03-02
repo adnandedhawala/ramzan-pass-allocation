@@ -70,8 +70,8 @@ export const HodVerificationForm = ({
           <ul className="list-disc">
             <li className="mb-2">
               Registration is compulsory for All Gents and Ladies who wish to
-              attend Maghrib Namaaz in either Saifee Masjid-Marol or Masjid ul
-              Zahra-Jamea.
+              attend Maghrib Namaaz in either Saifee Masjid-Marol or Masjid Al
+              Zahra (Al-Jamea TUS Saifiyah).
             </li>
             <li className="mb-2">
               Mumineen should select Rahat Block to obtain masalla in the Rahat

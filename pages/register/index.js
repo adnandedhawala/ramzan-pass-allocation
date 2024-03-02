@@ -2,12 +2,13 @@
 import { SignInLayout } from "layouts/signIn";
 import { useGlobalContext } from "context/global";
 import { HodVerificationForm, RegisterFileMemberForm } from "components";
-import { message, Result } from "antd";
-import { useEffect, useState } from "react";
+import { Button, message, Result } from "antd";
+import { useEffect, useMemo, useState } from "react";
 import { registerMembersHelper, verifyFileDataHelper } from "fe";
 import { SmileOutlined } from "@ant-design/icons";
 import { find } from "lodash";
 import { getSettingsHelper } from "fe/helpers/settings";
+import moment from "moment";
 
 export default function Register() {
   const { toggleLoader } = useGlobalContext();
@@ -17,6 +18,9 @@ export default function Register() {
     select: "wait",
     done: "wait"
   });
+
+  const [summaryData, setSummaryData] = useState([]);
+
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
   const [isZahraRegistrationOnMale, setIsZahraRegistrationOnMale] =
     useState(false);
@@ -59,7 +63,7 @@ export default function Register() {
   };
 
   const handleMemberRegistration = (values, form) => {
-    // toggleLoader(true);
+    toggleLoader(true);
     const apiData = fileMembers.map(({ _id, gender }) => {
       const memberDetails = {
         _id,
@@ -85,6 +89,7 @@ export default function Register() {
         message.success("Members are registerd successfully !");
         form.resetFields();
         setStepStatus({ ...stepStatus, select: "finish", done: "finish" });
+        setSummaryData(apiData);
       },
       errorFn: () => {},
       endFn: () => {
@@ -115,6 +120,64 @@ export default function Register() {
   useEffect(() => {
     getSettingsForPage();
   }, []);
+
+  const summary = useMemo(() => {
+    return summaryData.map(({ _id, registration, masjid, is_rahat }) => {
+      let masjidName = "";
+      if (masjid === "SAIFEE") masjidName = "Saifee Masjid (Marol)";
+      if (masjid === "ZAHRA")
+        masjidName = "Masjid Al Zahra (Al-Jamea TUS Saifiyah";
+
+      const memberData = fileMembers.find(element => element._id === _id);
+      const hasRegistered = Object.keys(registration).some(
+        value => registration[value]
+      );
+      const registrationString = Object.keys(registration)
+        .map(key => {
+          if (registration[key]) return "Daska " + key[1];
+        })
+        .join(", ");
+
+      return (
+        <div
+          key={_id}
+          className="text-[#333333] mb-2 mt-4 w-full text-left text-lg"
+        >
+          {hasRegistered ? null : (
+            <p className="text-red-600">
+              <span className="mr-1">{memberData?.full_name}</span>
+              <span className="mr-1">({memberData?._id})</span>
+              has not requested for a pass
+            </p>
+          )}
+          {hasRegistered && memberData?.gender === "Male" ? (
+            <p className="text-green-600">
+              <span className="mr-1">{memberData?.full_name}</span>
+              <span className="mr-1">({memberData?._id})</span>
+              has registered for
+              <span className="ml-1">{masjidName}</span>
+              {is_rahat ? (
+                <span className="ml-1">and has opted for rahat block</span>
+              ) : null}
+            </p>
+          ) : null}
+          {hasRegistered && memberData?.gender === "Female" ? (
+            <p className="text-green-600">
+              <span className="mr-1">{memberData?.full_name}</span>
+              <span className="mr-1">({memberData?._id})</span>
+              has registered for
+              <span className="ml-1">{registrationString}</span>
+              at
+              <span className="ml-1">{masjidName}</span>
+              {is_rahat ? (
+                <span className="ml-1">and has opted for rahat block</span>
+              ) : null}
+            </p>
+          ) : null}
+        </div>
+      );
+    });
+  }, [summaryData]);
 
   if (showPage) {
     return (
@@ -169,6 +232,30 @@ export default function Register() {
             icon={<SmileOutlined />}
             title="Members are successfully registered!"
             status="success"
+            subTitle={
+              <>
+                <p className="text-xl text-[#444444] my-8">
+                  Please take a Screen Shot!!
+                </p>
+                {summary}
+                <p>{moment().format("DD-MM-YYYY hh:mm:ss A")}</p>
+              </>
+            }
+            extra={[
+              <Button
+                onClick={() => {
+                  setStepStatus({
+                    verify: "process",
+                    select: "wait",
+                    done: "wait"
+                  });
+                }}
+                key="buy"
+                type="primary"
+              >
+                Go Back
+              </Button>
+            ]}
           />
         ) : null}
       </>
