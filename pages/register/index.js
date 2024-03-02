@@ -126,7 +126,7 @@ export default function Register() {
       let masjidName = "";
       if (masjid === "SAIFEE") masjidName = "Saifee Masjid (Marol)";
       if (masjid === "ZAHRA")
-        masjidName = "Masjid Al Zahra (Al-Jamea TUS Saifiyah";
+        masjidName = "Masjid Al Zahra (Al-Jamea TUS Saifiyah)";
 
       const memberData = fileMembers.find(element => element._id === _id);
       const hasRegistered = Object.keys(registration).some(
@@ -170,7 +170,7 @@ export default function Register() {
               at
               <span className="ml-1">{masjidName}</span>
               {is_rahat ? (
-                <span className="ml-1">and has opted for rahat block</span>
+                <span className="ml-1">and has opted for RAHAT BLOCK</span>
               ) : null}
             </p>
           ) : null}
@@ -253,7 +253,7 @@ export default function Register() {
                 key="buy"
                 type="primary"
               >
-                Go Back
+                Go Back to Login
               </Button>
             ]}
           />

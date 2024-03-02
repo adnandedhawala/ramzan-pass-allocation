@@ -184,9 +184,7 @@ export const RegisterFileMemberForm = ({
                     disabled={getZahraDisabled(gender)}
                   >
                     <Radio value="SAIFEE">Saifee Masjid</Radio>
-                    <Radio value="ZAHRA">
-                      Masjid Al Zahra (Al-Jamea TUS Saifiyah)
-                    </Radio>
+                    <Radio value="ZAHRA">Masjid Al Zahra - Jamea</Radio>
                   </Radio.Group>
                 </Form.Item>
               ) : null}
