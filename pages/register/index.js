@@ -18,7 +18,10 @@ export default function Register() {
     done: "wait"
   });
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
-  const [isZahraRegistrationOn, setIsZahraRegistrationOn] = useState(false);
+  const [isZahraRegistrationOnMale, setIsZahraRegistrationOnMale] =
+    useState(false);
+  const [isZahraRegistrationOnFemale, setIsZahraRegistrationOnFemale] =
+    useState(false);
   const [fileMembers, setFileMembers] = useState([]);
   const [showPage, setShowPage] = useState(false);
 
@@ -95,7 +98,12 @@ export default function Register() {
     getSettingsHelper({
       successFn: data => {
         setIsRegistrationOn(data.data[0].is_registration_on);
-        setIsZahraRegistrationOn(data.data[0].is_zahra_registration_on);
+        setIsZahraRegistrationOnMale(
+          data.data[0].is_zahra_registration_on_male
+        );
+        setIsZahraRegistrationOnFemale(
+          data.data[0].is_zahra_registration_on_female
+        );
       },
       errorFn: () => {},
       endFn: () => {
@@ -150,7 +158,8 @@ export default function Register() {
               memberData={fileMembers}
               handleSubmit={handleMemberRegistration}
               disabled={!isRegistrationOn}
-              isZahraRegistrationOn={isZahraRegistrationOn}
+              isZahraRegistrationOnMale={isZahraRegistrationOnMale}
+              isZahraRegistrationOnFemale={isZahraRegistrationOnFemale}
             />
           </div>
         ) : null}

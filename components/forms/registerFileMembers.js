@@ -7,14 +7,22 @@ const handleFormFail = () => {
   message.error("Please check the form for errors");
 };
 
-const getInitValues = (memberData, isZahraRegistrationOn) => {
+const getInitValues = (
+  memberData,
+  isZahraRegistrationOnMale,
+  isZahraRegistrationOnFemale
+) => {
   let initObject = {};
   memberData.map(
     ({ is_registered, registration, is_rahat, _id, gender, masjid }) => {
       let currentMasjid = "";
-      if (isZahraRegistrationOn) {
+      if (isZahraRegistrationOnMale && gender === "Male") {
         currentMasjid = masjid || "";
-      } else {
+      } else if (!isZahraRegistrationOnMale && gender === "Male") {
+        currentMasjid = !masjid || masjid === "" ? "SAIFEE" : masjid;
+      } else if (isZahraRegistrationOnFemale && gender === "Female") {
+        currentMasjid = masjid || "";
+      } else if (!isZahraRegistrationOnFemale && gender === "Female") {
         currentMasjid = !masjid || masjid === "" ? "SAIFEE" : masjid;
       }
       if (is_registered) {
@@ -40,7 +48,8 @@ const getInitValues = (memberData, isZahraRegistrationOn) => {
 export const RegisterFileMemberForm = ({
   handleSubmit,
   memberData,
-  isZahraRegistrationOn
+  isZahraRegistrationOnMale,
+  isZahraRegistrationOnFemale
 }) => {
   const [form] = Form.useForm();
   const [showRegistrationForm, setShowRegistrationForm] = useState(
@@ -58,8 +67,13 @@ export const RegisterFileMemberForm = ({
   const selectDaskaError = "Please select yes for only 2 daska!";
 
   const initialValues = useMemo(
-    () => getInitValues(memberData, isZahraRegistrationOn),
-    [isZahraRegistrationOn, memberData]
+    () =>
+      getInitValues(
+        memberData,
+        isZahraRegistrationOnMale,
+        isZahraRegistrationOnFemale
+      ),
+    [isZahraRegistrationOnMale, isZahraRegistrationOnFemale, memberData]
   );
 
   const handleRadioChange = its => {
@@ -96,6 +110,24 @@ export const RegisterFileMemberForm = ({
     });
   }, [initialValues]);
 
+  const getZahraExtraText = gender => {
+    if (gender === "Male") {
+      return isZahraRegistrationOnMale
+        ? ""
+        : "Registration for Masjid ul Zahra for Mardo is closed.";
+    } else {
+      return isZahraRegistrationOnFemale
+        ? ""
+        : "Registration for Masjid ul Zahra for Bairao is closed.";
+    }
+  };
+
+  const getZahraDisabled = gender => {
+    return gender === "Male"
+      ? !isZahraRegistrationOnMale
+      : !isZahraRegistrationOnFemale;
+  };
+
   return (
     <Form
       form={form}
@@ -104,8 +136,9 @@ export const RegisterFileMemberForm = ({
       onFinishFailed={handleFormFail}
       initialValues={initialValues}
       requiredMark={false}
+      layout="horizontal"
     >
-      {memberData.map(({ _id, full_name, gender, age }) => {
+      {memberData.map(({ _id, full_name, gender }) => {
         return (
           <Card className="mb-4 register-member-card" key={_id}>
             <div className="flex flex-col items-start">
@@ -136,18 +169,14 @@ export const RegisterFileMemberForm = ({
                   name={_id + "_masjid"}
                   className="mb-0"
                   label="Select Masjid"
-                  extra={
-                    isZahraRegistrationOn
-                      ? ""
-                      : "Registration for Masjid ul Zahra is closed."
-                  }
+                  extra={getZahraExtraText(gender)}
                 >
                   <Radio.Group
                     size="small"
                     onChange={event =>
                       handleSelectMasjid(event.target.value, _id)
                     }
-                    disabled={!isZahraRegistrationOn}
+                    disabled={getZahraDisabled(gender)}
                   >
                     <Radio value="SAIFEE">Saifee Masjid</Radio>
                     <Radio value="ZAHRA">Masjid ul Zahra</Radio>
@@ -174,8 +203,7 @@ export const RegisterFileMemberForm = ({
                               if (
                                 value === "true" &&
                                 d2 === "true" &&
-                                d3 === "true" &&
-                                age < 60
+                                d3 === "true"
                               ) {
                                 return Promise.reject(selectDaskaError);
                               }
@@ -210,8 +238,7 @@ export const RegisterFileMemberForm = ({
                               if (
                                 value === "true" &&
                                 d1 === "true" &&
-                                d3 === "true" &&
-                                age < 60
+                                d3 === "true"
                               ) {
                                 return Promise.reject(selectDaskaError);
                               }
@@ -247,8 +274,7 @@ export const RegisterFileMemberForm = ({
                               if (
                                 value === "true" &&
                                 d1 === "true" &&
-                                d2 === "true" &&
-                                age < 60
+                                d2 === "true"
                               ) {
                                 return Promise.reject(selectDaskaError);
                               }

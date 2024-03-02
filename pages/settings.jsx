@@ -22,7 +22,10 @@ export default function Settings() {
   const [masllahGroupData, setMasllahGroupData] = useState([]);
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [isRegistrationOn, setIsRegistrationOn] = useState(false);
-  const [isZahraRegistrationOn, setIsZahraRegistrationOn] = useState(false);
+  const [isZahraRegistrationOnMale, setIsZahraRegistrationOnMale] =
+    useState(false);
+  const [isZahraRegistrationOnFemale, setIsZahraRegistrationOnFemale] =
+    useState(false);
 
   const handleSetRamzanMembers = () => {
     toggleLoader(true);
@@ -95,7 +98,12 @@ export default function Settings() {
     getSettingsHelper({
       successFn: data => {
         setIsRegistrationOn(data.data[0].is_registration_on);
-        setIsZahraRegistrationOn(data.data[0].is_zahra_registration_on);
+        setIsZahraRegistrationOnMale(
+          data.data[0].is_zahra_registration_on_male
+        );
+        setIsZahraRegistrationOnFemale(
+          data.data[0].is_zahra_registration_on_female
+        );
       },
       errorFn: () => {},
       endFn: () => {}
@@ -119,8 +127,17 @@ export default function Settings() {
     });
   };
 
-  const editZahraRegistration = flag => {
+  const editZahraRegistration = (flag, key) => {
     toggleLoader(true);
+    let settingsData = {
+      _id: process.env.NEXT_PUBLIC_SETTINGS_KEY
+    };
+    if (key === "male") {
+      settingsData.is_zahra_registration_on_male = flag;
+    }
+    if (key === "female") {
+      settingsData.is_zahra_registration_on_female = flag;
+    }
     editSettingsHelper({
       successFn: () => {
         getSettingsForPage();
@@ -129,10 +146,7 @@ export default function Settings() {
       endFn: () => {
         toggleLoader(false);
       },
-      settingsData: {
-        _id: process.env.NEXT_PUBLIC_SETTINGS_KEY,
-        is_zahra_registration_on: flag
-      }
+      settingsData
     });
   };
 
@@ -218,16 +232,31 @@ export default function Settings() {
               />
             </div>
             <div className="mt-2">
-              <p>Is Zahra Registration Open: </p>
+              <p>Is Zahra Registration Open for Mardo: </p>
               <Radio.Group
                 options={[
                   { label: "Yes", value: "yes" },
                   { label: "No", value: "no" }
                 ]}
                 onChange={event =>
-                  editZahraRegistration(event.target.value === "yes")
+                  editZahraRegistration(event.target.value === "yes", "male")
                 }
-                value={isZahraRegistrationOn ? "yes" : "no"}
+                value={isZahraRegistrationOnMale ? "yes" : "no"}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </div>
+            <div className="mt-2">
+              <p>Is Zahra Registration Open for Bairao: </p>
+              <Radio.Group
+                options={[
+                  { label: "Yes", value: "yes" },
+                  { label: "No", value: "no" }
+                ]}
+                onChange={event =>
+                  editZahraRegistration(event.target.value === "yes", "female")
+                }
+                value={isZahraRegistrationOnFemale ? "yes" : "no"}
                 optionType="button"
                 buttonStyle="solid"
               />

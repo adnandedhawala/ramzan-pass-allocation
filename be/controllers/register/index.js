@@ -56,7 +56,7 @@ export const verifyFileController = async (request, response) => {
 
 const checkDaskaEntry = (list, values) => {
   return !list
-    .filter(value => value.gender === "Female" && value.age < 60)
+    .filter(value => value.gender === "Female")
     .map(value => {
       const data = find(values, { _id: value._id });
       return Object.values(data.registration).every(daska => daska === true);

@@ -6,7 +6,11 @@ export const settingsSchema = new Schema(
       type: Boolean,
       default: true
     },
-    is_zahra_registration_on: {
+    is_zahra_registration_on_male: {
+      type: Boolean,
+      default: true
+    },
+    is_zahra_registration_on_female: {
       type: Boolean,
       default: true
     },
