@@ -183,8 +183,7 @@ export const RegisterFileMemberForm = ({
                   </Radio.Group>
                 </Form.Item>
               ) : null}
-              {showRegistrationForm[_id + "_register"] &&
-              showRegistrationForm[_id + "_masjid"] === "SAIFEE" ? (
+              {showRegistrationForm[_id + "_register"] ? (
                 <>
                   {gender === "Female" ? (
                     <>
