@@ -65,7 +65,7 @@ export const HodVerificationForm = ({
         </Button>
       </Form.Item>
       {disabled || !showText ? null : (
-        <div>
+        <div className="px-4">
           <p className="text-lg mb-2">Please note that :</p>
           <ul className="list-disc">
             <li className="mb-2">
@@ -78,11 +78,7 @@ export const HodVerificationForm = ({
               block.
             </li>
             <li className="mb-2">
-              Those who require chairs are strictly required to register for the
-              Rahat block.
-            </li>
-            <li className="mb-2">
-              Those who require chair are strictly required to register for
+              Those who require chair are strictly required to register for the
               Rahat block.
             </li>
             <li className="mb-2">

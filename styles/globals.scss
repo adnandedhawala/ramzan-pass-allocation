@@ -18,9 +18,15 @@
 .register-member-card {
   .ant-card {
     &-body {
-      padding: 16px;
+      padding: 8px;
       border-radius: 12px;
     }
+  }
+}
+
+.ant-card {
+  &-body {
+    padding: 12px !important;
   }
 }
 
@@ -39,4 +45,14 @@
       )
       40/2rem;
   }
+}
+
+.active-green:has(.ant-radio-button-checked){
+ background-color: #16a34a !important;
+ border-color: #16a34a !important;
+}
+
+.active-red:has(.ant-radio-button-checked){
+  background-color: #dc2626 !important;
+  border-color: #dc2626 !important;
 }

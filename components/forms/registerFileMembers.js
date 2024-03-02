@@ -114,11 +114,11 @@ export const RegisterFileMemberForm = ({
     if (gender === "Male") {
       return isZahraRegistrationOnMale
         ? ""
-        : "Registration for Masjid ul Zahra for Mardo is closed.";
+        : "Registration for Masjid Al Zahra (Al-Jamea TUS Saifiyah) for Mardo is closed.";
     } else {
       return isZahraRegistrationOnFemale
         ? ""
-        : "Registration for Masjid ul Zahra for Bairao is closed.";
+        : "Registration for Masjid Al Zahra (Al-Jamea TUS Saifiyah) for Bairao is closed.";
     }
   };
 
@@ -137,6 +137,7 @@ export const RegisterFileMemberForm = ({
       initialValues={initialValues}
       requiredMark={false}
       layout="horizontal"
+      size="small"
     >
       {memberData.map(({ _id, full_name, gender }) => {
         return (
@@ -148,7 +149,7 @@ export const RegisterFileMemberForm = ({
               <Form.Item
                 rules={[{ required: true, message: selectError }]}
                 name={_id + "_register"}
-                className="mb-0"
+                className="mb-4"
                 label="Register for Pass"
               >
                 <Radio.Group
@@ -159,15 +160,19 @@ export const RegisterFileMemberForm = ({
                     handleAllDaskaRadioChange(event.target.value, _id)
                   }
                 >
-                  <Radio value="true">Yes</Radio>
-                  <Radio value="false">No</Radio>
+                  <Radio className="active-green" value="true">
+                    Yes
+                  </Radio>
+                  <Radio className="active-red" value="false">
+                    No
+                  </Radio>
                 </Radio.Group>
               </Form.Item>
               {showRegistrationForm[_id + "_register"] ? (
                 <Form.Item
                   rules={[{ required: true, message: "Please select masjid!" }]}
                   name={_id + "_masjid"}
-                  className="mb-0"
+                  className="mb-4"
                   label="Select Masjid"
                   extra={getZahraExtraText(gender)}
                 >
@@ -179,7 +184,9 @@ export const RegisterFileMemberForm = ({
                     disabled={getZahraDisabled(gender)}
                   >
                     <Radio value="SAIFEE">Saifee Masjid</Radio>
-                    <Radio value="ZAHRA">Masjid ul Zahra</Radio>
+                    <Radio value="ZAHRA">
+                      Masjid Al Zahra (Al-Jamea TUS Saifiyah)
+                    </Radio>
                   </Radio.Group>
                 </Form.Item>
               ) : null}
@@ -210,7 +217,7 @@ export const RegisterFileMemberForm = ({
                             }
                           })
                         ]}
-                        className="mb-0"
+                        className="mb-4"
                       >
                         <Radio.Group
                           optionType="button"
@@ -218,8 +225,12 @@ export const RegisterFileMemberForm = ({
                           size="small text-sm"
                           onChange={() => handleRadioChange(_id)}
                         >
-                          <Radio value="true">Yes</Radio>
-                          <Radio value="false">No</Radio>
+                          <Radio className="active-green" value="true">
+                            Yes
+                          </Radio>
+                          <Radio className="active-red" value="false">
+                            No
+                          </Radio>
                         </Radio.Group>
                       </Form.Item>
                       <Form.Item
@@ -245,7 +256,7 @@ export const RegisterFileMemberForm = ({
                             }
                           })
                         ]}
-                        className="mb-0"
+                        className="mb-4"
                       >
                         <Radio.Group
                           optionType="button"
@@ -253,8 +264,12 @@ export const RegisterFileMemberForm = ({
                           size="small text-sm"
                           onChange={() => handleRadioChange(_id)}
                         >
-                          <Radio value="true">Yes</Radio>
-                          <Radio value="false">No</Radio>
+                          <Radio className="active-green" value="true">
+                            Yes
+                          </Radio>
+                          <Radio className="active-red" value="false">
+                            No
+                          </Radio>
                         </Radio.Group>
                       </Form.Item>
 
@@ -281,7 +296,7 @@ export const RegisterFileMemberForm = ({
                             }
                           })
                         ]}
-                        className="mb-0"
+                        className="mb-4"
                       >
                         <Radio.Group
                           optionType="button"
@@ -289,8 +304,12 @@ export const RegisterFileMemberForm = ({
                           size="small text-sm"
                           onChange={() => handleRadioChange(_id)}
                         >
-                          <Radio value="true">Yes</Radio>
-                          <Radio value="false">No</Radio>
+                          <Radio className="active-green" value="true">
+                            Yes
+                          </Radio>
+                          <Radio className="active-red" value="false">
+                            No
+                          </Radio>
                         </Radio.Group>
                       </Form.Item>
                     </>
@@ -306,8 +325,12 @@ export const RegisterFileMemberForm = ({
                         buttonStyle="solid"
                         size="small"
                       >
-                        <Radio value="true">Yes</Radio>
-                        <Radio value="false">No</Radio>
+                        <Radio className="active-green" value="true">
+                          Yes
+                        </Radio>
+                        <Radio className="active-red" value="false">
+                          No
+                        </Radio>
                       </Radio.Group>
                     </Form.Item>
                   </div>
@@ -319,11 +342,11 @@ export const RegisterFileMemberForm = ({
       })}
 
       <Form.Item className="text-center">
-        <Button type="primary" htmlType="submit">
+        <Button size="large" type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
-      <div>
+      <div className="px-4">
         <p className="text-lg mb-2">Please note that :</p>
         <ul className="list-disc">
           <li className="mb-2">
