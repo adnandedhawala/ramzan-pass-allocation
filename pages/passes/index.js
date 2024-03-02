@@ -38,7 +38,7 @@ export default function PassPage() {
   return (
     <>
       <h2 className="text-3xl text-center font-semibold mb-2">
-        Sherullah 1444
+        Sherullah 1445
       </h2>
 
       {stepStatus.verify === "process" ? (

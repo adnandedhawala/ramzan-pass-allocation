@@ -69,22 +69,21 @@ export const HodVerificationForm = ({
           <p className="text-lg mb-2">Please note that :</p>
           <ul className="list-disc">
             <li className="mb-2">
-              Registration is compulsary for All Gents who wish to attend
-              Maghrib Namaaz in Saifee Masjid-Marol
+              Registration is compulsory for All Gents and Ladies who wish to
+              attend Maghrib Namaaz in either Saifee Masjid-Marol or Masjid ul
+              Zahra-Jamea.
             </li>
             <li className="mb-2">
-              Gents should select Rahat Block to obtain masalla in Rahat block.
+              Mumineen should select Rahat Block to obtain masalla in the Rahat
+              block.
             </li>
             <li className="mb-2">
-              Rahat Block will be located at left side wall (Ghurfat side)
-              inside Masjid.
+              Those who require chairs are strictly required to register for the
+              Rahat block.
             </li>
             <li className="mb-2">
               Those who require chair are strictly required to register for
               Rahat block.
-            </li>
-            <li className="mb-2">
-              Registration not required for Mumenaat Behno.
             </li>
             <li className="mb-2">
               In case of any difficulty please contact us at

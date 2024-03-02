@@ -58,7 +58,7 @@ export default function ViewPassPage() {
   return (
     <>
       <Head>
-        <title>Sherullah 1444 AEM Marol</title>
+        <title>Sherullah 1445 AEM Marol</title>
         <meta name="description" content="Pass Allocation  Application" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -95,7 +95,7 @@ export default function ViewPassPage() {
                 </h1>
                 <p className="text-md">Saifee Masjid, Saifee Park, Marol</p>
                 <h2 className="mb-1 mt-4 text-xl text-red-500">
-                  Sherullah-il-Moazzam – 1444 H
+                  Sherullah-il-Moazzam – 1445 H
                 </h2>
                 <h2 className="mb-1 text-orange-500">Ground Floor Masjid</h2>
               </div>

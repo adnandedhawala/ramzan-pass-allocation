@@ -120,7 +120,7 @@ export default function Register() {
     return (
       <>
         <h2 className="text-xl text-center font-semibold mb-2">
-          Registration Form : Sherullah 1444
+          Registration Form : Sherullah 1445
         </h2>
         {stepStatus.verify === "process" ? (
           <div className="w-full mt-4">
@@ -140,8 +140,8 @@ export default function Register() {
                   proceeding.
                 </p>
                 <p className="text-red-500 text-center text-sm">
-                  Registration will close on Saturday, 26th Shaban-ul-Karim
-                  1444H (18th March 2023) 9pm.
+                  Registration will close on Wednesday, 26th Shaban-ul-Karim
+                  1445H (6th March 2024) 9pm.
                 </p>
               </>
             ) : null}
