@@ -77,10 +77,9 @@ export const allocatePassesHelper = ({
   successFn,
   errorFn,
   endFn,
-  location,
-  daska
+  location
 }) => {
-  allocatePasses(location, daska)
+  allocatePasses(location)
     .then(data => successFn(data))
     .catch(error => errorFn(error))
     .finally(() => endFn());

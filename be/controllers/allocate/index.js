@@ -11,19 +11,22 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
   addAllocationSchema
     .validate(data)
     .then(async editObject => {
-      const { location, daska, data: newData } = editObject;
+      const { location, data: newData } = editObject;
+      const queryLocation = location.split(",");
       try {
-        await (location === SEAT_LOCATIONS.MASJID
-          ? Masallah.updateMany({ location }, { d1: "", d2: "", d3: "" })
-          : Masallah.updateMany({ location }, { [daska]: "" }));
+        await Masallah.updateMany(
+          { location: { $in: queryLocation } },
+          { d1: "", d2: "", d3: "" }
+        );
       } catch (error) {
         return response.status(500).send(error.message);
       }
       const bulkOps = newData.map(update => {
-        const setObject =
-          location === SEAT_LOCATIONS.MASJID
-            ? { d1: update[daska], d2: update[daska], d3: update[daska] }
-            : { [daska]: update[daska] };
+        const setObject = {
+          d1: update?.d1 || "",
+          d2: update?.d2 || "",
+          d3: update?.d3 || ""
+        };
         return {
           updateOne: {
             filter: { _id: update._id },
@@ -124,10 +127,134 @@ export const allocateMasallahToMembers = async (request, response) => {
   }
 };
 
+export const allocateMasallahToMembersV2 = async (request, response) => {
+  const { location } = request.query;
+  const isLocationMasjid = location === SEAT_LOCATIONS.MASJID;
+  const queryLocation = location.split(",");
+  if (!location) return response.status(400).end("location is missing!");
+  try {
+    let findQueryObject = isLocationMasjid
+      ? { location: { $in: queryLocation }, d1: { $ne: "" } }
+      : {
+          $and: [
+            { location: { $in: queryLocation } },
+            {
+              $or: [
+                { d1: { $ne: "" } },
+                { d2: { $ne: "" } },
+                { d3: { $ne: "" } }
+              ]
+            }
+          ]
+        };
+    let initUpdateObject = {
+      d1: { location: "", masallah: "" },
+      d2: { location: "", masallah: "" },
+      d3: { location: "", masallah: "" },
+      show_pass: false
+    };
+    let initFindObject = isLocationMasjid
+      ? {
+          "d1.location": location
+        }
+      : {
+          $or: [
+            { "d1.location": { $in: queryLocation } },
+            { "d2.location": { $in: queryLocation } },
+            { "d3.location": { $in: queryLocation } }
+          ]
+        };
+
+    await RamzanMember.updateMany(initFindObject, initUpdateObject);
+
+    let data = await Masallah.find(
+      findQueryObject,
+      "d1 d2 d3 location seat_number"
+    );
+    const groupedDataD1 = groupBy(data, "d1");
+    const groupedDataD2 = groupBy(data, "d2");
+    const groupedDataD3 = groupBy(data, "d3");
+
+    let bulkOps = [];
+
+    if (location === SEAT_LOCATIONS.MASJID) {
+      bulkOps = Object.keys(groupedDataD1).map(key => {
+        return {
+          updateOne: {
+            filter: { _id: key },
+            update: {
+              $set: {
+                d1: { location, masallah: groupedDataD1[key][0]._id },
+                d2: { location, masallah: groupedDataD1[key][0]._id },
+                d3: { location, masallah: groupedDataD1[key][0]._id },
+                show_pass: true
+              }
+            }
+          }
+        };
+      });
+    } else {
+      const keys = new Set([
+        ...Object.keys(groupedDataD1),
+        ...Object.keys(groupedDataD2),
+        ...Object.keys(groupedDataD2)
+      ]);
+
+      bulkOps = [...keys]
+        .filter(value => !!value)
+        .map(key => {
+          const d1Object = groupedDataD1[key]
+            ? {
+                location: groupedDataD1[key][0].location,
+                masallah: groupedDataD1[key][0]._id
+              }
+            : { location: "", masallah: "" };
+          const d2Object = groupedDataD2[key]
+            ? {
+                location: groupedDataD2[key][0].location,
+                masallah: groupedDataD2[key][0]._id
+              }
+            : { location: "", masallah: "" };
+          const d3Object = groupedDataD3[key]
+            ? {
+                location: groupedDataD3[key][0].location,
+                masallah: groupedDataD3[key][0]._id
+              }
+            : { location: "", masallah: "" };
+
+          return {
+            updateOne: {
+              filter: { _id: key },
+              update: {
+                $set: {
+                  d1: d1Object,
+                  d2: d2Object,
+                  d3: d3Object,
+                  show_pass: true
+                }
+              }
+            }
+          };
+        });
+    }
+    RamzanMember.bulkWrite(bulkOps)
+      .then(result => {
+        response.status(200).send(`Updated ${result.nModified} documents`);
+      })
+      .catch(error => response.status(400).send(error.message));
+  } catch (error) {
+    return response.status(500).send(error.message);
+  }
+};
+
 export const getAllocatedmembersController = async (_request, response) => {
   try {
     let data = await RamzanMember.find({
-      "d1.location": SEAT_LOCATIONS.MASJID
+      $or: [
+        { "d1.location": { $ne: "" } },
+        { "d2.location": { $ne: "" } },
+        { "d3.location": { $ne: "" } }
+      ]
     }).populate([
       {
         path: "hof_id",

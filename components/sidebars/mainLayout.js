@@ -29,7 +29,7 @@ export const MainLayoutSidebar = ({ showSidebarMenu, handleClose }) => {
 
       case PAGE_LIST.ALLOCATION: {
         handleClose();
-        router.push("/allocation");
+        router.push("/newAllocation");
         break;
       }
 

@@ -102,6 +102,7 @@ export const uploadGridController = async (request, response) => {
 export const getMasallahByLocation = async (request, response) => {
   const { location, showMemberData } = request.query;
   if (!location) return response.status(404).send("location missing!");
+  const queryLocation = location.split(",");
   const daskaPopulationQuery = [
     {
       path: "hof_id",
@@ -141,7 +142,9 @@ export const getMasallahByLocation = async (request, response) => {
         }
       ];
     }
-    let seats = await Masallah.find({ location }).populate(populateQuery);
+    let seats = await Masallah.find({
+      location: { $in: queryLocation }
+    }).populate(populateQuery);
     const availableSeats = seats.sort(
       (a, b) => a.group.group_number - b.group.group_number
     );
