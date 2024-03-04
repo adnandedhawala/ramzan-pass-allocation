@@ -47,6 +47,17 @@ export const allocateMemberToMasallah = data => {
   }).then(handleResponse);
 };
 
+export const allocateMemberToMasallahById = data => {
+  return fetch(getApiUrl("allocate") + "/single", {
+    method: "PATCH",
+    headers: {
+      ...getAuthHeader(),
+      ...getApplicationJsonHeader()
+    },
+    body: JSON.stringify({ data })
+  }).then(handleResponse);
+};
+
 export const resetMasallahAllocations = () => {
   return fetch(getApiUrl("allocate"), {
     method: "PUT",

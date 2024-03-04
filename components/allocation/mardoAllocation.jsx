@@ -5,6 +5,7 @@ import { SeatNumberGridV2 } from "components/grids";
 import { SeatNumberTableV2 } from "components/tables";
 import { useGlobalContext } from "context/global";
 import {
+  allocateMemberToMasallahByIdHelper,
   allocateMemberToMasallahHelper,
   allocatePassesHelper,
   getMasallahByLocationHelper,
@@ -80,6 +81,29 @@ export const MardoAllocation = () => {
       },
       errorFn: () => {},
       endFn: () => {}
+    });
+  };
+
+  const setMasallahUser = (values, id, callback) => {
+    toggleLoader(true);
+    allocateMemberToMasallahByIdHelper({
+      successFn: () => {
+        message.success("Masallah updated successfully");
+        callback();
+        getMasallahList();
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      },
+      data: {
+        data: {
+          _id: id,
+          d1: values?.d1 || "",
+          d2: values?.d1 || "",
+          d3: values?.d1 || ""
+        }
+      }
     });
   };
 
@@ -166,6 +190,7 @@ export const MardoAllocation = () => {
         <SeatNumberTableV2
           masallahListWithUser={masallahListWithUser}
           currentLocation={currentLocation}
+          setMasallahUser={setMasallahUser}
         />
       ) : null}
       {view === views.SUMMARY ? (

@@ -1,13 +1,19 @@
 /* eslint-disable unicorn/no-array-method-this-argument */
 /* eslint-disable security/detect-object-injection */
 import { SEAT_LOCATIONS } from "appConstants";
-import { addAllocationSchema, updateAllocationSchema } from "be/validators";
+import {
+  addAllocationSchema,
+  editAllocationSchema,
+  updateAllocationSchema
+} from "be/validators";
 import { groupBy } from "lodash";
 import { Masallah, RamzanMember } from "models";
 
+const dataMissing = "data is missing!";
+
 export const allocateRamzanMemberToMasallah = async (request, response) => {
   const { data } = request.body;
-  if (!data) return response.status(400).end("data is missing!");
+  if (!data) return response.status(400).end(dataMissing);
   addAllocationSchema
     .validate(data)
     .then(async editObject => {
@@ -39,6 +45,29 @@ export const allocateRamzanMemberToMasallah = async (request, response) => {
           response.status(200).send(`Updated ${result.nModified} documents`);
         })
         .catch(error => response.status(400).send(error.message));
+    })
+    .catch(error => {
+      response.status(400).send(error.message);
+    });
+};
+
+export const allocateRamzanMemberToMasallahById = async (request, response) => {
+  const { data } = request.body;
+  if (!data) return response.status(400).end(dataMissing);
+  editAllocationSchema
+    .validate(data)
+    .then(async editObject => {
+      const { data: newData } = editObject;
+      try {
+        await Masallah.findByIdAndUpdate(newData._id, {
+          d1: newData?.d1 || "",
+          d2: newData?.d2 || "",
+          d3: newData?.d3 || ""
+        });
+        return response.status(200).send("Masallah Updated");
+      } catch (error) {
+        return response.status(500).send(error.message);
+      }
     })
     .catch(error => {
       response.status(400).send(error.message);
@@ -275,7 +304,7 @@ export const getAllocatedmembersController = async (_request, response) => {
 
 export const updateAllocatedmembersController = async (request, response) => {
   const { data } = request.body;
-  if (!data) return response.status(400).end("data is missing!");
+  if (!data) return response.status(400).end(dataMissing);
   updateAllocationSchema
     .validate(data)
     .then(async editObject => {

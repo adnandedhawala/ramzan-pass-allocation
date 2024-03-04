@@ -6,6 +6,7 @@ import { SeatNumberGridBairao } from "components/grids";
 import { SeatNumberTableV2 } from "components/tables";
 import { useGlobalContext } from "context/global";
 import {
+  allocateMemberToMasallahByIdHelper,
   allocateMemberToMasallahHelper,
   allocatePassesHelper,
   getMasallahByLocationHelper,
@@ -105,6 +106,29 @@ export const BairaoAllocation = () => {
     });
   };
 
+  const setMasallahUser = (values, id, callback) => {
+    toggleLoader(true);
+    allocateMemberToMasallahByIdHelper({
+      successFn: () => {
+        message.success("Masallah updated successfully");
+        callback();
+        getMasallahList();
+      },
+      errorFn: () => {},
+      endFn: () => {
+        toggleLoader(false);
+      },
+      data: {
+        data: {
+          _id: id,
+          d1: values?.d1 || "",
+          d2: values?.d2 || "",
+          d3: values?.d3 || ""
+        }
+      }
+    });
+  };
+
   const handleSaveChangetoMasallah = () => {
     toggleLoader(true);
     allocateMemberToMasallahHelper({
@@ -186,6 +210,7 @@ export const BairaoAllocation = () => {
       {view === views.GRID ? (
         <>
           <SeatNumberTableV2
+            setMasallahUser={setMasallahUser}
             masallahListWithUser={masallahListWithUser}
             currentLocation={SEAT_LOCATIONS.FIRST_FLOOR}
           />
