@@ -53,7 +53,7 @@ export const SeatNumberTableV2 = ({
             children: (
               <>
                 <div
-                  className="p-1 font-bold text-[12px] flex items-center flex-col"
+                  className="p-1 font-bold text-[12px] flex items-center flex-col w-14 h-9"
                   style={{
                     backgroundColor: value.group.color,
                     border: "1px solid #999999"
@@ -110,7 +110,7 @@ export const SeatNumberTableV2 = ({
                           )
                         }
                       >
-                        <span className="bg-black h-2 w-2 ml-1 rounded-lg border-2" />
+                        <span className="bg-cyan-900 h-2 w-2 ml-1 rounded-lg border-2" />
                       </Tooltip>
                     ) : null}
                     {value?.d3 && currentLocation !== SEAT_LOCATIONS.MASJID ? (
@@ -136,7 +136,7 @@ export const SeatNumberTableV2 = ({
                           )
                         }
                       >
-                        <span className="bg-black h-2 w-2 ml-1 rounded-lg border-2" />
+                        <span className="bg-[#aaaaaa] h-2 w-2 ml-1 rounded-lg border-2" />
                       </Tooltip>
                     ) : null}
                   </div>
