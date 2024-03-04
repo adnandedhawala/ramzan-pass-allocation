@@ -210,12 +210,15 @@ export const BairaoAllocation = () => {
       {view === views.GRID ? (
         <>
           <SeatNumberTableV2
+            key={"ffloor"}
             setMasallahUser={setMasallahUser}
             masallahListWithUser={masallahListWithUser}
             currentLocation={SEAT_LOCATIONS.FIRST_FLOOR}
           />
           <Divider />
           <SeatNumberTableV2
+            key={"fsfloor"}
+            setMasallahUser={setMasallahUser}
             masallahListWithUser={masallahListWithUser}
             currentLocation={SEAT_LOCATIONS.SECOND_FLOOR}
           />
