@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-nested-ternary */
-import { Button, Divider, Radio, message } from "antd";
+import { Button, Divider, Modal, Radio, message } from "antd";
 import { SEAT_LOCATIONS } from "appConstants";
 import { SeatSummaryCard } from "components/cards";
 import { SeatNumberGridBairao } from "components/grids";
@@ -50,6 +50,13 @@ export const BairaoAllocation = () => {
   const [view, setView] = useState(views.LIST);
   const [masallahList, setMasallahList] = useState([]);
   const [masallahListWithUser, setMasallahListWithUser] = useState([]);
+  const [invalidListD1, setInvalidListD1] = useState([]);
+  const [duplicateListD1, setDuplicateListD1] = useState([]);
+  const [invalidListD2, setInvalidListD2] = useState([]);
+  const [duplicateListD2, setDuplicateListD2] = useState([]);
+  const [invalidListD3, setInvalidListD3] = useState([]);
+  const [duplicateListD3, setDuplicateListD3] = useState([]);
+  const [showErrorListModal, setShowErrorListModal] = useState(false);
 
   const { toggleLoader } = useGlobalContext();
 
@@ -64,6 +71,12 @@ export const BairaoAllocation = () => {
         const invalidEntries_d1 = getInvalidEntries(data.data, "d1");
         const invalidEntries_d2 = getInvalidEntries(data.data, "d2");
         const invalidEntries_d3 = getInvalidEntries(data.data, "d3");
+        setDuplicateListD1(duplicateEntries_d1);
+        setInvalidListD1(invalidEntries_d1);
+        setDuplicateListD2(duplicateEntries_d2);
+        setInvalidListD2(invalidEntries_d2);
+        setDuplicateListD3(duplicateEntries_d3);
+        setInvalidListD3(invalidEntries_d3);
         setMasallahList(
           data.data.map(value => {
             const { location } = value.group;
@@ -192,9 +205,16 @@ export const BairaoAllocation = () => {
             <Button
               size="middle"
               onClick={handleAllocatePasses}
-              className="ml-4"
+              className="ml-2"
             >
               Allocate Passes
+            </Button>
+            <Button
+              size="middle"
+              onClick={() => setShowErrorListModal(true)}
+              className="ml-2"
+            >
+              Show Errors
             </Button>
           </div>
         ) : null}
@@ -226,6 +246,66 @@ export const BairaoAllocation = () => {
       ) : null}
       {view === views.SUMMARY ? (
         <SeatSummaryCard daska={"d1"} rowData={masallahListWithUser} />
+      ) : null}
+      {showErrorListModal ? (
+        <Modal
+          title="Error List"
+          footer={null}
+          open={showErrorListModal}
+          onCancel={() => setShowErrorListModal(false)}
+        >
+          <p className="text-red-500 mb-2">
+            Please check the following entries
+          </p>
+          <p className="mb-1">D1 Duplicate Entries</p>
+          <ol className="pl-4">
+            {duplicateListD1.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1">D2 Duplicate Entries</p>
+          <ol className="pl-4">
+            {duplicateListD2.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1">D3 Duplicate Entries</p>
+          <ol className="pl-4">
+            {duplicateListD3.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1 mt-2">D1 Invalid Entries</p>
+          <ol className="pl-4">
+            {invalidListD1.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1 mt-2">D2 Invalid Entries</p>
+          <ol className="pl-4">
+            {invalidListD2.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1 mt-2">D3 Invalid Entries</p>
+          <ol className="pl-4">
+            {invalidListD3.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+        </Modal>
       ) : null}
     </div>
   );

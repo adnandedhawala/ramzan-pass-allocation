@@ -1,4 +1,4 @@
-import { Button, Radio, message } from "antd";
+import { Button, Modal, Radio, message } from "antd";
 import { SEAT_LOCATIONS } from "appConstants";
 import { SeatSummaryCard } from "components/cards";
 import { SeatNumberGridV2 } from "components/grids";
@@ -49,6 +49,9 @@ export const MardoAllocation = () => {
   const [view, setView] = useState(views.LIST);
   const [masallahList, setMasallahList] = useState([]);
   const [masallahListWithUser, setMasallahListWithUser] = useState([]);
+  const [invalidList, setInvalidList] = useState([]);
+  const [duplicateList, setDuplicateList] = useState([]);
+  const [showErrorListModal, setShowErrorListModal] = useState(false);
 
   const { toggleLoader } = useGlobalContext();
 
@@ -59,6 +62,8 @@ export const MardoAllocation = () => {
       successFn: data => {
         const duplicateEntries = getDuplicateEntries(data.data);
         const invalidEntries = getInvalidEntries(data.data);
+        setInvalidList(invalidEntries);
+        setDuplicateList(duplicateEntries);
         setMasallahList(
           data.data.map(value => ({
             ...value.group,
@@ -169,9 +174,16 @@ export const MardoAllocation = () => {
             <Button
               size="middle"
               onClick={handleAllocatePasses}
-              className="ml-4"
+              className="ml-2"
             >
               Allocate Passes
+            </Button>
+            <Button
+              size="middle"
+              onClick={() => setShowErrorListModal(true)}
+              className="ml-2"
+            >
+              Show Errors
             </Button>
           </div>
         ) : null}
@@ -195,6 +207,34 @@ export const MardoAllocation = () => {
       ) : null}
       {view === views.SUMMARY ? (
         <SeatSummaryCard daska={currentDaska} rowData={masallahListWithUser} />
+      ) : null}
+      {showErrorListModal ? (
+        <Modal
+          title="Error List"
+          footer={null}
+          open={showErrorListModal}
+          onCancel={() => setShowErrorListModal(false)}
+        >
+          <p className="text-red-500 mb-2">
+            Please check the following entries
+          </p>
+          <p className="mb-1">Duplicate Entries</p>
+          <ol className="pl-4">
+            {duplicateList.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+          <p className="mb-1 mt-2">Invalid Entries</p>
+          <ol className="pl-4">
+            {invalidList.map(value => (
+              <li className="text-sm" key={value}>
+                {value}
+              </li>
+            ))}
+          </ol>
+        </Modal>
       ) : null}
     </div>
   );
