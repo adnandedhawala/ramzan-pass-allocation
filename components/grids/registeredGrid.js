@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import moment from "moment";
 
 export const RegisteredGrid = ({ data }) => {
   const containerStyle = useMemo(
@@ -46,6 +47,16 @@ export const RegisteredGrid = ({ data }) => {
       field: "is_rahat",
       headerName: "Rahat",
       minWidth: 125
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      minWidth: 250,
+      cellRenderer: ({ value }) => (
+        <span>
+          {moment.utc(value).local().format("DD-MM-YYYY / hh:mm:ss A")}
+        </span>
+      )
     }
   ];
   const defaultColDef = useMemo(() => {

@@ -30,7 +30,8 @@ export default function RegistrationList() {
               d2: value.registration.d2 ? "yes" : "no",
               d3: value.registration.d3 ? "yes" : "no",
               hof_id: value.hof_id._id,
-              masjid: value.masjid
+              masjid: value.masjid,
+              updatedAt: value.updatedAt
             }))
             .sort(
               (a, b) => Number(a.tanzeem_file_no) - Number(b.tanzeem_file_no)
