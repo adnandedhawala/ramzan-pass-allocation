@@ -155,7 +155,7 @@ export default function ViewPassPage() {
         <ol className="mt-2 px-2">
           <li>
             Kindly remove your shoes, put them in carry bag and give at the shoe
-            counter.
+            counter. You have to bring your own reusable carry bags.
           </li>
           <li>You have to bring your own carry bags for your shoes.</li>
           <li>

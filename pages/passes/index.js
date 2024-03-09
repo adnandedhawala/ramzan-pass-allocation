@@ -44,8 +44,9 @@ export default function PassPage() {
       {stepStatus.verify === "process" ? (
         <>
           <div className="w-full mt-4">
-            <p className="text-red-500 text-center text-sm">
-              Enter ITS and File Number to view Pass
+            <p className="text-red-500 text-center mb-4 text-lg">
+              All GENTS Family Members should enter their own ITS Number to view
+              Pass
             </p>
             <HodVerificationForm
               hof_label="ITS Number"
