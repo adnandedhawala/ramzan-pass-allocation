@@ -110,7 +110,15 @@ export default function PassPage() {
                 {member_details.gender === "Male" &&
                 member_details.misaq === "Done" &&
                 !show_pass ? (
-                  <p>Pass Allocation is in progress.</p>
+                  <>
+                    <p className="text-lg text-center">
+                      Free Seating in Gents Mawaid.
+                    </p>
+                    <p className="text-red-500 text-center text-sm mb-4 mt-6">
+                      All GENTS Family Members should enter their own ITS Number
+                      to view Pass
+                    </p>
+                  </>
                 ) : null}
               </Card>
             );
