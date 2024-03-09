@@ -47,7 +47,7 @@ export const HodVerificationForm = ({
             message: "Please enter file number!"
           },
           {
-            pattern: /^(?:[1-9]\d{3}|[1-9]\d{2}|[1-9]\d|[1-9])$/,
+            pattern: /^[1-9]\d{0,5}$/,
             message: "invalid file number! "
           }
         ]}
