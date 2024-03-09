@@ -196,8 +196,11 @@ export const getMasallahById = async (request, response) => {
         ]
       }
     ]);
-
-    return response.status(200).send({ data: seat });
+    const memberId = seat?.d1?._id;
+    if (memberId) {
+      await RamzanMember.findByIdAndUpdate(memberId, { has_seen_pass: true });
+    }
+    return response.status(200).send({ data: seat, memberId });
   } catch (databaseError) {
     return response.status(500).send(databaseError.message);
   }

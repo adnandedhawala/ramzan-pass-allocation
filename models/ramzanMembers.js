@@ -69,7 +69,8 @@ export const ramzanMemberSchema = new Schema(
     is_rahat: { type: Boolean, default: false },
     has_selected_pass: { type: Boolean, default: false },
     is_registered: { type: Boolean, default: false },
-    show_pass: { type: Boolean, default: false }
+    show_pass: { type: Boolean, default: false },
+    has_seen_pass: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
