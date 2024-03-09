@@ -2,6 +2,7 @@
 /* eslint-disable security/detect-object-injection */
 import formidable from "formidable";
 import { Masallah, MasallahGroup, RamzanMember } from "models";
+import moment from "moment";
 import * as XLSX from "xlsx";
 
 export const uploadGridController = async (request, response) => {
@@ -198,7 +199,10 @@ export const getMasallahById = async (request, response) => {
     ]);
     const memberId = seat?.d1?._id;
     if (memberId) {
-      await RamzanMember.findByIdAndUpdate(memberId, { has_seen_pass: true });
+      await RamzanMember.findByIdAndUpdate(memberId, {
+        has_seen_pass: true,
+        has_seen_pass_date: moment(new Date())
+      });
     }
     return response.status(200).send({ data: seat, memberId });
   } catch (databaseError) {

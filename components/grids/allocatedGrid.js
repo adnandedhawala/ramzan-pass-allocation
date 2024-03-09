@@ -6,6 +6,7 @@ import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { findIndex } from "lodash";
+import moment from "moment";
 
 export const AllocatedGrid = ({ data, setData }) => {
   const containerStyle = useMemo(
@@ -42,6 +43,22 @@ export const AllocatedGrid = ({ data, setData }) => {
       field: "has_seen_pass",
       headerName: "Seen Pass",
       minWidth: 125
+    },
+    {
+      field: "has_seen_pass_date",
+      headerName: "Seen Pass Date Time",
+      minWidth: 200,
+      cellRenderer: props =>
+        props?.value ? (
+          <span>
+            {moment(props.value)
+              .utc()
+              .add(330, "minutes")
+              .format("DD-MM-YYYY hh:mm A")}
+          </span>
+        ) : (
+          "-"
+        )
     }
   ];
   const defaultColDef = useMemo(() => {
