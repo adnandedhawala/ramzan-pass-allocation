@@ -37,6 +37,11 @@ export const AllocatedGrid = ({ data, setData }) => {
       headerName: "Show Pass",
       editable: true,
       minWidth: 125
+    },
+    {
+      field: "has_seen_pass",
+      headerName: "Seen Pass",
+      minWidth: 125
     }
   ];
   const defaultColDef = useMemo(() => {

@@ -48,6 +48,7 @@ export default function RegistrationList() {
               ...value.member_details,
               is_rahat: value.is_rahat ? "yes" : "no",
               show_pass: value.show_pass ? "yes" : "no",
+              has_seen_pass: value.has_seen_pass ? "yes" : "no",
               hof_id: value.hof_id._id
             }))
             .sort(
