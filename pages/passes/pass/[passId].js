@@ -155,9 +155,11 @@ export default function ViewPassPage() {
         <ol className="mt-2 px-2">
           <li>
             Kindly remove your shoes, put them in carry bag and give at the shoe
-            counter. You have to bring your own reusable carry bags.
+            counter.
           </li>
-          <li>You have to bring your own carry bags for your shoes.</li>
+          <li>
+            You have to bring your own reusable carry bags for your shoes.
+          </li>
           <li>
             Chakhris should remain in the washroom area only - Do not wear
             chakhris on wooden planks.

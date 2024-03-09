@@ -89,17 +89,23 @@ export default function PassPage() {
                 {member_details.gender === "Male" &&
                 member_details.misaq === "Done" &&
                 show_pass ? (
-                  <div className="text-center mt-2">
-                    <Button
-                      onClick={() =>
-                        router.push("/passes/pass/" + d1?.masallah)
-                      }
-                      size="middle"
-                      type="primary"
-                    >
-                      View Pass
-                    </Button>
-                  </div>
+                  <>
+                    <div className="text-center mt-2">
+                      <Button
+                        onClick={() =>
+                          router.push("/passes/pass/" + d1?.masallah)
+                        }
+                        size="middle"
+                        type="primary"
+                      >
+                        View Pass
+                      </Button>
+                    </div>
+                    <p className="text-red-500 text-center text-lg mb-4 mt-6">
+                      All GENTS Family Members should enter their own ITS Number
+                      to view Pass
+                    </p>
+                  </>
                 ) : null}
                 {member_details.gender === "Male" &&
                 member_details.misaq === "Done" &&
