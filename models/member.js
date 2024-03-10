@@ -15,6 +15,9 @@ export const memberSchema = new Schema(
       type: String,
       required: [true, "gender is missing"]
     },
+    misaq: {
+      type: String
+    },
     hof_id: {
       type: Number,
       required: [true, "hof_id is missing"]
