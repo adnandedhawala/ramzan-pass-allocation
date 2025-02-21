@@ -87,7 +87,22 @@ export const SeatSummaryCard = ({ rowData, daska }) => {
       dataIndex: "seat_number",
       key: "seat_number",
       width: 25,
-      sorter: (a, b) => a.group_number - b.group_number,
+      sorter: (x, y) => {
+        // Extract the letter (first character)
+        const letterX = x.seat_number.charAt(0);
+        const letterY = y.seat_number.charAt(0);
+
+        // If letters differ, sort based on letters
+        if (letterX !== letterY) {
+          return letterX.localeCompare(letterY);
+        }
+
+        // If letters are the same, extract the numeric part and compare as numbers
+        const numberX = Number.parseInt(x.seat_number.slice(1), 10);
+        const numberY = Number.parseInt(y.seat_number.slice(1), 10);
+
+        return numberX - numberY; // ascending order
+      },
       editable: false
     },
     {
