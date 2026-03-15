@@ -1,5 +1,4 @@
 import { Button, Modal, Radio, message } from "antd";
-import { SEAT_LOCATIONS } from "appConstants";
 import { SeatSummaryCard } from "components/cards";
 import { SeatNumberGridV2 } from "components/grids";
 import { SeatNumberTableV2 } from "components/tables";
@@ -20,7 +19,6 @@ const views = {
 };
 
 const currentDaska = "d1";
-const currentLocation = SEAT_LOCATIONS.MASJID;
 
 const getDuplicateEntries = data => {
   const array = data
@@ -45,7 +43,7 @@ const getInvalidEntries = data => {
   return [...uniqueSet];
 };
 
-export const MardoAllocation = () => {
+export const MardoAllocation = ({ currentLocation }) => {
   const [view, setView] = useState(views.LIST);
   const [masallahList, setMasallahList] = useState([]);
   const [masallahListWithUser, setMasallahListWithUser] = useState([]);

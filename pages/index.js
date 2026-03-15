@@ -35,7 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     verifyUser().then(user => {
-      if (user.userRole.includes(USER_ROLES.Admin)) redirectBasedOnUser();
+      if (user?.userRole?.includes(USER_ROLES.Admin)) redirectBasedOnUser();
     });
   }, []);
 

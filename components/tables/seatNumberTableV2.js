@@ -46,12 +46,13 @@ export const SeatNumberTableV2 = ({
     return masallahListWithUser
       .filter(value => value.location === currentLocation)
       .map(value => {
-        const prefix =
-          value.group.location === SEAT_LOCATIONS.FIRST_FLOOR
-            ? "FF_"
-            : value.group.location === SEAT_LOCATIONS.SECOND_FLOOR
-            ? "SF_"
-            : "";
+        const prefixMap = {
+          [SEAT_LOCATIONS.FIRST_FLOOR]: "FF_",
+          [SEAT_LOCATIONS.SECOND_FLOOR]: "SF_",
+          [SEAT_LOCATIONS.D_FIRST_FLOOR]: "DFF_",
+          [SEAT_LOCATIONS.D_SECOND_FLOOR]: "DSF_"
+        };
+        const prefix = prefixMap[value.group.location] || "";
         const updatedSeatNumber = prefix + value.seat_number;
         return {
           ...value.position,
@@ -72,10 +73,13 @@ export const SeatNumberTableV2 = ({
         dataIndex: index,
         key: index,
         render: value => {
-          const showTooltip =
-            currentLocation === SEAT_LOCATIONS.MASJID
-              ? !!value.d1
-              : value.d1 || value.d2 || value.d3;
+          const isMasjidLocation = [
+            SEAT_LOCATIONS.MASJID,
+            SEAT_LOCATIONS.D_MASJID
+          ].includes(currentLocation);
+          const showTooltip = isMasjidLocation
+            ? !!value.d1
+            : value.d1 || value.d2 || value.d3;
           return {
             props: {
               style: {
@@ -121,7 +125,10 @@ export const SeatNumberTableV2 = ({
                         <span className="bg-black h-2 w-2 ml-1 rounded-lg border-2" />
                       </Tooltip>
                     ) : null}
-                    {value?.d2 && currentLocation !== SEAT_LOCATIONS.MASJID ? (
+                    {value?.d2 &&
+                    ![SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+                      currentLocation
+                    ) ? (
                       <Tooltip
                         title={
                           showTooltip ? (
@@ -147,7 +154,10 @@ export const SeatNumberTableV2 = ({
                         <span className="bg-cyan-900 h-2 w-2 ml-1 rounded-lg border-2" />
                       </Tooltip>
                     ) : null}
-                    {value?.d3 && currentLocation !== SEAT_LOCATIONS.MASJID ? (
+                    {value?.d3 &&
+                    ![SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+                      currentLocation
+                    ) ? (
                       <Tooltip
                         title={
                           showTooltip ? (
@@ -215,7 +225,9 @@ export const SeatNumberTableV2 = ({
           {currentSeat?.d1 ? (
             <div className="flex items-start mb-2">
               <span className="text-lg w-16">
-                {currentLocation === SEAT_LOCATIONS.MASJID
+                {[SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+                  currentLocation
+                )
                   ? "D1, D2, D3"
                   : "D1"}
               </span>
@@ -226,7 +238,10 @@ export const SeatNumberTableV2 = ({
               </div>
             </div>
           ) : null}
-          {currentSeat?.d2 && currentLocation !== SEAT_LOCATIONS.MASJID ? (
+          {currentSeat?.d2 &&
+          ![SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+            currentLocation
+          ) ? (
             <div className="flex items-start mb-2">
               <span className="text-lg w-16">D2</span>
               <div className="flex flex-col flex-1">
@@ -236,7 +251,10 @@ export const SeatNumberTableV2 = ({
               </div>
             </div>
           ) : null}
-          {currentSeat?.d3 && currentLocation !== SEAT_LOCATIONS.MASJID ? (
+          {currentSeat?.d3 &&
+          ![SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+            currentLocation
+          ) ? (
             <div className="flex items-start mb-2">
               <span className="text-lg w-16">D3</span>
               <div className="flex flex-col flex-1">
@@ -257,7 +275,11 @@ export const SeatNumberTableV2 = ({
           >
             <Form.Item
               label={
-                currentLocation === SEAT_LOCATIONS.MASJID ? "D1, D2, D3" : "D1"
+                [SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+                  currentLocation
+                )
+                  ? "D1, D2, D3"
+                  : "D1"
               }
               name="d1"
               rules={[
@@ -273,7 +295,9 @@ export const SeatNumberTableV2 = ({
             >
               <Input placeholder="Enter ITS" />
             </Form.Item>
-            {currentLocation === SEAT_LOCATIONS.MASJID ? null : (
+            {[SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(
+              currentLocation
+            ) ? null : (
               <>
                 <Form.Item
                   label="D2"

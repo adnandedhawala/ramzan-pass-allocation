@@ -93,10 +93,13 @@ export const resetAllocations = async (_request, response) => {
 
 export const allocateMasallahToMembers = async (request, response) => {
   const { location, daska } = request.query;
-  const isLocationMasjid = location === SEAT_LOCATIONS.MASJID;
+  const isLocationMasjid = [
+    SEAT_LOCATIONS.MASJID,
+    SEAT_LOCATIONS.D_MASJID
+  ].includes(location);
   if (!location) return response.status(400).end("location is missing!");
   if (
-    location !== SEAT_LOCATIONS.MASJID &&
+    ![SEAT_LOCATIONS.MASJID, SEAT_LOCATIONS.D_MASJID].includes(location) &&
     (!daska || !["d1", "d2", "d3"].includes(daska))
   )
     return response.status(400).end("daska is missing!");
@@ -129,15 +132,14 @@ export const allocateMasallahToMembers = async (request, response) => {
     );
     const groupedData = groupBy(data, currentDaska);
     const bulkOps = Object.keys(groupedData).map(key => {
-      const setObject =
-        location === SEAT_LOCATIONS.MASJID
-          ? {
-              d1: { location, masallah: groupedData[key][0]._id },
-              d2: { location, masallah: groupedData[key][0]._id },
-              d3: { location, masallah: groupedData[key][0]._id },
-              show_pass: true
-            }
-          : { [daska]: { location, masallah: groupedData[key][0]._id } };
+      const setObject = isLocationMasjid
+        ? {
+            d1: { location, masallah: groupedData[key][0]._id },
+            d2: { location, masallah: groupedData[key][0]._id },
+            d3: { location, masallah: groupedData[key][0]._id },
+            show_pass: true
+          }
+        : { [daska]: { location, masallah: groupedData[key][0]._id } };
       return {
         updateOne: {
           filter: { _id: key },
@@ -158,7 +160,10 @@ export const allocateMasallahToMembers = async (request, response) => {
 
 export const allocateMasallahToMembersV2 = async (request, response) => {
   const { location } = request.query;
-  const isLocationMasjid = location === SEAT_LOCATIONS.MASJID;
+  const isLocationMasjid = [
+    SEAT_LOCATIONS.MASJID,
+    SEAT_LOCATIONS.D_MASJID
+  ].includes(location);
   const queryLocation = location.split(",");
   if (!location) return response.status(400).end("location is missing!");
   try {
@@ -206,7 +211,7 @@ export const allocateMasallahToMembersV2 = async (request, response) => {
 
     let bulkOps = [];
 
-    if (location === SEAT_LOCATIONS.MASJID) {
+    if (isLocationMasjid) {
       bulkOps = Object.keys(groupedDataD1).map(key => {
         return {
           updateOne: {

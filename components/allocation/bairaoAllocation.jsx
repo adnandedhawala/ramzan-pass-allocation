@@ -20,8 +20,15 @@ const views = {
   SUMMARY: "SUMMARY"
 };
 
-const currentLocation =
-  SEAT_LOCATIONS.FIRST_FLOOR + "," + SEAT_LOCATIONS.SECOND_FLOOR;
+const getLocationPrefix = location => {
+  const prefixMap = {
+    [SEAT_LOCATIONS.FIRST_FLOOR]: "FF_",
+    [SEAT_LOCATIONS.SECOND_FLOOR]: "SF_",
+    [SEAT_LOCATIONS.D_FIRST_FLOOR]: "DFF_",
+    [SEAT_LOCATIONS.D_SECOND_FLOOR]: "DSF_"
+  };
+  return prefixMap[location] || "";
+};
 
 const getDuplicateEntries = (data, currentDaska) => {
   const array = data
@@ -46,7 +53,7 @@ const getInvalidEntries = (data, currentDaska) => {
   return [...uniqueSet];
 };
 
-export const BairaoAllocation = () => {
+export const BairaoAllocation = ({ currentLocation }) => {
   const [view, setView] = useState(views.LIST);
   const [masallahList, setMasallahList] = useState([]);
   const [masallahListWithUser, setMasallahListWithUser] = useState([]);
@@ -80,12 +87,7 @@ export const BairaoAllocation = () => {
         setMasallahList(
           data.data.map(value => {
             const { location } = value.group;
-            const prefix =
-              location === SEAT_LOCATIONS.FIRST_FLOOR
-                ? "FF_"
-                : SEAT_LOCATIONS.SECOND_FLOOR
-                ? "SF_"
-                : "";
+            const prefix = getLocationPrefix(location);
             const updatedSeat = prefix + value.seat_number;
             return {
               ...value.group,
@@ -230,17 +232,17 @@ export const BairaoAllocation = () => {
       {view === views.GRID ? (
         <>
           <SeatNumberTableV2
-            key={"ffloor"}
+            key={currentLocation.split(",")[0]}
             setMasallahUser={setMasallahUser}
             masallahListWithUser={masallahListWithUser}
-            currentLocation={SEAT_LOCATIONS.FIRST_FLOOR}
+            currentLocation={currentLocation.split(",")[0]}
           />
           <Divider />
           <SeatNumberTableV2
-            key={"fsfloor"}
+            key={currentLocation.split(",")[1]}
             setMasallahUser={setMasallahUser}
             masallahListWithUser={masallahListWithUser}
-            currentLocation={SEAT_LOCATIONS.SECOND_FLOOR}
+            currentLocation={currentLocation.split(",")[1]}
           />
         </>
       ) : null}

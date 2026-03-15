@@ -1,5 +1,5 @@
 import { Radio } from "antd";
-import { PAGE_LIST, USER_ROLES } from "appConstants";
+import { PAGE_LIST, SEAT_LOCATIONS, USER_ROLES } from "appConstants";
 import { BairaoAllocation, MardoAllocation } from "components/allocation";
 import { useGlobalContext } from "context/global";
 import { useMainLayoutContext } from "context/mainLayout";
@@ -7,9 +7,10 @@ import { Mainlayout } from "layouts/main";
 import { useEffect, useState } from "react";
 
 const allocationMode = {
-  ZAHRA: "ZAHRA",
   MARDO: "MARDO",
-  BAIRAO: "BAIRAO"
+  BAIRAO: "BAIRAO",
+  D_MARDO: "D_MARDO",
+  D_BAIRAO: "D_BAIRAO"
 };
 
 export default function NewAllocation() {
@@ -42,15 +43,30 @@ export default function NewAllocation() {
         <Radio.Button value={allocationMode.BAIRAO}>
           Saifee Masjid Bairao
         </Radio.Button>
-        <Radio.Button value={allocationMode.ZAHRA}>
-          Masjid Al Zahra
+        <Radio.Button value={allocationMode.D_MARDO}>Draft Mardo</Radio.Button>
+        <Radio.Button value={allocationMode.D_BAIRAO}>
+          Draft Bairao
         </Radio.Button>
       </Radio.Group>
       {currentAllocationMode === allocationMode.MARDO ? (
-        <MardoAllocation />
+        <MardoAllocation currentLocation={SEAT_LOCATIONS.MASJID} />
       ) : null}
       {currentAllocationMode === allocationMode.BAIRAO ? (
-        <BairaoAllocation />
+        <BairaoAllocation
+          currentLocation={
+            SEAT_LOCATIONS.FIRST_FLOOR + "," + SEAT_LOCATIONS.SECOND_FLOOR
+          }
+        />
+      ) : null}
+      {currentAllocationMode === allocationMode.D_MARDO ? (
+        <MardoAllocation currentLocation={SEAT_LOCATIONS.D_MASJID} />
+      ) : null}
+      {currentAllocationMode === allocationMode.D_BAIRAO ? (
+        <BairaoAllocation
+          currentLocation={
+            SEAT_LOCATIONS.D_FIRST_FLOOR + "," + SEAT_LOCATIONS.D_SECOND_FLOOR
+          }
+        />
       ) : null}
     </>
   );
